@@ -1,0 +1,451 @@
+index.html
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FCFL Truck Yard</title>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      color: #1f2937;
+    }
+
+    header {
+      background: #111827;
+      color: white;
+      padding: 20px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    header p {
+      margin: 5px 0 0;
+      color: #cbd5e1;
+    }
+
+    nav {
+      display: flex;
+      gap: 8px;
+      padding: 12px;
+      background: white;
+      overflow-x: auto;
+      border-bottom: 1px solid #ddd;
+    }
+
+    button {
+      border: 0;
+      border-radius: 8px;
+      padding: 12px 16px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    nav button {
+      background: #e5e7eb;
+      white-space: nowrap;
+    }
+
+    nav button:hover {
+      background: #d1d5db;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    .card {
+      background: white;
+      padding: 18px;
+      margin-bottom: 15px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+    }
+
+    .stat {
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: bold;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 11px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    textarea {
+      min-height: 90px;
+    }
+
+    .primary {
+      background: #2563eb;
+      color: white;
+      margin-top: 15px;
+    }
+
+    .danger {
+      color: #b91c1c;
+      font-weight: bold;
+    }
+
+    .good {
+      color: #15803d;
+      font-weight: bold;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>FCFL Truck Yard</h1>
+  <p>Truck inspections, issues and working-day history</p>
+</header>
+
+<nav>
+  <button onclick="showPage('dashboard')">Dashboard</button>
+  <button onclick="showPage('inspection')">Inspection</button>
+  <button onclick="showPage('issues')">Truck Issues</button>
+  <button onclick="showPage('history')">History</button>
+  <button onclick="showPage('settings')">Settings</button>
+</nav>
+
+<main>
+
+  <section id="dashboard" class="page active">
+    <h2>Dashboard</h2>
+
+    <div class="grid">
+      <div class="card">
+        <div>Trucks</div>
+        <div class="stat" id="truckCount">0</div>
+      </div>
+
+      <div class="card">
+        <div>Open Issues</div>
+        <div class="stat" id="issueCount">0</div>
+      </div>
+
+      <div class="card">
+        <div>Inspections</div>
+        <div class="stat" id="inspectionCount">0</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="inspection" class="page">
+    <h2>Daily Truck Inspection</h2>
+
+    <div class="card">
+      <label>Truck</label>
+      <select id="inspectionTruck"></select>
+
+      <label>Driver / Inspector</label>
+      <input id="driverName" placeholder="Enter name">
+
+      <label>Overall Condition</label>
+      <select id="condition">
+        <option>PASS</option>
+        <option>FAIL</option>
+      </select>
+
+      <label>Notes</label>
+      <textarea id="inspectionNotes"
+        placeholder="Lights, tires, brakes, damage, warning lights, etc."></textarea>
+
+      <button class="primary" onclick="saveInspection()">
+        Save Inspection
+      </button>
+    </div>
+  </section>
+
+  <section id="issues" class="page">
+    <h2>Truck Issues</h2>
+
+    <div class="card">
+      <label>Truck</label>
+      <select id="issueTruck"></select>
+
+      <label>Issue</label>
+      <input id="issueDescription"
+        placeholder="Describe the truck problem">
+
+      <label>Priority</label>
+      <select id="priority">
+        <option>Low</option>
+        <option>Medium</option>
+        <option>High</option>
+        <option>Out of Service</option>
+      </select>
+
+      <button class="primary" onclick="addIssue()">
+        Report Issue
+      </button>
+    </div>
+
+    <div id="issueList"></div>
+  </section>
+
+  <section id="history" class="page">
+    <h2>History</h2>
+
+    <div class="card">
+      <p>
+        Inspections and activity are saved on this device for testing.
+      </p>
+
+      <div id="historyList"></div>
+    </div>
+  </section>
+
+  <section id="settings" class="page">
+    <h2>Settings</h2>
+
+    <div class="card">
+      <h3>Add Truck</h3>
+
+      <input id="newTruck"
+        placeholder="Truck number or name">
+
+      <button class="primary" onclick="addTruck()">
+        Add Truck
+      </button>
+    </div>
+
+    <div class="card">
+      <h3>Truck List</h3>
+      <div id="truckList"></div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  let trucks =
+    JSON.parse(localStorage.getItem("fcflTrucks")) ||
+    ["Truck 1", "Truck 2", "Truck 3"];
+
+  let inspections =
+    JSON.parse(localStorage.getItem("fcflInspections")) || [];
+
+  let issues =
+    JSON.parse(localStorage.getItem("fcflIssues")) || [];
+
+  function showPage(pageName) {
+    document.querySelectorAll(".page")
+      .forEach(page => page.classList.remove("active"));
+
+    document.getElementById(pageName)
+      .classList.add("active");
+
+    refresh();
+  }
+
+  function saveData() {
+    localStorage.setItem("fcflTrucks", JSON.stringify(trucks));
+    localStorage.setItem(
+      "fcflInspections",
+      JSON.stringify(inspections)
+    );
+    localStorage.setItem("fcflIssues", JSON.stringify(issues));
+  }
+
+  function addTruck() {
+    const input = document.getElementById("newTruck");
+    const name = input.value.trim();
+
+    if (!name) {
+      alert("Enter a truck number or name.");
+      return;
+    }
+
+    trucks.push(name);
+    input.value = "";
+
+    saveData();
+    refresh();
+  }
+
+  function saveInspection() {
+    if (!trucks.length) {
+      alert("Add a truck in Settings first.");
+      return;
+    }
+
+    const record = {
+      truck: document.getElementById("inspectionTruck").value,
+      driver: document.getElementById("driverName").value,
+      condition: document.getElementById("condition").value,
+      notes: document.getElementById("inspectionNotes").value,
+      date: new Date().toLocaleString()
+    };
+
+    inspections.unshift(record);
+
+    if (record.condition === "FAIL") {
+      issues.unshift({
+        truck: record.truck,
+        description:
+          record.notes || "Failed daily inspection",
+        priority: "High",
+        status: "Open",
+        date: record.date
+      });
+    }
+
+    document.getElementById("inspectionNotes").value = "";
+
+    saveData();
+    refresh();
+
+    alert("Inspection saved.");
+  }
+
+  function addIssue() {
+    if (!trucks.length) {
+      alert("Add a truck in Settings first.");
+      return;
+    }
+
+    const description =
+      document.getElementById("issueDescription").value.trim();
+
+    if (!description) {
+      alert("Describe the issue first.");
+      return;
+    }
+
+    issues.unshift({
+      truck: document.getElementById("issueTruck").value,
+      description: description,
+      priority: document.getElementById("priority").value,
+      status: "Open",
+      date: new Date().toLocaleString()
+    });
+
+    document.getElementById("issueDescription").value = "";
+
+    saveData();
+    refresh();
+  }
+
+  function closeIssue(index) {
+    issues[index].status = "Closed";
+    saveData();
+    refresh();
+  }
+
+  function refresh() {
+    document.getElementById("truckCount").textContent =
+      trucks.length;
+
+    document.getElementById("inspectionCount").textContent =
+      inspections.length;
+
+    document.getElementById("issueCount").textContent =
+      issues.filter(issue => issue.status === "Open").length;
+
+    const truckOptions = trucks
+      .map(truck => `<option>${truck}</option>`)
+      .join("");
+
+    document.getElementById("inspectionTruck").innerHTML =
+      truckOptions;
+
+    document.getElementById("issueTruck").innerHTML =
+      truckOptions;
+
+    document.getElementById("truckList").innerHTML =
+      trucks.length
+        ? trucks.map(truck => `<p>🚚 ${truck}</p>`).join("")
+        : "<p>No trucks added.</p>";
+
+    document.getElementById("issueList").innerHTML =
+      issues.length
+        ? issues.map((issue, index) => `
+          <div class="card">
+            <strong>${issue.truck}</strong>
+            <p>${issue.description}</p>
+            <p>
+              Priority:
+              <span class="danger">${issue.priority}</span>
+            </p>
+            <p>Status: ${issue.status}</p>
+            <small>${issue.date}</small>
+            ${
+              issue.status === "Open"
+                ? `<br><button
+                    class="primary"
+                    onclick="closeIssue(${index})">
+                    Mark Fixed
+                   </button>`
+                : ""
+            }
+          </div>
+        `).join("")
+        : '<div class="card"><p>No truck issues reported.</p></div>';
+
+    document.getElementById("historyList").innerHTML =
+      inspections.length
+        ? inspections.map(record => `
+          <p>
+            <strong>${record.truck}</strong> —
+            ${record.condition}
+            <br>
+            ${record.driver || "No inspector name"}
+            <br>
+            ${record.notes || "No notes"}
+            <br>
+            <small>${record.date}</small>
+          </p>
+        `).join("<hr>")
+        : "<p>No inspection history yet.</p>";
+  }
+
+  refresh();
+</script>
+
+</body>
+</html>
