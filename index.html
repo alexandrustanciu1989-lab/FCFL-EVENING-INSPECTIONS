@@ -1,152 +1,221 @@
-index.html
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FCFL Truck Yard</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FCFL Truck Yard</title>
 
-  <style>
-    * { box-sizing: border-box; }
+<style>
+* { box-sizing:border-box; }
 
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f4f6f8;
-      color: #1f2937;
-    }
+body {
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f3f4f6;
+  color:#111827;
+}
 
-    header {
-      background: #111827;
-      color: white;
-      padding: 20px;
-    }
+header {
+  background:#111827;
+  color:white;
+  padding:18px;
+}
 
-    header h1 {
-      margin: 0;
-      font-size: 24px;
-    }
+header h1 { margin:0; }
 
-    header p {
-      margin: 5px 0 0;
-      color: #cbd5e1;
-    }
+header p {
+  margin:5px 0 0;
+  color:#cbd5e1;
+}
 
-    nav {
-      display: flex;
-      gap: 8px;
-      padding: 12px;
-      background: white;
-      overflow-x: auto;
-      border-bottom: 1px solid #ddd;
-    }
+nav {
+  display:flex;
+  gap:7px;
+  overflow-x:auto;
+  background:white;
+  padding:10px;
+  border-bottom:1px solid #ddd;
+  position:sticky;
+  top:0;
+  z-index:10;
+}
 
-    button {
-      border: 0;
-      border-radius: 8px;
-      padding: 12px 16px;
-      cursor: pointer;
-      font-weight: bold;
-    }
+button {
+  border:0;
+  border-radius:8px;
+  padding:11px 14px;
+  font-weight:bold;
+  cursor:pointer;
+}
 
-    nav button {
-      background: #e5e7eb;
-      white-space: nowrap;
-    }
+nav button {
+  background:#e5e7eb;
+  white-space:nowrap;
+}
 
-    nav button:hover {
-      background: #d1d5db;
-    }
+.primary {
+  background:#2563eb;
+  color:white;
+}
 
-    main {
-      max-width: 1000px;
-      margin: auto;
-      padding: 20px;
-    }
+.resolve {
+  background:#15803d;
+  color:white;
+}
 
-    .page {
-      display: none;
-    }
+.dangerButton {
+  background:#b91c1c;
+  color:white;
+}
 
-    .page.active {
-      display: block;
-    }
+main {
+  max-width:1000px;
+  margin:auto;
+  padding:16px;
+}
 
-    .card {
-      background: white;
-      padding: 18px;
-      margin-bottom: 15px;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,.06);
-    }
+.page { display:none; }
+.page.active { display:block; }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 12px;
-    }
+.card {
+  background:white;
+  padding:16px;
+  margin-bottom:12px;
+  border-radius:12px;
+  box-shadow:0 2px 7px rgba(0,0,0,.07);
+}
 
-    .stat {
-      font-size: 28px;
-      font-weight: bold;
-    }
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:10px;
+}
 
-    label {
-      display: block;
-      margin-top: 12px;
-      font-weight: bold;
-    }
+.stat {
+  font-size:28px;
+  font-weight:bold;
+}
 
-    input, select, textarea {
-      width: 100%;
-      padding: 11px;
-      margin-top: 5px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-    }
+label {
+  display:block;
+  font-weight:bold;
+  margin-top:12px;
+}
 
-    textarea {
-      min-height: 90px;
-    }
+input,select,textarea {
+  width:100%;
+  padding:11px;
+  margin-top:5px;
+  border:1px solid #ccc;
+  border-radius:8px;
+  font-size:16px;
+}
 
-    .primary {
-      background: #2563eb;
-      color: white;
-      margin-top: 15px;
-    }
+.statusDot {
+  width:17px;
+  height:17px;
+  border-radius:50%;
+  display:inline-block;
+  vertical-align:middle;
+  margin-right:7px;
+}
 
-    .danger {
-      color: #b91c1c;
-      font-weight: bold;
-    }
+.green { background:#22c55e; }
+.yellow { background:#eab308; }
+.red { background:#ef4444; }
+.gray { background:#9ca3af; }
 
-    .good {
-      color: #15803d;
-      font-weight: bold;
-    }
+.truckRow {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:11px;
+  border-bottom:1px solid #eee;
+}
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
+.truckName {
+  font-weight:bold;
+}
 
-    th, td {
-      text-align: left;
-      padding: 10px;
-      border-bottom: 1px solid #ddd;
-    }
-  </style>
+.noteRow {
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:8px;
+  margin-bottom:8px;
+}
+
+.photoButton {
+  width:48px;
+  height:44px;
+  padding:0;
+  font-size:22px;
+  background:#e5e7eb;
+}
+
+.photoPreview {
+  max-width:90px;
+  max-height:90px;
+  border-radius:8px;
+  margin:5px;
+}
+
+.issueGreen { border-left:7px solid #22c55e; }
+.issueYellow { border-left:7px solid #eab308; }
+.issueRed { border-left:7px solid #ef4444; }
+
+.small {
+  color:#6b7280;
+  font-size:13px;
+}
+
+.badge {
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:bold;
+}
+
+.badgeGreen {
+  background:#dcfce7;
+  color:#166534;
+}
+
+.badgeYellow {
+  background:#fef9c3;
+  color:#854d0e;
+}
+
+.badgeRed {
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+.userRow {
+  padding:10px 0;
+  border-bottom:1px solid #eee;
+}
+
+.notice {
+  background:#fff7ed;
+  border:1px solid #fed7aa;
+  padding:12px;
+  border-radius:8px;
+  margin-bottom:12px;
+}
+</style>
 </head>
 
 <body>
 
 <header>
   <h1>FCFL Truck Yard</h1>
-  <p>Truck inspections, issues and working-day history</p>
+  <p>Daily inspections • Truck issues • Yard history</p>
 </header>
 
 <nav>
   <button onclick="showPage('dashboard')">Dashboard</button>
-  <button onclick="showPage('inspection')">Inspection</button>
+  <button onclick="showPage('inspection')">Inspections</button>
   <button onclick="showPage('issues')">Truck Issues</button>
   <button onclick="showPage('history')">History</button>
   <button onclick="showPage('settings')">Settings</button>
@@ -154,297 +223,935 @@ index.html
 
 <main>
 
-  <section id="dashboard" class="page active">
-    <h2>Dashboard</h2>
+<!-- DASHBOARD -->
 
-    <div class="grid">
-      <div class="card">
-        <div>Trucks</div>
-        <div class="stat" id="truckCount">0</div>
-      </div>
+<section id="dashboard" class="page active">
 
-      <div class="card">
-        <div>Open Issues</div>
-        <div class="stat" id="issueCount">0</div>
-      </div>
+<h2>Dashboard</h2>
 
-      <div class="card">
-        <div>Inspections</div>
-        <div class="stat" id="inspectionCount">0</div>
-      </div>
-    </div>
-  </section>
+<div class="grid">
+  <div class="card">
+    Trucks
+    <div class="stat" id="truckCount">0</div>
+  </div>
 
-  <section id="inspection" class="page">
-    <h2>Daily Truck Inspection</h2>
+  <div class="card">
+    Inspected Today
+    <div class="stat" id="todayCount">0</div>
+  </div>
 
-    <div class="card">
-      <label>Truck</label>
-      <select id="inspectionTruck"></select>
+  <div class="card">
+    Unresolved Issues
+    <div class="stat" id="openIssueCount">0</div>
+  </div>
+</div>
 
-      <label>Driver / Inspector</label>
-      <input id="driverName" placeholder="Enter name">
+<div class="card">
+  <h3>FCFL Trucks</h3>
+  <div id="dashboardTrucks"></div>
+</div>
 
-      <label>Overall Condition</label>
-      <select id="condition">
-        <option>PASS</option>
-        <option>FAIL</option>
-      </select>
+<div class="card">
+  <h3>Today's Inspections</h3>
+  <div id="todayInspections"></div>
+</div>
 
-      <label>Notes</label>
-      <textarea id="inspectionNotes"
-        placeholder="Lights, tires, brakes, damage, warning lights, etc."></textarea>
+</section>
 
-      <button class="primary" onclick="saveInspection()">
-        Save Inspection
-      </button>
-    </div>
-  </section>
 
-  <section id="issues" class="page">
-    <h2>Truck Issues</h2>
+<!-- INSPECTION -->
 
-    <div class="card">
-      <label>Truck</label>
-      <select id="issueTruck"></select>
+<section id="inspection" class="page">
 
-      <label>Issue</label>
-      <input id="issueDescription"
-        placeholder="Describe the truck problem">
+<h2>Daily Inspection</h2>
 
-      <label>Priority</label>
-      <select id="priority">
-        <option>Low</option>
-        <option>Medium</option>
-        <option>High</option>
-        <option>Out of Service</option>
-      </select>
+<div class="card">
 
-      <button class="primary" onclick="addIssue()">
-        Report Issue
-      </button>
-    </div>
+<label>Truck</label>
+<select id="inspectionTruck"></select>
 
-    <div id="issueList"></div>
-  </section>
+<label>Inspector Name</label>
+<input id="inspectorName" placeholder="Your name">
 
-  <section id="history" class="page">
-    <h2>History</h2>
+<label>Overall Inspection</label>
 
-    <div class="card">
-      <p>
-        Inspections and activity are saved on this device for testing.
-      </p>
+<select id="inspectionStatus">
+  <option value="PASS">🟢 PASS</option>
+  <option value="NEEDS REPAIRS">🟡 NEEDS REPAIRS</option>
+  <option value="FAIL">🔴 FAIL</option>
+</select>
 
-      <div id="historyList"></div>
-    </div>
-  </section>
+<h3>Inspection Notes</h3>
 
-  <section id="settings" class="page">
-    <h2>Settings</h2>
+<p class="small">
+Add up to five notes. Press + beside any row to take or upload a picture.
+</p>
 
-    <div class="card">
-      <h3>Add Truck</h3>
+<div id="noteRows"></div>
 
-      <input id="newTruck"
-        placeholder="Truck number or name">
+<button class="primary" onclick="saveInspection()">
+Save Inspection
+</button>
 
-      <button class="primary" onclick="addTruck()">
-        Add Truck
-      </button>
-    </div>
+</div>
 
-    <div class="card">
-      <h3>Truck List</h3>
-      <div id="truckList"></div>
-    </div>
-  </section>
+</section>
+
+
+<!-- ISSUES -->
+
+<section id="issues" class="page">
+
+<h2>Truck Issues</h2>
+
+<div class="card">
+
+<label>Truck</label>
+<select id="issueTruck"></select>
+
+<label>Issue</label>
+<input id="issueDescription"
+placeholder="Describe the truck issue">
+
+<label>Condition</label>
+<select id="issueCondition">
+  <option value="yellow">🟡 Needs Repair</option>
+  <option value="red">🔴 High Priority / Out of Service</option>
+  <option value="green">🟢 Good / Monitor</option>
+</select>
+
+<label>Add Picture</label>
+
+<input
+  type="file"
+  id="issuePhoto"
+  accept="image/*"
+  capture="environment">
+
+<br><br>
+
+<button class="primary" onclick="reportIssue()">
+Report Truck Issue
+</button>
+
+</div>
+
+<h3>Unresolved Trucks</h3>
+
+<p class="small">
+Red trucks appear first, followed by yellow and green.
+</p>
+
+<div id="issueList"></div>
+
+</section>
+
+
+<!-- HISTORY -->
+
+<section id="history" class="page">
+
+<h2>History</h2>
+
+<div class="card">
+  <div id="historyList"></div>
+</div>
+
+</section>
+
+
+<!-- SETTINGS -->
+
+<section id="settings" class="page">
+
+<h2>Settings</h2>
+
+<div class="notice">
+This test version is public. Guest permissions shown here are not secure
+until we connect the app to the database and real user login system.
+</div>
+
+<div class="card">
+
+<h3>Administrator</h3>
+
+<label>Admin Name</label>
+<input id="adminName" placeholder="Administrator name">
+
+<button class="primary" onclick="saveAdmin()">
+Save Admin
+</button>
+
+</div>
+
+<div class="card">
+
+<h3>Add Truck</h3>
+
+<input id="newTruck"
+placeholder="Example: FCFL 116">
+
+<button class="primary" onclick="addTruck()">
+Add Truck
+</button>
+
+<div id="settingsTruckList"></div>
+
+</div>
+
+
+<div class="card">
+
+<h3>Guest Users</h3>
+
+<p class="small">
+Guest users can perform inspections and report issues.
+Only the administrator should mark truck issues resolved or modify settings.
+</p>
+
+<label>Guest Name</label>
+<input id="guestName"
+placeholder="Employee name">
+
+<button class="primary" onclick="addGuest()">
+Add Guest User
+</button>
+
+<div id="guestList"></div>
+
+</div>
+
+</section>
 
 </main>
 
+
 <script>
-  let trucks =
-    JSON.parse(localStorage.getItem("fcflTrucks")) ||
-    ["Truck 1", "Truck 2", "Truck 3"];
 
-  let inspections =
-    JSON.parse(localStorage.getItem("fcflInspections")) || [];
+const defaultTrucks = [
+"FCFL 103",
+"FCFL 105",
+"FCFL 107",
+"FCFL 108",
+"FCFL 109",
+"FCFL 111",
+"FCFL 113",
+"FCFL 112",
+"FCFL 114",
+"FCFL 115",
+"FCFL R2",
+"FCFL R4",
+"FCFL R9",
+"FCFL R7"
+];
 
-  let issues =
-    JSON.parse(localStorage.getItem("fcflIssues")) || [];
+let trucks =
+JSON.parse(localStorage.getItem("fcflTrucksV2"))
+|| defaultTrucks;
 
-  function showPage(pageName) {
-    document.querySelectorAll(".page")
-      .forEach(page => page.classList.remove("active"));
+let inspections =
+JSON.parse(localStorage.getItem("fcflInspectionsV2"))
+|| [];
 
-    document.getElementById(pageName)
-      .classList.add("active");
+let issues =
+JSON.parse(localStorage.getItem("fcflIssuesV2"))
+|| [];
 
-    refresh();
-  }
+let guests =
+JSON.parse(localStorage.getItem("fcflGuestsV2"))
+|| [];
 
-  function saveData() {
-    localStorage.setItem("fcflTrucks", JSON.stringify(trucks));
-    localStorage.setItem(
-      "fcflInspections",
-      JSON.stringify(inspections)
-    );
-    localStorage.setItem("fcflIssues", JSON.stringify(issues));
-  }
+let admin =
+localStorage.getItem("fcflAdmin") || "";
 
-  function addTruck() {
-    const input = document.getElementById("newTruck");
-    const name = input.value.trim();
+let inspectionPhotos = [null,null,null,null,null];
 
-    if (!name) {
-      alert("Enter a truck number or name.");
-      return;
-    }
 
-    trucks.push(name);
-    input.value = "";
+function saveAll() {
 
-    saveData();
-    refresh();
-  }
+localStorage.setItem(
+"fcflTrucksV2",
+JSON.stringify(trucks)
+);
 
-  function saveInspection() {
-    if (!trucks.length) {
-      alert("Add a truck in Settings first.");
-      return;
-    }
+localStorage.setItem(
+"fcflInspectionsV2",
+JSON.stringify(inspections)
+);
 
-    const record = {
-      truck: document.getElementById("inspectionTruck").value,
-      driver: document.getElementById("driverName").value,
-      condition: document.getElementById("condition").value,
-      notes: document.getElementById("inspectionNotes").value,
-      date: new Date().toLocaleString()
-    };
+localStorage.setItem(
+"fcflIssuesV2",
+JSON.stringify(issues)
+);
 
-    inspections.unshift(record);
+localStorage.setItem(
+"fcflGuestsV2",
+JSON.stringify(guests)
+);
 
-    if (record.condition === "FAIL") {
-      issues.unshift({
-        truck: record.truck,
-        description:
-          record.notes || "Failed daily inspection",
-        priority: "High",
-        status: "Open",
-        date: record.date
-      });
-    }
+}
 
-    document.getElementById("inspectionNotes").value = "";
 
-    saveData();
-    refresh();
+function showPage(name) {
 
-    alert("Inspection saved.");
-  }
+document.querySelectorAll(".page")
+.forEach(p=>p.classList.remove("active"));
 
-  function addIssue() {
-    if (!trucks.length) {
-      alert("Add a truck in Settings first.");
-      return;
-    }
+document.getElementById(name)
+.classList.add("active");
 
-    const description =
-      document.getElementById("issueDescription").value.trim();
+refresh();
 
-    if (!description) {
-      alert("Describe the issue first.");
-      return;
-    }
+}
 
-    issues.unshift({
-      truck: document.getElementById("issueTruck").value,
-      description: description,
-      priority: document.getElementById("priority").value,
-      status: "Open",
-      date: new Date().toLocaleString()
-    });
 
-    document.getElementById("issueDescription").value = "";
+function statusColor(status) {
 
-    saveData();
-    refresh();
-  }
+if(status==="PASS") return "green";
 
-  function closeIssue(index) {
-    issues[index].status = "Closed";
-    saveData();
-    refresh();
-  }
+if(status==="NEEDS REPAIRS") return "yellow";
 
-  function refresh() {
-    document.getElementById("truckCount").textContent =
-      trucks.length;
+if(status==="FAIL") return "red";
 
-    document.getElementById("inspectionCount").textContent =
-      inspections.length;
+return "gray";
 
-    document.getElementById("issueCount").textContent =
-      issues.filter(issue => issue.status === "Open").length;
+}
 
-    const truckOptions = trucks
-      .map(truck => `<option>${truck}</option>`)
-      .join("");
 
-    document.getElementById("inspectionTruck").innerHTML =
-      truckOptions;
+function latestTruckStatus(truck) {
 
-    document.getElementById("issueTruck").innerHTML =
-      truckOptions;
+const inspection =
+inspections.find(i=>i.truck===truck);
 
-    document.getElementById("truckList").innerHTML =
-      trucks.length
-        ? trucks.map(truck => `<p>🚚 ${truck}</p>`).join("")
-        : "<p>No trucks added.</p>";
+if(!inspection)
+return "gray";
 
-    document.getElementById("issueList").innerHTML =
-      issues.length
-        ? issues.map((issue, index) => `
-          <div class="card">
-            <strong>${issue.truck}</strong>
-            <p>${issue.description}</p>
-            <p>
-              Priority:
-              <span class="danger">${issue.priority}</span>
-            </p>
-            <p>Status: ${issue.status}</p>
-            <small>${issue.date}</small>
-            ${
-              issue.status === "Open"
-                ? `<br><button
-                    class="primary"
-                    onclick="closeIssue(${index})">
-                    Mark Fixed
-                   </button>`
-                : ""
-            }
-          </div>
-        `).join("")
-        : '<div class="card"><p>No truck issues reported.</p></div>';
+return statusColor(inspection.status);
 
-    document.getElementById("historyList").innerHTML =
-      inspections.length
-        ? inspections.map(record => `
-          <p>
-            <strong>${record.truck}</strong> —
-            ${record.condition}
-            <br>
-            ${record.driver || "No inspector name"}
-            <br>
-            ${record.notes || "No notes"}
-            <br>
-            <small>${record.date}</small>
-          </p>
-        `).join("<hr>")
-        : "<p>No inspection history yet.</p>";
-  }
+}
 
-  refresh();
+
+function makeNoteRows() {
+
+const container =
+document.getElementById("noteRows");
+
+container.innerHTML="";
+
+for(let i=0;i<5;i++){
+
+const row=document.createElement("div");
+
+row.innerHTML=`
+
+<div class="noteRow">
+
+<input
+id="note${i}"
+placeholder="Inspection note ${i+1}">
+
+<button
+class="photoButton"
+onclick="document.getElementById('photo${i}').click()"
+type="button">
++
+</button>
+
+</div>
+
+<input
+style="display:none"
+type="file"
+id="photo${i}"
+accept="image/*"
+capture="environment"
+onchange="previewInspectionPhoto(${i},this)">
+
+<div id="preview${i}"></div>
+
+`;
+
+container.appendChild(row);
+
+}
+
+}
+
+
+function previewInspectionPhoto(index,input){
+
+const file=input.files[0];
+
+if(!file) return;
+
+const reader=new FileReader();
+
+reader.onload=function(e){
+
+inspectionPhotos[index]=e.target.result;
+
+document.getElementById(
+"preview"+index
+).innerHTML=
+`<img class="photoPreview" src="${e.target.result}">`;
+
+};
+
+reader.readAsDataURL(file);
+
+}
+
+
+function saveInspection(){
+
+const truck =
+document.getElementById("inspectionTruck").value;
+
+const inspector =
+document.getElementById("inspectorName").value.trim();
+
+const status =
+document.getElementById("inspectionStatus").value;
+
+if(!inspector){
+
+alert("Enter inspector name.");
+
+return;
+
+}
+
+let notes=[];
+
+for(let i=0;i<5;i++){
+
+const text =
+document.getElementById("note"+i).value.trim();
+
+if(text || inspectionPhotos[i]){
+
+notes.push({
+text:text,
+photo:inspectionPhotos[i]
+});
+
+}
+
+}
+
+const record={
+
+id:Date.now(),
+truck,
+inspector,
+status,
+notes,
+date:new Date().toLocaleString(),
+day:new Date().toLocaleDateString()
+
+};
+
+inspections.unshift(record);
+
+
+if(status==="FAIL" ||
+status==="NEEDS REPAIRS"){
+
+issues.unshift({
+
+id:Date.now()+1,
+truck,
+description:
+notes.length
+? notes.map(n=>n.text).filter(Boolean).join(" • ")
+: "Inspection requires attention",
+
+color:
+status==="FAIL"
+? "red"
+: "yellow",
+
+resolved:false,
+
+reportedBy:inspector,
+
+date:new Date().toLocaleString()
+
+});
+
+}
+
+saveAll();
+
+inspectionPhotos=[null,null,null,null,null];
+
+makeNoteRows();
+
+refresh();
+
+alert("Inspection saved.");
+
+}
+
+
+function reportIssue(){
+
+const description =
+document.getElementById(
+"issueDescription"
+).value.trim();
+
+if(!description){
+
+alert("Describe the truck issue.");
+
+return;
+
+}
+
+issues.unshift({
+
+id:Date.now(),
+
+truck:
+document.getElementById(
+"issueTruck"
+).value,
+
+description,
+
+color:
+document.getElementById(
+"issueCondition"
+).value,
+
+resolved:false,
+
+reportedBy:
+document.getElementById(
+"inspectorName"
+).value || "User",
+
+date:
+new Date().toLocaleString()
+
+});
+
+document.getElementById(
+"issueDescription"
+).value="";
+
+saveAll();
+
+refresh();
+
+}
+
+
+function resolveIssue(id){
+
+const issue =
+issues.find(i=>i.id===id);
+
+if(!issue) return;
+
+const adminCheck =
+prompt("Administrator name:");
+
+if(!admin){
+
+alert(
+"Set the administrator name in Settings first."
+);
+
+return;
+
+}
+
+if(
+adminCheck.trim().toLowerCase()
+!== admin.trim().toLowerCase()
+){
+
+alert(
+"Only the administrator can resolve truck issues."
+);
+
+return;
+
+}
+
+issue.resolved=true;
+
+issue.resolvedDate=
+new Date().toLocaleString();
+
+saveAll();
+
+refresh();
+
+}
+
+
+function addTruck(){
+
+let name =
+document.getElementById(
+"newTruck"
+).value.trim();
+
+if(!name) return;
+
+if(
+!name.toUpperCase().startsWith("FCFL")
+){
+
+name="FCFL "+name;
+
+}
+
+trucks.push(name);
+
+document.getElementById(
+"newTruck"
+).value="";
+
+saveAll();
+
+refresh();
+
+}
+
+
+function saveAdmin(){
+
+admin =
+document.getElementById(
+"adminName"
+).value.trim();
+
+localStorage.setItem(
+"fcflAdmin",
+admin
+);
+
+alert("Administrator saved.");
+
+}
+
+
+function addGuest(){
+
+const name =
+document.getElementById(
+"guestName"
+).value.trim();
+
+if(!name) return;
+
+guests.push({
+
+name,
+role:"Inspector"
+
+});
+
+document.getElementById(
+"guestName"
+).value="";
+
+saveAll();
+
+refresh();
+
+}
+
+
+function refresh(){
+
+document.getElementById(
+"truckCount"
+).textContent=trucks.length;
+
+
+const today =
+new Date().toLocaleDateString();
+
+const todaysInspections =
+inspections.filter(
+i=>i.day===today
+);
+
+document.getElementById(
+"todayCount"
+).textContent=
+todaysInspections.length;
+
+
+document.getElementById(
+"openIssueCount"
+).textContent=
+issues.filter(
+i=>!i.resolved
+).length;
+
+
+const options =
+trucks.map(
+t=>`<option>${t}</option>`
+).join("");
+
+document.getElementById(
+"inspectionTruck"
+).innerHTML=options;
+
+document.getElementById(
+"issueTruck"
+).innerHTML=options;
+
+
+document.getElementById(
+"dashboardTrucks"
+).innerHTML=
+trucks.map(truck=>{
+
+const color =
+latestTruckStatus(truck);
+
+return`
+
+<div class="truckRow">
+
+<div class="truckName">
+<span class="statusDot ${color}"></span>
+${truck}
+</div>
+
+</div>
+
+`;
+
+}).join("");
+
+
+document.getElementById(
+"todayInspections"
+).innerHTML=
+
+todaysInspections.length
+
+?
+
+todaysInspections.map(i=>`
+
+<div class="truckRow">
+
+<div>
+
+<span class="statusDot ${statusColor(i.status)}"></span>
+
+<strong>${i.truck}</strong>
+
+<br>
+
+<span class="small">
+${i.inspector}
+</span>
+
+</div>
+
+<strong>
+${i.status}
+</strong>
+
+</div>
+
+`).join("")
+
+:
+
+"<p>No trucks inspected today.</p>";
+
+
+const priority={
+red:1,
+yellow:2,
+green:3
+};
+
+const unresolved =
+issues
+.filter(i=>!i.resolved)
+.sort(
+(a,b)=>
+priority[a.color]-
+priority[b.color]
+);
+
+
+document.getElementById(
+"issueList"
+).innerHTML=
+
+unresolved.length
+
+?
+
+unresolved.map(issue=>`
+
+<div class="card issue${
+issue.color.charAt(0).toUpperCase()
++issue.color.slice(1)
+}">
+
+<h3>
+<span class="statusDot ${issue.color}"></span>
+${issue.truck}
+</h3>
+
+<p>${issue.description}</p>
+
+<p>
+<strong>UNRESOLVED</strong>
+</p>
+
+<p class="small">
+Reported by:
+${issue.reportedBy}
+<br>
+${issue.date}
+</p>
+
+<button
+class="resolve"
+onclick="resolveIssue(${issue.id})">
+Mark Resolved
+</button>
+
+</div>
+
+`).join("")
+
+:
+
+'<div class="card">No unresolved truck issues.</div>';
+
+
+document.getElementById(
+"historyList"
+).innerHTML=
+
+inspections.length
+
+?
+
+inspections.map(i=>`
+
+<div>
+
+<h3>
+<span class="statusDot ${statusColor(i.status)}"></span>
+${i.truck}
+</h3>
+
+<strong>${i.status}</strong>
+
+<p>
+Inspector:
+${i.inspector}
+</p>
+
+${
+
+i.notes.map(n=>`
+
+<p>
+${n.text || "Photo attached"}
+
+${
+
+n.photo
+?
+
+`<br>
+<img
+class="photoPreview"
+src="${n.photo}">`
+
+:""
+
+}
+
+</p>
+
+`).join("")
+
+}
+
+<p class="small">
+${i.date}
+</p>
+
+<hr>
+
+</div>
+
+`).join("")
+
+:
+
+"<p>No inspection history yet.</p>";
+
+
+document.getElementById(
+"settingsTruckList"
+).innerHTML=
+
+trucks.map(
+t=>`<div class="userRow">🚚 ${t}</div>`
+).join("");
+
+
+document.getElementById(
+"guestList"
+).innerHTML=
+
+guests.length
+
+?
+
+guests.map(g=>`
+
+<div class="userRow">
+
+<strong>${g.name}</strong>
+
+<br>
+
+<span class="small">
+Inspector / Guest
+</span>
+
+</div>
+
+`).join("")
+
+:
+
+"<p>No guest users added.</p>";
+
+
+document.getElementById(
+"adminName"
+).value=admin;
+
+}
+
+
+makeNoteRows();
+
+refresh();
+
 </script>
 
 </body>
