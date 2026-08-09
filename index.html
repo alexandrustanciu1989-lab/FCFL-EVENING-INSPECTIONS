@@ -3,1152 +3,1187 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FCFL Truck Yard</title>
+<title>Daily Truck Check</title>
 
 <style>
-* { box-sizing:border-box; }
+* {
+  box-sizing: border-box;
+}
 
 body {
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:#f3f4f6;
-  color:#111827;
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f3f4f6;
+  color: #111827;
 }
 
-header {
-  background:#111827;
-  color:white;
-  padding:18px;
+.topbar {
+  background: white;
+  border-bottom: 1px solid #dfe3e8;
+  padding: 18px 16px 10px;
 }
 
-header h1 { margin:0; }
-
-header p {
-  margin:5px 0 0;
-  color:#cbd5e1;
+.top-inner {
+  max-width: 760px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-nav {
-  display:flex;
-  gap:7px;
-  overflow-x:auto;
-  background:white;
-  padding:10px;
-  border-bottom:1px solid #ddd;
-  position:sticky;
-  top:0;
-  z-index:10;
+.logo {
+  font-size: 22px;
+  font-weight: 800;
 }
 
-button {
-  border:0;
-  border-radius:8px;
-  padding:11px 14px;
-  font-weight:bold;
-  cursor:pointer;
+.gear {
+  width: 50px;
+  height: 46px;
+  border: 0;
+  border-radius: 10px;
+  background: #eef4ff;
+  font-size: 22px;
+  cursor: pointer;
 }
 
-nav button {
-  background:#e5e7eb;
-  white-space:nowrap;
+.container {
+  max-width: 760px;
+  margin: auto;
+  padding: 14px;
+  padding-bottom: 100px;
 }
 
-.primary {
-  background:#2563eb;
-  color:white;
+.tabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 14px;
 }
 
-.resolve {
-  background:#15803d;
-  color:white;
+.tab {
+  border: 0;
+  border-radius: 10px;
+  padding: 14px 8px;
+  font-size: 16px;
+  font-weight: 700;
+  background: #e5e7eb;
+  color: #0b7de3;
+  cursor: pointer;
 }
 
-.dangerButton {
-  background:#b91c1c;
-  color:white;
+.tab.active {
+  background: #1467d8;
+  color: white;
 }
-
-main {
-  max-width:1000px;
-  margin:auto;
-  padding:16px;
-}
-
-.page { display:none; }
-.page.active { display:block; }
 
 .card {
-  background:white;
-  padding:16px;
-  margin-bottom:12px;
-  border-radius:12px;
-  box-shadow:0 2px 7px rgba(0,0,0,.07);
+  background: white;
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 14px;
+  box-shadow: 0 5px 16px rgba(0,0,0,.06);
 }
 
-.grid {
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-  gap:10px;
+.page {
+  display: none;
 }
 
-.stat {
-  font-size:28px;
-  font-weight:bold;
+.page.active {
+  display: block;
 }
 
 label {
-  display:block;
-  font-weight:bold;
-  margin-top:12px;
+  display: block;
+  font-weight: 700;
+  margin: 13px 0 6px;
 }
 
-input,select,textarea {
-  width:100%;
-  padding:11px;
-  margin-top:5px;
-  border:1px solid #ccc;
-  border-radius:8px;
-  font-size:16px;
+select,
+input[type="text"] {
+  width: 100%;
+  height: 50px;
+  border: 1px solid #cfd5dc;
+  border-radius: 11px;
+  padding: 0 14px;
+  font-size: 16px;
+  background: white;
 }
 
-.statusDot {
-  width:17px;
-  height:17px;
-  border-radius:50%;
-  display:inline-block;
-  vertical-align:middle;
-  margin-right:7px;
+.photo-main {
+  width: 100%;
+  min-height: 64px;
+  border: 2px dashed #9dbce6;
+  border-radius: 14px;
+  background: #f8fbff;
+  color: #1467d8;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
 }
 
-.green { background:#22c55e; }
-.yellow { background:#eab308; }
-.red { background:#ef4444; }
-.gray { background:#9ca3af; }
-
-.truckRow {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:11px;
-  border-bottom:1px solid #eee;
+.note-row {
+  display: grid;
+  grid-template-columns: 1fr 52px;
+  gap: 8px;
+  margin-bottom: 8px;
 }
 
-.truckName {
-  font-weight:bold;
+.note-row input {
+  width: 100%;
+  height: 46px;
+  border: 1px solid #cfd5dc;
+  border-radius: 10px;
+  padding: 0 12px;
+  font-size: 15px;
 }
 
-.noteRow {
-  display:grid;
-  grid-template-columns:1fr auto;
-  gap:8px;
-  margin-bottom:8px;
+.add-photo {
+  border: 0;
+  border-radius: 10px;
+  background: #eef4ff;
+  color: #1467d8;
+  font-size: 23px;
+  font-weight: bold;
+  cursor: pointer;
 }
 
-.photoButton {
-  width:48px;
-  height:44px;
-  padding:0;
-  font-size:22px;
-  background:#e5e7eb;
+.preview-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
 }
 
-.photoPreview {
-  max-width:90px;
-  max-height:90px;
-  border-radius:8px;
-  margin:5px;
+.preview-row img {
+  width: 82px;
+  height: 82px;
+  object-fit: cover;
+  border-radius: 10px;
 }
 
-.issueGreen { border-left:7px solid #22c55e; }
-.issueYellow { border-left:7px solid #eab308; }
-.issueRed { border-left:7px solid #ef4444; }
+.status-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.status-btn {
+  height: 46px;
+  border-radius: 10px;
+  background: white;
+  border: 1px solid #d2d6dc;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.status-btn.selected-ready {
+  background: #e8f8ed;
+  border-color: #3fb85a;
+  color: #187533;
+}
+
+.status-btn.selected-repair {
+  background: #fff8dc;
+  border-color: #e0b63d;
+  color: #835f00;
+}
+
+.status-btn.selected-oos {
+  background: #fde8e8;
+  border-color: #e88f8f;
+  color: #a92020;
+}
+
+.submit {
+  width: 100%;
+  height: 52px;
+  margin-top: 14px;
+  border: 0;
+  border-radius: 11px;
+  background: #1467d8;
+  color: white;
+  font-size: 17px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.truck-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 13px 4px;
+  border-bottom: 1px solid #edf0f3;
+}
+
+.left-truck {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.dot {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
+
+.dot.green {
+  background: #22c55e;
+}
+
+.dot.yellow {
+  background: #eab308;
+}
+
+.dot.red {
+  background: #ef4444;
+}
+
+.dot.gray {
+  background: #aeb4bc;
+}
+
+.issue-card {
+  background: white;
+  border-radius: 14px;
+  padding: 15px;
+  margin-bottom: 11px;
+  box-shadow: 0 3px 12px rgba(0,0,0,.06);
+}
+
+.issue-red {
+  border-left: 7px solid #ef4444;
+}
+
+.issue-yellow {
+  border-left: 7px solid #eab308;
+}
+
+.issue-green {
+  border-left: 7px solid #22c55e;
+}
 
 .small {
-  color:#6b7280;
-  font-size:13px;
+  font-size: 13px;
+  color: #6b7280;
 }
 
-.badge {
-  display:inline-block;
-  padding:5px 9px;
-  border-radius:20px;
-  font-size:12px;
-  font-weight:bold;
+.resolve-btn {
+  border: 0;
+  border-radius: 9px;
+  background: #1467d8;
+  color: white;
+  padding: 10px 13px;
+  font-weight: 700;
+  cursor: pointer;
 }
 
-.badgeGreen {
-  background:#dcfce7;
-  color:#166534;
+.settings-section {
+  margin-bottom: 20px;
 }
 
-.badgeYellow {
-  background:#fef9c3;
-  color:#854d0e;
+.bottom-nav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: white;
+  border-top: 1px solid #dfe3e8;
+  padding: 9px 14px 12px;
 }
 
-.badgeRed {
-  background:#fee2e2;
-  color:#991b1b;
+.bottom-inner {
+  max-width: 760px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
 }
 
-.userRow {
-  padding:10px 0;
-  border-bottom:1px solid #eee;
+.bottom-btn {
+  height: 50px;
+  border: 0;
+  border-radius: 11px;
+  font-weight: 800;
+  font-size: 16px;
+  cursor: pointer;
 }
 
-.notice {
-  background:#fff7ed;
-  border:1px solid #fed7aa;
-  padding:12px;
-  border-radius:8px;
-  margin-bottom:12px;
+.bottom-primary {
+  background: #1467d8;
+  color: white;
+}
+
+.bottom-secondary {
+  background: #e8f0ff;
+  color: #1553a7;
+}
+
+.hidden {
+  display: none;
+}
+
+.history-item {
+  border-bottom: 1px solid #eceff2;
+  padding: 13px 0;
+}
+
+.warning {
+  background: #fff6df;
+  border: 1px solid #f2d48e;
+  border-radius: 10px;
+  padding: 12px;
+  font-size: 14px;
 }
 </style>
 </head>
 
 <body>
 
-<header>
-  <h1>FCFL Truck Yard</h1>
-  <p>Daily inspections • Truck issues • Yard history</p>
-</header>
-
-<nav>
-  <button onclick="showPage('dashboard')">Dashboard</button>
-  <button onclick="showPage('inspection')">Inspections</button>
-  <button onclick="showPage('issues')">Truck Issues</button>
-  <button onclick="showPage('history')">History</button>
-  <button onclick="showPage('settings')">Settings</button>
-</nav>
-
-<main>
-
-<!-- DASHBOARD -->
-
-<section id="dashboard" class="page active">
-
-<h2>Dashboard</h2>
-
-<div class="grid">
-  <div class="card">
-    Trucks
-    <div class="stat" id="truckCount">0</div>
-  </div>
-
-  <div class="card">
-    Inspected Today
-    <div class="stat" id="todayCount">0</div>
-  </div>
-
-  <div class="card">
-    Unresolved Issues
-    <div class="stat" id="openIssueCount">0</div>
+<div class="topbar">
+  <div class="top-inner">
+    <div class="logo">🚛 Daily Truck Check</div>
+    <button class="gear" onclick="showPage('settings')">⚙️</button>
   </div>
 </div>
 
-<div class="card">
-  <h3>FCFL Trucks</h3>
-  <div id="dashboardTrucks"></div>
-</div>
+<div class="container">
 
-<div class="card">
-  <h3>Today's Inspections</h3>
-  <div id="todayInspections"></div>
-</div>
+  <div class="tabs">
+    <button id="tab-new" class="tab active" onclick="showPage('new')">New Check</button>
+    <button id="tab-issues" class="tab" onclick="showPage('issues')">Open Issues</button>
+    <button id="tab-history" class="tab" onclick="showPage('history')">History</button>
+  </div>
 
-</section>
+  <section id="new" class="page active">
+    <div class="card">
 
+      <label>Truck</label>
+      <select id="truckSelect"></select>
 
-<!-- INSPECTION -->
+      <label>Photos</label>
+      <button class="photo-main" type="button" onclick="document.getElementById('mainPhoto').click()">
+        📸 Take / Add Pictures
+      </button>
 
-<section id="inspection" class="page">
+      <input
+        id="mainPhoto"
+        class="hidden"
+        type="file"
+        accept="image/*"
+        capture="environment"
+        multiple
+        onchange="handleMainPhotos(this)"
+      >
 
-<h2>Daily Inspection</h2>
+      <div id="mainPhotoPreview" class="preview-row"></div>
 
-<div class="card">
+      <label>Problems / Notes</label>
 
-<label>Truck</label>
-<select id="inspectionTruck"></select>
+      <div id="notesArea"></div>
 
-<label>Inspector Name</label>
-<input id="inspectorName" placeholder="Your name">
+      <label>Status</label>
 
-<label>Overall Inspection</label>
+      <div class="status-grid">
+        <button id="readyBtn" class="status-btn selected-ready" onclick="setStatus('READY')">
+          ✅ Ready
+        </button>
 
-<select id="inspectionStatus">
-  <option value="PASS">🟢 PASS</option>
-  <option value="NEEDS REPAIRS">🟡 NEEDS REPAIRS</option>
-  <option value="FAIL">🔴 FAIL</option>
-</select>
+        <button id="repairBtn" class="status-btn" onclick="setStatus('REPAIR')">
+          ⚠️ Repair
+        </button>
 
-<h3>Inspection Notes</h3>
+        <button id="oosBtn" class="status-btn" onclick="setStatus('OOS')">
+          🛑 OOS
+        </button>
+      </div>
 
-<p class="small">
-Add up to five notes. Press + beside any row to take or upload a picture.
-</p>
+      <label>Driver / Inspector</label>
+      <input id="driverName" type="text" placeholder="Name">
 
-<div id="noteRows"></div>
+      <button class="submit" onclick="submitTruck()">
+        SUBMIT TRUCK
+      </button>
 
-<button class="primary" onclick="saveInspection()">
-Save Inspection
-</button>
+    </div>
+  </section>
 
-</div>
+  <section id="issues" class="page">
+    <div id="issuesList"></div>
+  </section>
 
-</section>
+  <section id="history" class="page">
+    <div class="card">
+      <div id="historyList"></div>
+    </div>
+  </section>
 
+  <section id="settings" class="page">
 
-<!-- ISSUES -->
+    <div class="card">
 
-<section id="issues" class="page">
+      <h2>Settings</h2>
 
-<h2>Truck Issues</h2>
+      <div class="warning">
+        This is still the test version. The admin and guest controls are not secure logins yet.
+      </div>
 
-<div class="card">
+      <div class="settings-section">
+        <h3>Administrator</h3>
+        <input id="adminName" type="text" placeholder="Admin name">
+        <button class="submit" onclick="saveAdmin()">Save Admin</button>
+      </div>
 
-<label>Truck</label>
-<select id="issueTruck"></select>
+      <div class="settings-section">
+        <h3>Add Truck</h3>
+        <input id="newTruckName" type="text" placeholder="Example: FCFL116">
+        <button class="submit" onclick="addTruck()">Add Truck</button>
+      </div>
 
-<label>Issue</label>
-<input id="issueDescription"
-placeholder="Describe the truck issue">
+      <div class="settings-section">
+        <h3>Current Trucks</h3>
+        <div id="truckSettingsList"></div>
+      </div>
 
-<label>Condition</label>
-<select id="issueCondition">
-  <option value="yellow">🟡 Needs Repair</option>
-  <option value="red">🔴 High Priority / Out of Service</option>
-  <option value="green">🟢 Good / Monitor</option>
-</select>
+      <div class="settings-section">
+        <h3>Guest Users</h3>
 
-<label>Add Picture</label>
+        <input id="guestName" type="text" placeholder="Employee name">
 
-<input
-  type="file"
-  id="issuePhoto"
-  accept="image/*"
-  capture="environment">
+        <button class="submit" onclick="addGuest()">
+          Add Guest User
+        </button>
 
-<br><br>
+        <div id="guestList"></div>
+      </div>
 
-<button class="primary" onclick="reportIssue()">
-Report Truck Issue
-</button>
+    </div>
 
-</div>
-
-<h3>Unresolved Trucks</h3>
-
-<p class="small">
-Red trucks appear first, followed by yellow and green.
-</p>
-
-<div id="issueList"></div>
-
-</section>
-
-
-<!-- HISTORY -->
-
-<section id="history" class="page">
-
-<h2>History</h2>
-
-<div class="card">
-  <div id="historyList"></div>
-</div>
-
-</section>
-
-
-<!-- SETTINGS -->
-
-<section id="settings" class="page">
-
-<h2>Settings</h2>
-
-<div class="notice">
-This test version is public. Guest permissions shown here are not secure
-until we connect the app to the database and real user login system.
-</div>
-
-<div class="card">
-
-<h3>Administrator</h3>
-
-<label>Admin Name</label>
-<input id="adminName" placeholder="Administrator name">
-
-<button class="primary" onclick="saveAdmin()">
-Save Admin
-</button>
+  </section>
 
 </div>
 
-<div class="card">
+<div class="bottom-nav">
+  <div class="bottom-inner">
+    <button class="bottom-btn bottom-primary" onclick="showPage('new')">
+      ➕ New Check
+    </button>
 
-<h3>Add Truck</h3>
-
-<input id="newTruck"
-placeholder="Example: FCFL 116">
-
-<button class="primary" onclick="addTruck()">
-Add Truck
-</button>
-
-<div id="settingsTruckList"></div>
-
+    <button class="bottom-btn bottom-secondary" onclick="showPage('issues')">
+      🔧 Open Issues
+    </button>
+  </div>
 </div>
-
-
-<div class="card">
-
-<h3>Guest Users</h3>
-
-<p class="small">
-Guest users can perform inspections and report issues.
-Only the administrator should mark truck issues resolved or modify settings.
-</p>
-
-<label>Guest Name</label>
-<input id="guestName"
-placeholder="Employee name">
-
-<button class="primary" onclick="addGuest()">
-Add Guest User
-</button>
-
-<div id="guestList"></div>
-
-</div>
-
-</section>
-
-</main>
-
 
 <script>
 
 const defaultTrucks = [
-"FCFL 103",
-"FCFL 105",
-"FCFL 107",
-"FCFL 108",
-"FCFL 109",
-"FCFL 111",
-"FCFL 113",
-"FCFL 112",
-"FCFL 114",
-"FCFL 115",
-"FCFL R2",
-"FCFL R4",
-"FCFL R9",
-"FCFL R7"
+  "FCFL103",
+  "FCFL105",
+  "FCFL107",
+  "FCFL108",
+  "FCFL109",
+  "FCFL111",
+  "FCFL112",
+  "FCFL113",
+  "FCFL114",
+  "FCFL115",
+  "FCFL R2",
+  "FCFL R4",
+  "FCFL R7",
+  "FCFL R9"
 ];
 
 let trucks =
-JSON.parse(localStorage.getItem("fcflTrucksV2"))
-|| defaultTrucks;
+  JSON.parse(localStorage.getItem("fcfl_trucks_v3")) ||
+  defaultTrucks;
 
 let inspections =
-JSON.parse(localStorage.getItem("fcflInspectionsV2"))
-|| [];
+  JSON.parse(localStorage.getItem("fcfl_inspections_v3")) ||
+  [];
 
 let issues =
-JSON.parse(localStorage.getItem("fcflIssuesV2"))
-|| [];
+  JSON.parse(localStorage.getItem("fcfl_issues_v3")) ||
+  [];
 
 let guests =
-JSON.parse(localStorage.getItem("fcflGuestsV2"))
-|| [];
+  JSON.parse(localStorage.getItem("fcfl_guests_v3")) ||
+  [];
 
 let admin =
-localStorage.getItem("fcflAdmin") || "";
+  localStorage.getItem("fcfl_admin_v3") || "";
 
-let inspectionPhotos = [null,null,null,null,null];
+let currentStatus = "READY";
+
+let notePhotos = [[], [], [], [], []];
+
+let mainPhotos = [];
 
 
-function saveAll() {
+function saveData() {
 
-localStorage.setItem(
-"fcflTrucksV2",
-JSON.stringify(trucks)
-);
+  localStorage.setItem(
+    "fcfl_trucks_v3",
+    JSON.stringify(trucks)
+  );
 
-localStorage.setItem(
-"fcflInspectionsV2",
-JSON.stringify(inspections)
-);
+  localStorage.setItem(
+    "fcfl_inspections_v3",
+    JSON.stringify(inspections)
+  );
 
-localStorage.setItem(
-"fcflIssuesV2",
-JSON.stringify(issues)
-);
+  localStorage.setItem(
+    "fcfl_issues_v3",
+    JSON.stringify(issues)
+  );
 
-localStorage.setItem(
-"fcflGuestsV2",
-JSON.stringify(guests)
-);
+  localStorage.setItem(
+    "fcfl_guests_v3",
+    JSON.stringify(guests)
+  );
 
 }
 
 
-function showPage(name) {
+function showPage(pageName) {
 
-document.querySelectorAll(".page")
-.forEach(p=>p.classList.remove("active"));
+  document.querySelectorAll(".page")
+    .forEach(page => page.classList.remove("active"));
 
-document.getElementById(name)
-.classList.add("active");
+  document.getElementById(pageName)
+    .classList.add("active");
 
-refresh();
+  document.querySelectorAll(".tab")
+    .forEach(tab => tab.classList.remove("active"));
+
+  if (pageName === "new") {
+    document.getElementById("tab-new").classList.add("active");
+  }
+
+  if (pageName === "issues") {
+    document.getElementById("tab-issues").classList.add("active");
+  }
+
+  if (pageName === "history") {
+    document.getElementById("tab-history").classList.add("active");
+  }
+
+  refresh();
+
+}
+
+
+function makeNotes() {
+
+  const area = document.getElementById("notesArea");
+
+  area.innerHTML = "";
+
+  for (let i = 0; i < 5; i++) {
+
+    const holder = document.createElement("div");
+
+    holder.innerHTML = `
+      <div class="note-row">
+
+        <input
+          id="note${i}"
+          type="text"
+          placeholder="Problem / note ${i + 1}"
+        >
+
+        <button
+          class="add-photo"
+          type="button"
+          onclick="document.getElementById('notePhoto${i}').click()">
+          +
+        </button>
+
+      </div>
+
+      <input
+        id="notePhoto${i}"
+        class="hidden"
+        type="file"
+        accept="image/*"
+        capture="environment"
+        multiple
+        onchange="handleNotePhotos(${i}, this)"
+      >
+
+      <div
+        id="notePreview${i}"
+        class="preview-row">
+      </div>
+    `;
+
+    area.appendChild(holder);
+
+  }
+
+}
+
+
+function fileToDataUrl(file) {
+
+  return new Promise((resolve, reject) => {
+
+    const reader = new FileReader();
+
+    reader.onload = () => resolve(reader.result);
+
+    reader.onerror = reject;
+
+    reader.readAsDataURL(file);
+
+  });
+
+}
+
+
+async function handleMainPhotos(input) {
+
+  for (const file of input.files) {
+
+    const data = await fileToDataUrl(file);
+
+    mainPhotos.push(data);
+
+  }
+
+  renderMainPhotos();
+
+}
+
+
+function renderMainPhotos() {
+
+  document.getElementById("mainPhotoPreview").innerHTML =
+    mainPhotos
+      .map(photo => `<img src="${photo}">`)
+      .join("");
+
+}
+
+
+async function handleNotePhotos(index, input) {
+
+  for (const file of input.files) {
+
+    const data = await fileToDataUrl(file);
+
+    notePhotos[index].push(data);
+
+  }
+
+  renderNotePhotos(index);
+
+}
+
+
+function renderNotePhotos(index) {
+
+  document.getElementById("notePreview" + index).innerHTML =
+    notePhotos[index]
+      .map(photo => `<img src="${photo}">`)
+      .join("");
+
+}
+
+
+function setStatus(status) {
+
+  currentStatus = status;
+
+  document.getElementById("readyBtn").className = "status-btn";
+  document.getElementById("repairBtn").className = "status-btn";
+  document.getElementById("oosBtn").className = "status-btn";
+
+  if (status === "READY") {
+    document.getElementById("readyBtn")
+      .classList.add("selected-ready");
+  }
+
+  if (status === "REPAIR") {
+    document.getElementById("repairBtn")
+      .classList.add("selected-repair");
+  }
+
+  if (status === "OOS") {
+    document.getElementById("oosBtn")
+      .classList.add("selected-oos");
+  }
 
 }
 
 
 function statusColor(status) {
 
-if(status==="PASS") return "green";
+  if (status === "READY") return "green";
 
-if(status==="NEEDS REPAIRS") return "yellow";
+  if (status === "REPAIR") return "yellow";
 
-if(status==="FAIL") return "red";
+  if (status === "OOS") return "red";
 
-return "gray";
-
-}
-
-
-function latestTruckStatus(truck) {
-
-const inspection =
-inspections.find(i=>i.truck===truck);
-
-if(!inspection)
-return "gray";
-
-return statusColor(inspection.status);
+  return "gray";
 
 }
 
 
-function makeNoteRows() {
+function latestStatusForTruck(truck) {
 
-const container =
-document.getElementById("noteRows");
+  const record =
+    inspections.find(item => item.truck === truck);
 
-container.innerHTML="";
+  if (!record) return "gray";
 
-for(let i=0;i<5;i++){
-
-const row=document.createElement("div");
-
-row.innerHTML=`
-
-<div class="noteRow">
-
-<input
-id="note${i}"
-placeholder="Inspection note ${i+1}">
-
-<button
-class="photoButton"
-onclick="document.getElementById('photo${i}').click()"
-type="button">
-+
-</button>
-
-</div>
-
-<input
-style="display:none"
-type="file"
-id="photo${i}"
-accept="image/*"
-capture="environment"
-onchange="previewInspectionPhoto(${i},this)">
-
-<div id="preview${i}"></div>
-
-`;
-
-container.appendChild(row);
-
-}
+  return statusColor(record.status);
 
 }
 
 
-function previewInspectionPhoto(index,input){
+function submitTruck() {
 
-const file=input.files[0];
+  const truck =
+    document.getElementById("truckSelect").value;
 
-if(!file) return;
+  const driver =
+    document.getElementById("driverName").value.trim();
 
-const reader=new FileReader();
+  const notes = [];
 
-reader.onload=function(e){
+  for (let i = 0; i < 5; i++) {
 
-inspectionPhotos[index]=e.target.result;
+    const text =
+      document.getElementById("note" + i).value.trim();
 
-document.getElementById(
-"preview"+index
-).innerHTML=
-`<img class="photoPreview" src="${e.target.result}">`;
+    if (text || notePhotos[i].length) {
 
-};
+      notes.push({
+        text: text,
+        photos: notePhotos[i]
+      });
 
-reader.readAsDataURL(file);
+    }
 
-}
+  }
 
+  const record = {
 
-function saveInspection(){
+    id: Date.now(),
 
-const truck =
-document.getElementById("inspectionTruck").value;
+    truck: truck,
 
-const inspector =
-document.getElementById("inspectorName").value.trim();
+    driver: driver || "Not entered",
 
-const status =
-document.getElementById("inspectionStatus").value;
+    status: currentStatus,
 
-if(!inspector){
+    notes: notes,
 
-alert("Enter inspector name.");
+    photos: mainPhotos,
 
-return;
+    timestamp: new Date().toLocaleString()
 
-}
+  };
 
-let notes=[];
-
-for(let i=0;i<5;i++){
-
-const text =
-document.getElementById("note"+i).value.trim();
-
-if(text || inspectionPhotos[i]){
-
-notes.push({
-text:text,
-photo:inspectionPhotos[i]
-});
-
-}
-
-}
-
-const record={
-
-id:Date.now(),
-truck,
-inspector,
-status,
-notes,
-date:new Date().toLocaleString(),
-day:new Date().toLocaleDateString()
-
-};
-
-inspections.unshift(record);
+  inspections.unshift(record);
 
 
-if(status==="FAIL" ||
-status==="NEEDS REPAIRS"){
+  if (
+    currentStatus === "REPAIR" ||
+    currentStatus === "OOS"
+  ) {
 
-issues.unshift({
+    issues.unshift({
 
-id:Date.now()+1,
-truck,
-description:
-notes.length
-? notes.map(n=>n.text).filter(Boolean).join(" • ")
-: "Inspection requires attention",
+      id: Date.now() + 1,
 
-color:
-status==="FAIL"
-? "red"
-: "yellow",
+      truck: truck,
 
-resolved:false,
+      status:
+        currentStatus === "OOS"
+          ? "red"
+          : "yellow",
 
-reportedBy:inspector,
+      description:
+        notes.length
+          ? notes
+              .map(note => note.text)
+              .filter(Boolean)
+              .join(" • ")
+          : currentStatus === "OOS"
+            ? "Truck marked Out of Service"
+            : "Truck requires repair",
 
-date:new Date().toLocaleString()
+      reportedBy: driver || "Not entered",
 
-});
+      resolved: false,
 
-}
+      timestamp: new Date().toLocaleString()
 
-saveAll();
+    });
 
-inspectionPhotos=[null,null,null,null,null];
+  }
 
-makeNoteRows();
+  saveData();
 
-refresh();
+  resetForm();
 
-alert("Inspection saved.");
+  refresh();
+
+  alert("Truck check saved.");
 
 }
 
 
-function reportIssue(){
+function resetForm() {
 
-const description =
-document.getElementById(
-"issueDescription"
-).value.trim();
+  document.getElementById("driverName").value = "";
 
-if(!description){
+  mainPhotos = [];
 
-alert("Describe the truck issue.");
+  notePhotos = [[], [], [], [], []];
 
-return;
+  currentStatus = "READY";
 
-}
+  makeNotes();
 
-issues.unshift({
+  renderMainPhotos();
 
-id:Date.now(),
-
-truck:
-document.getElementById(
-"issueTruck"
-).value,
-
-description,
-
-color:
-document.getElementById(
-"issueCondition"
-).value,
-
-resolved:false,
-
-reportedBy:
-document.getElementById(
-"inspectorName"
-).value || "User",
-
-date:
-new Date().toLocaleString()
-
-});
-
-document.getElementById(
-"issueDescription"
-).value="";
-
-saveAll();
-
-refresh();
+  setStatus("READY");
 
 }
 
 
-function resolveIssue(id){
+function resolveIssue(id) {
 
-const issue =
-issues.find(i=>i.id===id);
+  if (!admin) {
 
-if(!issue) return;
+    alert("Set the administrator name in Settings first.");
 
-const adminCheck =
-prompt("Administrator name:");
+    return;
 
-if(!admin){
+  }
 
-alert(
-"Set the administrator name in Settings first."
-);
+  const entered =
+    prompt("Enter administrator name:");
 
-return;
+  if (!entered) return;
 
-}
+  if (
+    entered.trim().toLowerCase()
+    !== admin.trim().toLowerCase()
+  ) {
 
-if(
-adminCheck.trim().toLowerCase()
-!== admin.trim().toLowerCase()
-){
+    alert("Only the administrator can resolve this issue.");
 
-alert(
-"Only the administrator can resolve truck issues."
-);
+    return;
 
-return;
+  }
 
-}
+  const issue =
+    issues.find(item => item.id === id);
 
-issue.resolved=true;
+  if (!issue) return;
 
-issue.resolvedDate=
-new Date().toLocaleString();
+  issue.resolved = true;
 
-saveAll();
+  issue.resolvedAt =
+    new Date().toLocaleString();
 
-refresh();
+  saveData();
+
+  refresh();
 
 }
 
 
-function addTruck(){
+function saveAdmin() {
 
-let name =
-document.getElementById(
-"newTruck"
-).value.trim();
+  admin =
+    document.getElementById("adminName")
+      .value
+      .trim();
 
-if(!name) return;
+  localStorage.setItem(
+    "fcfl_admin_v3",
+    admin
+  );
 
-if(
-!name.toUpperCase().startsWith("FCFL")
-){
-
-name="FCFL "+name;
-
-}
-
-trucks.push(name);
-
-document.getElementById(
-"newTruck"
-).value="";
-
-saveAll();
-
-refresh();
+  alert("Administrator saved.");
 
 }
 
 
-function saveAdmin(){
+function addTruck() {
 
-admin =
-document.getElementById(
-"adminName"
-).value.trim();
+  let name =
+    document.getElementById("newTruckName")
+      .value
+      .trim();
 
-localStorage.setItem(
-"fcflAdmin",
-admin
-);
+  if (!name) return;
 
-alert("Administrator saved.");
+  if (
+    !name.toUpperCase().startsWith("FCFL")
+  ) {
 
-}
+    name = "FCFL" + name;
 
+  }
 
-function addGuest(){
+  if (!trucks.includes(name)) {
 
-const name =
-document.getElementById(
-"guestName"
-).value.trim();
+    trucks.push(name);
 
-if(!name) return;
+  }
 
-guests.push({
+  document.getElementById("newTruckName").value = "";
 
-name,
-role:"Inspector"
+  saveData();
 
-});
-
-document.getElementById(
-"guestName"
-).value="";
-
-saveAll();
-
-refresh();
+  refresh();
 
 }
 
 
-function refresh(){
+function addGuest() {
 
-document.getElementById(
-"truckCount"
-).textContent=trucks.length;
+  const name =
+    document.getElementById("guestName")
+      .value
+      .trim();
 
+  if (!name) return;
 
-const today =
-new Date().toLocaleDateString();
+  guests.push({
+    name: name,
+    role: "Inspector"
+  });
 
-const todaysInspections =
-inspections.filter(
-i=>i.day===today
-);
+  document.getElementById("guestName").value = "";
 
-document.getElementById(
-"todayCount"
-).textContent=
-todaysInspections.length;
+  saveData();
 
-
-document.getElementById(
-"openIssueCount"
-).textContent=
-issues.filter(
-i=>!i.resolved
-).length;
-
-
-const options =
-trucks.map(
-t=>`<option>${t}</option>`
-).join("");
-
-document.getElementById(
-"inspectionTruck"
-).innerHTML=options;
-
-document.getElementById(
-"issueTruck"
-).innerHTML=options;
-
-
-document.getElementById(
-"dashboardTrucks"
-).innerHTML=
-trucks.map(truck=>{
-
-const color =
-latestTruckStatus(truck);
-
-return`
-
-<div class="truckRow">
-
-<div class="truckName">
-<span class="statusDot ${color}"></span>
-${truck}
-</div>
-
-</div>
-
-`;
-
-}).join("");
-
-
-document.getElementById(
-"todayInspections"
-).innerHTML=
-
-todaysInspections.length
-
-?
-
-todaysInspections.map(i=>`
-
-<div class="truckRow">
-
-<div>
-
-<span class="statusDot ${statusColor(i.status)}"></span>
-
-<strong>${i.truck}</strong>
-
-<br>
-
-<span class="small">
-${i.inspector}
-</span>
-
-</div>
-
-<strong>
-${i.status}
-</strong>
-
-</div>
-
-`).join("")
-
-:
-
-"<p>No trucks inspected today.</p>";
-
-
-const priority={
-red:1,
-yellow:2,
-green:3
-};
-
-const unresolved =
-issues
-.filter(i=>!i.resolved)
-.sort(
-(a,b)=>
-priority[a.color]-
-priority[b.color]
-);
-
-
-document.getElementById(
-"issueList"
-).innerHTML=
-
-unresolved.length
-
-?
-
-unresolved.map(issue=>`
-
-<div class="card issue${
-issue.color.charAt(0).toUpperCase()
-+issue.color.slice(1)
-}">
-
-<h3>
-<span class="statusDot ${issue.color}"></span>
-${issue.truck}
-</h3>
-
-<p>${issue.description}</p>
-
-<p>
-<strong>UNRESOLVED</strong>
-</p>
-
-<p class="small">
-Reported by:
-${issue.reportedBy}
-<br>
-${issue.date}
-</p>
-
-<button
-class="resolve"
-onclick="resolveIssue(${issue.id})">
-Mark Resolved
-</button>
-
-</div>
-
-`).join("")
-
-:
-
-'<div class="card">No unresolved truck issues.</div>';
-
-
-document.getElementById(
-"historyList"
-).innerHTML=
-
-inspections.length
-
-?
-
-inspections.map(i=>`
-
-<div>
-
-<h3>
-<span class="statusDot ${statusColor(i.status)}"></span>
-${i.truck}
-</h3>
-
-<strong>${i.status}</strong>
-
-<p>
-Inspector:
-${i.inspector}
-</p>
-
-${
-
-i.notes.map(n=>`
-
-<p>
-${n.text || "Photo attached"}
-
-${
-
-n.photo
-?
-
-`<br>
-<img
-class="photoPreview"
-src="${n.photo}">`
-
-:""
-
-}
-
-</p>
-
-`).join("")
-
-}
-
-<p class="small">
-${i.date}
-</p>
-
-<hr>
-
-</div>
-
-`).join("")
-
-:
-
-"<p>No inspection history yet.</p>";
-
-
-document.getElementById(
-"settingsTruckList"
-).innerHTML=
-
-trucks.map(
-t=>`<div class="userRow">🚚 ${t}</div>`
-).join("");
-
-
-document.getElementById(
-"guestList"
-).innerHTML=
-
-guests.length
-
-?
-
-guests.map(g=>`
-
-<div class="userRow">
-
-<strong>${g.name}</strong>
-
-<br>
-
-<span class="small">
-Inspector / Guest
-</span>
-
-</div>
-
-`).join("")
-
-:
-
-"<p>No guest users added.</p>";
-
-
-document.getElementById(
-"adminName"
-).value=admin;
+  refresh();
 
 }
 
 
-makeNoteRows();
+function refresh() {
+
+  const options =
+    trucks
+      .map(truck =>
+        `<option value="${truck}">${truck}</option>`
+      )
+      .join("");
+
+  document.getElementById("truckSelect").innerHTML =
+    options;
+
+
+  document.getElementById("issuesList").innerHTML =
+    renderIssues();
+
+
+  document.getElementById("historyList").innerHTML =
+    renderHistory();
+
+
+  document.getElementById("truckSettingsList").innerHTML =
+    trucks
+      .map(truck => `
+        <div class="truck-line">
+
+          <div class="left-truck">
+
+            <span
+              class="dot ${latestStatusForTruck(truck)}">
+            </span>
+
+            <strong>${truck}</strong>
+
+          </div>
+
+        </div>
+      `)
+      .join("");
+
+
+  document.getElementById("guestList").innerHTML =
+    guests.length
+      ? guests
+          .map(guest => `
+            <div class="truck-line">
+              <div>
+                <strong>${guest.name}</strong>
+                <div class="small">
+                  Guest / Inspector
+                </div>
+              </div>
+            </div>
+          `)
+          .join("")
+      : `<p class="small">No guest users added.</p>`;
+
+
+  document.getElementById("adminName").value =
+    admin;
+
+}
+
+
+function renderIssues() {
+
+  const priority = {
+    red: 1,
+    yellow: 2,
+    green: 3
+  };
+
+  const openIssues =
+    issues
+      .filter(issue => !issue.resolved)
+      .sort(
+        (a, b) =>
+          priority[a.status] -
+          priority[b.status]
+      );
+
+  if (!openIssues.length) {
+
+    return `
+      <div class="card">
+        <strong>No open truck issues.</strong>
+      </div>
+    `;
+
+  }
+
+  return openIssues
+    .map(issue => `
+
+      <div class="issue-card issue-${issue.status}">
+
+        <div class="left-truck">
+
+          <span class="dot ${issue.status}"></span>
+
+          <h3 style="margin:0;">
+            ${issue.truck}
+          </h3>
+
+        </div>
+
+        <p>${issue.description}</p>
+
+        <p class="small">
+          Reported by: ${issue.reportedBy}
+          <br>
+          ${issue.timestamp}
+        </p>
+
+        <strong>
+          ${
+            issue.status === "red"
+              ? "🛑 OUT OF SERVICE"
+              : issue.status === "yellow"
+                ? "⚠️ NEEDS REPAIR"
+                : "✅ MONITOR"
+          }
+        </strong>
+
+        <br><br>
+
+        <button
+          class="resolve-btn"
+          onclick="resolveIssue(${issue.id})">
+          Mark Resolved
+        </button>
+
+      </div>
+
+    `)
+    .join("");
+
+}
+
+
+function renderHistory() {
+
+  if (!inspections.length) {
+
+    return `<p>No history yet.</p>`;
+
+  }
+
+  return inspections
+    .map(item => `
+
+      <div class="history-item">
+
+        <div class="left-truck">
+
+          <span
+            class="dot ${statusColor(item.status)}">
+          </span>
+
+          <strong>${item.truck}</strong>
+
+        </div>
+
+        <p>
+          Status:
+          <strong>${item.status}</strong>
+        </p>
+
+        <p>
+          Inspector:
+          ${item.driver}
+        </p>
+
+        ${
+          item.notes.length
+            ? item.notes
+                .map(note => `
+                  <p>
+                    ${note.text || "Photo attached"}
+                  </p>
+                `)
+                .join("")
+            : `<p class="small">No notes.</p>`
+        }
+
+        <div class="preview-row">
+
+          ${
+            item.photos
+              ? item.photos
+                  .map(photo =>
+                    `<img src="${photo}">`
+                  )
+                  .join("")
+              : ""
+          }
+
+        </div>
+
+        <div class="small">
+          ${item.timestamp}
+        </div>
+
+      </div>
+
+    `)
+    .join("");
+
+}
+
+
+makeNotes();
 
 refresh();
 
