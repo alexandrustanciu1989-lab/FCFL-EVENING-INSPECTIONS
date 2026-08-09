@@ -3,339 +3,398 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Daily Truck Check</title>
+<title>FCFL Daily Truck Check</title>
 
 <style>
-* {
-  box-sizing: border-box;
+*{box-sizing:border-box}
+
+:root{
+  --blue:#1467d8;
+  --lightblue:#eef4ff;
+  --green:#22c55e;
+  --yellow:#eab308;
+  --red:#ef4444;
+  --gray:#9ca3af;
+  --bg:#f3f4f6;
 }
 
-body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background: #f3f4f6;
-  color: #111827;
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--bg);
+  color:#111827;
 }
 
-.topbar {
-  background: white;
-  border-bottom: 1px solid #dfe3e8;
-  padding: 18px 16px 10px;
+button,input,select,textarea{
+  font:inherit;
 }
 
-.top-inner {
-  max-width: 760px;
-  margin: auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.topbar{
+  background:#fff;
+  border-bottom:1px solid #dfe3e8;
+  padding:16px;
 }
 
-.logo {
-  font-size: 22px;
-  font-weight: 800;
+.top-inner{
+  max-width:850px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
 
-.gear {
-  width: 50px;
-  height: 46px;
-  border: 0;
-  border-radius: 10px;
-  background: #eef4ff;
-  font-size: 22px;
-  cursor: pointer;
+.logo{
+  font-size:21px;
+  font-weight:800;
+  cursor:pointer;
 }
 
-.container {
-  max-width: 760px;
-  margin: auto;
-  padding: 14px;
-  padding-bottom: 100px;
+.gear{
+  width:48px;
+  height:44px;
+  border:0;
+  border-radius:10px;
+  background:var(--lightblue);
+  font-size:21px;
+  cursor:pointer;
 }
 
-.tabs {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  margin-bottom: 14px;
+.container{
+  max-width:850px;
+  margin:auto;
+  padding:14px 14px 100px;
 }
 
-.tab {
-  border: 0;
-  border-radius: 10px;
-  padding: 14px 8px;
-  font-size: 16px;
-  font-weight: 700;
-  background: #e5e7eb;
-  color: #0b7de3;
-  cursor: pointer;
+.tabs{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:7px;
+  margin-bottom:14px;
 }
 
-.tab.active {
-  background: #1467d8;
-  color: white;
+.tab{
+  border:0;
+  border-radius:10px;
+  padding:13px 5px;
+  font-weight:700;
+  background:#e5e7eb;
+  color:#1760b5;
+  cursor:pointer;
 }
 
-.card {
-  background: white;
-  border-radius: 16px;
-  padding: 16px;
-  margin-bottom: 14px;
-  box-shadow: 0 5px 16px rgba(0,0,0,.06);
+.tab.active{
+  color:#fff;
+  background:var(--blue);
 }
 
-.page {
-  display: none;
+.page{display:none}
+.page.active{display:block}
+
+.card{
+  background:#fff;
+  border-radius:15px;
+  padding:16px;
+  margin-bottom:13px;
+  box-shadow:0 3px 14px rgba(0,0,0,.06);
 }
 
-.page.active {
-  display: block;
+h2,h3{
+  margin-top:3px;
 }
 
-label {
-  display: block;
-  font-weight: 700;
-  margin: 13px 0 6px;
+label{
+  display:block;
+  font-weight:700;
+  margin:13px 0 6px;
 }
 
+input[type=text],
 select,
-input[type="text"] {
-  width: 100%;
-  height: 50px;
-  border: 1px solid #cfd5dc;
-  border-radius: 11px;
-  padding: 0 14px;
-  font-size: 16px;
-  background: white;
+textarea{
+  width:100%;
+  border:1px solid #cfd5dc;
+  border-radius:10px;
+  padding:12px;
+  background:#fff;
 }
 
-.photo-main {
-  width: 100%;
-  min-height: 64px;
-  border: 2px dashed #9dbce6;
-  border-radius: 14px;
-  background: #f8fbff;
-  color: #1467d8;
-  font-weight: 700;
-  font-size: 16px;
-  cursor: pointer;
+textarea{
+  min-height:80px;
+  resize:vertical;
 }
 
-.note-row {
-  display: grid;
-  grid-template-columns: 1fr 52px;
-  gap: 8px;
-  margin-bottom: 8px;
+.primary{
+  width:100%;
+  border:0;
+  border-radius:10px;
+  background:var(--blue);
+  color:#fff;
+  padding:14px;
+  margin-top:13px;
+  font-weight:800;
+  cursor:pointer;
 }
 
-.note-row input {
-  width: 100%;
-  height: 46px;
-  border: 1px solid #cfd5dc;
-  border-radius: 10px;
-  padding: 0 12px;
-  font-size: 15px;
+.secondary{
+  width:100%;
+  border:0;
+  border-radius:10px;
+  background:#e8f0ff;
+  color:#1553a7;
+  padding:13px;
+  margin-top:9px;
+  font-weight:800;
+  cursor:pointer;
 }
 
-.add-photo {
-  border: 0;
-  border-radius: 10px;
-  background: #eef4ff;
-  color: #1467d8;
-  font-size: 23px;
-  font-weight: bold;
-  cursor: pointer;
+.danger{
+  background:#b91c1c;
+  color:white;
 }
 
-.preview-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 8px;
+.primary:disabled{
+  opacity:.45;
+  cursor:not-allowed;
 }
 
-.preview-row img {
-  width: 82px;
-  height: 82px;
-  object-fit: cover;
-  border-radius: 10px;
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
 }
 
-.status-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
+.stat{
+  font-size:28px;
+  font-weight:800;
+  margin-top:5px;
 }
 
-.status-btn {
-  height: 46px;
-  border-radius: 10px;
-  background: white;
-  border: 1px solid #d2d6dc;
-  font-weight: 700;
-  cursor: pointer;
+.small{
+  color:#6b7280;
+  font-size:13px;
 }
 
-.status-btn.selected-ready {
-  background: #e8f8ed;
-  border-color: #3fb85a;
-  color: #187533;
+.dot{
+  width:16px;
+  height:16px;
+  border-radius:50%;
+  display:inline-block;
+  flex:0 0 auto;
 }
 
-.status-btn.selected-repair {
-  background: #fff8dc;
-  border-color: #e0b63d;
-  color: #835f00;
+.green{background:var(--green)}
+.yellow{background:var(--yellow)}
+.red{background:var(--red)}
+.gray{background:var(--gray)}
+
+.truck-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:12px 3px;
+  border-bottom:1px solid #edf0f3;
 }
 
-.status-btn.selected-oos {
-  background: #fde8e8;
-  border-color: #e88f8f;
-  color: #a92020;
+.truck-left{
+  display:flex;
+  align-items:center;
+  gap:9px;
 }
 
-.submit {
-  width: 100%;
-  height: 52px;
-  margin-top: 14px;
-  border: 0;
-  border-radius: 11px;
-  background: #1467d8;
-  color: white;
-  font-size: 17px;
-  font-weight: 800;
-  cursor: pointer;
+.status-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
 }
 
-.truck-line {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 13px 4px;
-  border-bottom: 1px solid #edf0f3;
+.status-btn{
+  border:1px solid #d1d5db;
+  background:#fff;
+  border-radius:10px;
+  padding:13px 5px;
+  font-weight:800;
+  cursor:pointer;
 }
 
-.left-truck {
-  display: flex;
-  align-items: center;
-  gap: 9px;
+.status-btn.ready.active{
+  background:#e9f9ee;
+  color:#187533;
+  border-color:#4abe68;
 }
 
-.dot {
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  flex: 0 0 auto;
+.status-btn.repair.active{
+  background:#fff8dc;
+  color:#835f00;
+  border-color:#d9af26;
 }
 
-.dot.green {
-  background: #22c55e;
+.status-btn.oos.active{
+  background:#fdeaea;
+  color:#a92020;
+  border-color:#e98d8d;
 }
 
-.dot.yellow {
-  background: #eab308;
+.note-row{
+  display:grid;
+  grid-template-columns:1fr 50px;
+  gap:8px;
+  margin-bottom:7px;
 }
 
-.dot.red {
-  background: #ef4444;
+.note-row input{
+  width:100%;
+  border:1px solid #cfd5dc;
+  border-radius:10px;
+  padding:11px;
 }
 
-.dot.gray {
-  background: #aeb4bc;
+.plus{
+  border:0;
+  border-radius:10px;
+  background:var(--lightblue);
+  color:var(--blue);
+  font-size:23px;
+  font-weight:800;
+  cursor:pointer;
 }
 
-.issue-card {
-  background: white;
-  border-radius: 14px;
-  padding: 15px;
-  margin-bottom: 11px;
-  box-shadow: 0 3px 12px rgba(0,0,0,.06);
+.photo-main{
+  width:100%;
+  border:2px dashed #9dbce6;
+  border-radius:13px;
+  padding:19px 10px;
+  background:#f8fbff;
+  color:var(--blue);
+  font-weight:800;
+  cursor:pointer;
 }
 
-.issue-red {
-  border-left: 7px solid #ef4444;
+.hidden{display:none}
+
+.previews{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-top:8px;
 }
 
-.issue-yellow {
-  border-left: 7px solid #eab308;
+.preview{
+  width:82px;
+  height:82px;
+  object-fit:cover;
+  border-radius:9px;
 }
 
-.issue-green {
-  border-left: 7px solid #22c55e;
+.issue{
+  border-left:7px solid var(--gray);
 }
 
-.small {
-  font-size: 13px;
-  color: #6b7280;
+.issue.red-border{border-left-color:var(--red)}
+.issue.yellow-border{border-left-color:var(--yellow)}
+.issue.green-border{border-left-color:var(--green)}
+
+.resolve{
+  border:0;
+  border-radius:9px;
+  background:#16833b;
+  color:#fff;
+  padding:10px 13px;
+  font-weight:800;
+  cursor:pointer;
 }
 
-.resolve-btn {
-  border: 0;
-  border-radius: 9px;
-  background: #1467d8;
-  color: white;
-  padding: 10px 13px;
-  font-weight: 700;
-  cursor: pointer;
+.success{
+  border:1px solid #8ed49d;
+  background:#edf9f0;
 }
 
-.settings-section {
-  margin-bottom: 20px;
+.countdown{
+  font-size:16px;
+  font-weight:800;
+  color:#155e2e;
+  margin-top:8px;
 }
 
-.bottom-nav {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: white;
-  border-top: 1px solid #dfe3e8;
-  padding: 9px 14px 12px;
+.audit-item{
+  border-bottom:1px solid #eceff2;
+  padding:11px 0;
 }
 
-.bottom-inner {
-  max-width: 760px;
-  margin: auto;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
+.warning{
+  background:#fff7df;
+  border:1px solid #f0d487;
+  border-radius:10px;
+  padding:12px;
+  margin-bottom:12px;
 }
 
-.bottom-btn {
-  height: 50px;
-  border: 0;
-  border-radius: 11px;
-  font-weight: 800;
-  font-size: 16px;
-  cursor: pointer;
+.badge{
+  display:inline-block;
+  border-radius:20px;
+  padding:5px 9px;
+  font-size:12px;
+  font-weight:800;
 }
 
-.bottom-primary {
-  background: #1467d8;
-  color: white;
+.badge.green-badge{
+  background:#dcfce7;
+  color:#166534;
 }
 
-.bottom-secondary {
-  background: #e8f0ff;
-  color: #1553a7;
+.badge.yellow-badge{
+  background:#fef9c3;
+  color:#854d0e;
 }
 
-.hidden {
-  display: none;
+.badge.red-badge{
+  background:#fee2e2;
+  color:#991b1b;
 }
 
-.history-item {
-  border-bottom: 1px solid #eceff2;
-  padding: 13px 0;
+.bottom-nav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:#fff;
+  border-top:1px solid #ddd;
+  padding:8px 14px 11px;
 }
 
-.warning {
-  background: #fff6df;
-  border: 1px solid #f2d48e;
-  border-radius: 10px;
-  padding: 12px;
-  font-size: 14px;
+.bottom-inner{
+  max-width:850px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+
+.bottom-btn{
+  border:0;
+  border-radius:10px;
+  height:48px;
+  font-weight:800;
+}
+
+.bottom-new{
+  background:var(--blue);
+  color:#fff;
+}
+
+.bottom-issues{
+  background:#e8f0ff;
+  color:#1553a7;
+}
+
+@media(max-width:600px){
+  .tabs{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .grid{
+    grid-template-columns:1fr;
+  }
 }
 </style>
 </head>
@@ -344,152 +403,295 @@ input[type="text"] {
 
 <div class="topbar">
   <div class="top-inner">
-    <div class="logo">🚛 Daily Truck Check</div>
+    <div class="logo" onclick="openDashboard()">🚛 FCFL Daily Truck Check</div>
     <button class="gear" onclick="showPage('settings')">⚙️</button>
   </div>
 </div>
 
 <div class="container">
 
-  <div class="tabs">
-    <button id="tab-new" class="tab active" onclick="showPage('new')">New Check</button>
-    <button id="tab-issues" class="tab" onclick="showPage('issues')">Open Issues</button>
-    <button id="tab-history" class="tab" onclick="showPage('history')">History</button>
+<div class="tabs">
+  <button id="tab-dashboard" class="tab active" onclick="openDashboard()">Dashboard</button>
+  <button id="tab-new" class="tab" onclick="newInspection()">New Check</button>
+  <button id="tab-issues" class="tab" onclick="showPage('issues')">Open Issues</button>
+  <button id="tab-history" class="tab" onclick="showPage('history')">History</button>
+</div>
+
+<!-- DASHBOARD -->
+
+<section id="dashboard" class="page active">
+
+  <div class="grid">
+
+    <div class="card">
+      <div>Trucks</div>
+      <div id="truckCount" class="stat">0</div>
+    </div>
+
+    <div class="card">
+      <div>Checked Today</div>
+      <div id="todayCount" class="stat">0</div>
+    </div>
+
+    <div class="card">
+      <div>Open Issues</div>
+      <div id="openCount" class="stat">0</div>
+    </div>
+
   </div>
 
-  <section id="new" class="page active">
-    <div class="card">
+  <div id="lastEntryCard"></div>
 
-      <label>Truck</label>
-      <select id="truckSelect"></select>
+  <div class="card">
+    <h3>Truck Status</h3>
+    <div id="dashboardTrucks"></div>
+  </div>
 
-      <label>Photos</label>
-      <button class="photo-main" type="button" onclick="document.getElementById('mainPhoto').click()">
-        📸 Take / Add Pictures
+</section>
+
+<!-- NEW INSPECTION -->
+
+<section id="new" class="page">
+
+  <div id="saveNotice"></div>
+
+  <div class="card">
+
+    <h2 id="inspectionTitle">New Truck Inspection</h2>
+
+    <label>Truck</label>
+    <select id="truckSelect"></select>
+
+    <label>Photos</label>
+
+    <button class="photo-main" type="button"
+      onclick="document.getElementById('mainPhotos').click()">
+      📸 Take Picture / Upload
+    </button>
+
+    <input
+      id="mainPhotos"
+      class="hidden"
+      type="file"
+      accept="image/*"
+      capture="environment"
+      multiple
+      onchange="loadMainPhotos(this)"
+    >
+
+    <div id="mainPreview" class="previews"></div>
+
+    <label>Problems / Notes</label>
+    <div id="noteRows"></div>
+
+    <label>Status</label>
+
+    <div class="status-grid">
+
+      <button id="readyBtn"
+        class="status-btn ready active"
+        onclick="setStatus('READY')">
+        ✅ Ready
       </button>
 
-      <input
-        id="mainPhoto"
-        class="hidden"
-        type="file"
-        accept="image/*"
-        capture="environment"
-        multiple
-        onchange="handleMainPhotos(this)"
-      >
+      <button id="repairBtn"
+        class="status-btn repair"
+        onclick="setStatus('REPAIR')">
+        ⚠️ Repair
+      </button>
 
-      <div id="mainPhotoPreview" class="preview-row"></div>
-
-      <label>Problems / Notes</label>
-
-      <div id="notesArea"></div>
-
-      <label>Status</label>
-
-      <div class="status-grid">
-        <button id="readyBtn" class="status-btn selected-ready" onclick="setStatus('READY')">
-          ✅ Ready
-        </button>
-
-        <button id="repairBtn" class="status-btn" onclick="setStatus('REPAIR')">
-          ⚠️ Repair
-        </button>
-
-        <button id="oosBtn" class="status-btn" onclick="setStatus('OOS')">
-          🛑 OOS
-        </button>
-      </div>
-
-      <label>Driver / Inspector</label>
-      <input id="driverName" type="text" placeholder="Name">
-
-      <button class="submit" onclick="submitTruck()">
-        SUBMIT TRUCK
+      <button id="oosBtn"
+        class="status-btn oos"
+        onclick="setStatus('OOS')">
+        🛑 OOS
       </button>
 
     </div>
-  </section>
 
-  <section id="issues" class="page">
-    <div id="issuesList"></div>
-  </section>
+    <label>Driver / Inspector</label>
+    <select id="inspectorSelect"></select>
 
-  <section id="history" class="page">
-    <div class="card">
-      <div id="historyList"></div>
+    <button id="saveButton"
+      class="primary"
+      onclick="saveInspection()">
+      SAVE ENTRY
+    </button>
+
+    <div id="saveCountdown"></div>
+
+    <button class="secondary"
+      onclick="openDashboard()">
+      Cancel / Dashboard
+    </button>
+
+  </div>
+
+</section>
+
+<!-- OPEN ISSUES -->
+
+<section id="issues" class="page">
+
+  <div class="card">
+    <h2>Open Truck Issues</h2>
+    <p class="small">
+      Out of Service trucks appear first, then Repair trucks.
+    </p>
+  </div>
+
+  <div id="issueList"></div>
+
+</section>
+
+<!-- HISTORY -->
+
+<section id="history" class="page">
+
+  <div class="card">
+    <h2>Inspection History</h2>
+    <div id="historyList"></div>
+  </div>
+
+  <div class="card">
+    <h2>Activity Trail</h2>
+    <p class="small">
+      Shows who performed important actions in the app.
+    </p>
+    <div id="auditList"></div>
+  </div>
+
+</section>
+
+<!-- SETTINGS -->
+
+<section id="settings" class="page">
+
+  <div class="card">
+
+    <h2>Settings</h2>
+
+    <div class="warning">
+      Alex is the default administrator.
+      This GitHub Pages version is still a test version and does not yet have secure login authentication.
     </div>
-  </section>
 
-  <section id="settings" class="page">
-
-    <div class="card">
-
-      <h2>Settings</h2>
-
-      <div class="warning">
-        This is still the test version. The admin and guest controls are not secure logins yet.
+    <div class="truck-row">
+      <div>
+        <strong>Administrator</strong>
+        <div class="small">Full access</div>
       </div>
-
-      <div class="settings-section">
-        <h3>Administrator</h3>
-        <input id="adminName" type="text" placeholder="Admin name">
-        <button class="submit" onclick="saveAdmin()">Save Admin</button>
-      </div>
-
-      <div class="settings-section">
-        <h3>Add Truck</h3>
-        <input id="newTruckName" type="text" placeholder="Example: FCFL116">
-        <button class="submit" onclick="addTruck()">Add Truck</button>
-      </div>
-
-      <div class="settings-section">
-        <h3>Current Trucks</h3>
-        <div id="truckSettingsList"></div>
-      </div>
-
-      <div class="settings-section">
-        <h3>Guest Users</h3>
-
-        <input id="guestName" type="text" placeholder="Employee name">
-
-        <button class="submit" onclick="addGuest()">
-          Add Guest User
-        </button>
-
-        <div id="guestList"></div>
-      </div>
-
+      <strong>Alex</strong>
     </div>
 
-  </section>
+    <button class="primary" onclick="showPage('addTruck')">
+      + Add New Truck
+    </button>
+
+    <button class="secondary" onclick="showPage('addGuest')">
+      + Add Guest User
+    </button>
+
+    <h3 style="margin-top:22px">Guest Users</h3>
+
+    <div id="guestCounter" class="small"></div>
+    <div id="guestList"></div>
+
+  </div>
+
+</section>
+
+<!-- ADD TRUCK PAGE -->
+
+<section id="addTruck" class="page">
+
+  <div class="card">
+
+    <h2>Add New Truck</h2>
+
+    <label>Truck Number / Name</label>
+    <input id="newTruckName"
+      type="text"
+      placeholder="Example: 116 or R10">
+
+    <button class="primary" onclick="addTruck()">
+      Save Truck
+    </button>
+
+    <button class="secondary" onclick="showPage('settings')">
+      Cancel
+    </button>
+
+  </div>
+
+</section>
+
+<!-- ADD GUEST PAGE -->
+
+<section id="addGuest" class="page">
+
+  <div class="card">
+
+    <h2>Add Guest User</h2>
+
+    <p id="guestPageCounter" class="small"></p>
+
+    <label>Guest Name</label>
+
+    <input id="newGuestName"
+      type="text"
+      placeholder="Employee name">
+
+    <button id="addGuestButton"
+      class="primary"
+      onclick="addGuest()">
+      Save Guest
+    </button>
+
+    <button class="secondary" onclick="showPage('settings')">
+      Cancel
+    </button>
+
+  </div>
+
+</section>
 
 </div>
 
 <div class="bottom-nav">
+
   <div class="bottom-inner">
-    <button class="bottom-btn bottom-primary" onclick="showPage('new')">
+
+    <button class="bottom-btn bottom-new"
+      onclick="newInspection()">
       ➕ New Check
     </button>
 
-    <button class="bottom-btn bottom-secondary" onclick="showPage('issues')">
+    <button class="bottom-btn bottom-issues"
+      onclick="showPage('issues')">
       🔧 Open Issues
     </button>
+
   </div>
+
 </div>
 
 <script>
 
+const ADMIN = "Alex";
+const MAX_GUESTS = 10;
+const SAVE_LOCK_SECONDS = 15;
+
 const defaultTrucks = [
-  "FCFL103",
-  "FCFL105",
-  "FCFL107",
-  "FCFL108",
-  "FCFL109",
-  "FCFL111",
-  "FCFL112",
-  "FCFL113",
-  "FCFL114",
-  "FCFL115",
+  "FCFL 103",
+  "FCFL 105",
+  "FCFL 107",
+  "FCFL 108",
+  "FCFL 109",
+  "FCFL 111",
+  "FCFL 112",
+  "FCFL 113",
+  "FCFL 114",
+  "FCFL 115",
   "FCFL R2",
   "FCFL R4",
   "FCFL R7",
@@ -497,105 +699,218 @@ const defaultTrucks = [
 ];
 
 let trucks =
-  JSON.parse(localStorage.getItem("fcfl_trucks_v3")) ||
-  defaultTrucks;
+  JSON.parse(localStorage.getItem("fcfl_v4_trucks"))
+  || defaultTrucks;
 
 let inspections =
-  JSON.parse(localStorage.getItem("fcfl_inspections_v3")) ||
-  [];
+  JSON.parse(localStorage.getItem("fcfl_v4_inspections"))
+  || [];
 
 let issues =
-  JSON.parse(localStorage.getItem("fcfl_issues_v3")) ||
-  [];
+  JSON.parse(localStorage.getItem("fcfl_v4_issues"))
+  || [];
 
 let guests =
-  JSON.parse(localStorage.getItem("fcfl_guests_v3")) ||
-  [];
+  JSON.parse(localStorage.getItem("fcfl_v4_guests"))
+  || [];
 
-let admin =
-  localStorage.getItem("fcfl_admin_v3") || "";
+let audit =
+  JSON.parse(localStorage.getItem("fcfl_v4_audit"))
+  || [];
+
+let truckStatuses =
+  JSON.parse(localStorage.getItem("fcfl_v4_statuses"))
+  || {};
 
 let currentStatus = "READY";
-
-let notePhotos = [[], [], [], [], []];
-
 let mainPhotos = [];
+let notePhotos = [[],[],[],[],[]];
+
+let editingInspectionId = null;
+
+let lastSaveTime =
+  Number(localStorage.getItem("fcfl_v4_lastSaveTime"))
+  || 0;
+
+let countdownTimer = null;
 
 
-function saveData() {
+/* ---------------- DATA ---------------- */
+
+function saveData(){
 
   localStorage.setItem(
-    "fcfl_trucks_v3",
+    "fcfl_v4_trucks",
     JSON.stringify(trucks)
   );
 
   localStorage.setItem(
-    "fcfl_inspections_v3",
+    "fcfl_v4_inspections",
     JSON.stringify(inspections)
   );
 
   localStorage.setItem(
-    "fcfl_issues_v3",
+    "fcfl_v4_issues",
     JSON.stringify(issues)
   );
 
   localStorage.setItem(
-    "fcfl_guests_v3",
+    "fcfl_v4_guests",
     JSON.stringify(guests)
+  );
+
+  localStorage.setItem(
+    "fcfl_v4_audit",
+    JSON.stringify(audit)
+  );
+
+  localStorage.setItem(
+    "fcfl_v4_statuses",
+    JSON.stringify(truckStatuses)
   );
 
 }
 
 
-function showPage(pageName) {
+/* ---------------- NAVIGATION ---------------- */
+
+function showPage(name){
 
   document.querySelectorAll(".page")
-    .forEach(page => page.classList.remove("active"));
+    .forEach(p => p.classList.remove("active"));
 
-  document.getElementById(pageName)
+  document.getElementById(name)
     .classList.add("active");
 
   document.querySelectorAll(".tab")
-    .forEach(tab => tab.classList.remove("active"));
+    .forEach(t => t.classList.remove("active"));
 
-  if (pageName === "new") {
+  if(name==="dashboard")
+    document.getElementById("tab-dashboard").classList.add("active");
+
+  if(name==="new")
     document.getElementById("tab-new").classList.add("active");
-  }
 
-  if (pageName === "issues") {
+  if(name==="issues")
     document.getElementById("tab-issues").classList.add("active");
-  }
 
-  if (pageName === "history") {
+  if(name==="history")
     document.getElementById("tab-history").classList.add("active");
-  }
 
   refresh();
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
 
 }
 
 
-function makeNotes() {
+function openDashboard(){
+  showPage("dashboard");
+}
 
-  const area = document.getElementById("notesArea");
 
-  area.innerHTML = "";
+/* ---------------- NEW INSPECTION ---------------- */
 
-  for (let i = 0; i < 5; i++) {
+function newInspection(){
 
-    const holder = document.createElement("div");
+  editingInspectionId = null;
 
-    holder.innerHTML = `
+  document.getElementById("inspectionTitle")
+    .textContent = "New Truck Inspection";
+
+  resetInspectionForm();
+
+  showPage("new");
+
+}
+
+
+function resetInspectionForm(){
+
+  currentStatus = "READY";
+
+  mainPhotos = [];
+  notePhotos = [[],[],[],[],[]];
+
+  makeNoteRows();
+
+  document.getElementById("mainPreview")
+    .innerHTML = "";
+
+  setStatus("READY");
+
+  refreshInspectorList();
+
+  refreshSaveLock();
+
+}
+
+
+/* ---------------- STATUS ---------------- */
+
+function setStatus(status){
+
+  currentStatus = status;
+
+  ["readyBtn","repairBtn","oosBtn"]
+    .forEach(id =>
+      document.getElementById(id)
+      .classList.remove("active")
+    );
+
+  if(status==="READY")
+    document.getElementById("readyBtn")
+      .classList.add("active");
+
+  if(status==="REPAIR")
+    document.getElementById("repairBtn")
+      .classList.add("active");
+
+  if(status==="OOS")
+    document.getElementById("oosBtn")
+      .classList.add("active");
+
+}
+
+
+function statusColor(status){
+
+  if(status==="READY") return "green";
+  if(status==="REPAIR") return "yellow";
+  if(status==="OOS") return "red";
+
+  return "gray";
+
+}
+
+
+/* ---------------- PHOTOS ---------------- */
+
+function makeNoteRows(){
+
+  const box =
+    document.getElementById("noteRows");
+
+  box.innerHTML = "";
+
+  for(let i=0;i<5;i++){
+
+    const div =
+      document.createElement("div");
+
+    div.innerHTML = `
+
       <div class="note-row">
 
         <input
           id="note${i}"
-          type="text"
-          placeholder="Problem / note ${i + 1}"
+          placeholder="Problem / note ${i+1}"
         >
 
-        <button
-          class="add-photo"
+        <button class="plus"
           type="button"
           onclick="document.getElementById('notePhoto${i}').click()">
           +
@@ -604,37 +919,39 @@ function makeNotes() {
       </div>
 
       <input
-        id="notePhoto${i}"
         class="hidden"
+        id="notePhoto${i}"
         type="file"
         accept="image/*"
         capture="environment"
         multiple
-        onchange="handleNotePhotos(${i}, this)"
+        onchange="loadNotePhotos(${i},this)"
       >
 
-      <div
-        id="notePreview${i}"
-        class="preview-row">
+      <div id="notePreview${i}"
+        class="previews">
       </div>
+
     `;
 
-    area.appendChild(holder);
+    box.appendChild(div);
 
   }
 
 }
 
 
-function fileToDataUrl(file) {
+function fileData(file){
 
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve,reject)=>{
 
     const reader = new FileReader();
 
-    reader.onload = () => resolve(reader.result);
+    reader.onload =
+      () => resolve(reader.result);
 
-    reader.onerror = reject;
+    reader.onerror =
+      () => reject(reader.error);
 
     reader.readAsDataURL(file);
 
@@ -643,13 +960,14 @@ function fileToDataUrl(file) {
 }
 
 
-async function handleMainPhotos(input) {
+async function loadMainPhotos(input){
 
-  for (const file of input.files) {
+  for(const file of input.files){
 
-    const data = await fileToDataUrl(file);
+    const photo =
+      await fileData(file);
 
-    mainPhotos.push(data);
+    mainPhotos.push(photo);
 
   }
 
@@ -658,312 +976,653 @@ async function handleMainPhotos(input) {
 }
 
 
-function renderMainPhotos() {
+function renderMainPhotos(){
 
-  document.getElementById("mainPhotoPreview").innerHTML =
-    mainPhotos
-      .map(photo => `<img src="${photo}">`)
-      .join("");
+  document.getElementById("mainPreview")
+    .innerHTML =
+      mainPhotos.map(p =>
+        `<img class="preview" src="${p}">`
+      ).join("");
 
 }
 
 
-async function handleNotePhotos(index, input) {
+async function loadNotePhotos(index,input){
 
-  for (const file of input.files) {
+  for(const file of input.files){
 
-    const data = await fileToDataUrl(file);
+    const photo =
+      await fileData(file);
 
-    notePhotos[index].push(data);
+    notePhotos[index].push(photo);
 
   }
 
-  renderNotePhotos(index);
-
-}
-
-
-function renderNotePhotos(index) {
-
-  document.getElementById("notePreview" + index).innerHTML =
+  document.getElementById(
+    "notePreview"+index
+  ).innerHTML =
     notePhotos[index]
-      .map(photo => `<img src="${photo}">`)
-      .join("");
+      .map(p =>
+        `<img class="preview" src="${p}">`
+      ).join("");
 
 }
 
 
-function setStatus(status) {
+/* ---------------- AUDIT ---------------- */
 
-  currentStatus = status;
+function addAudit(person,action,truck=""){
 
-  document.getElementById("readyBtn").className = "status-btn";
-  document.getElementById("repairBtn").className = "status-btn";
-  document.getElementById("oosBtn").className = "status-btn";
+  audit.unshift({
 
-  if (status === "READY") {
-    document.getElementById("readyBtn")
-      .classList.add("selected-ready");
+    id:Date.now(),
+
+    person,
+
+    action,
+
+    truck,
+
+    timestamp:
+      new Date().toLocaleString()
+
+  });
+
+}
+
+
+/* ---------------- SAVE LOCK ---------------- */
+
+function secondsRemaining(){
+
+  const elapsed =
+    Math.floor(
+      (Date.now()-lastSaveTime)/1000
+    );
+
+  return Math.max(
+    0,
+    SAVE_LOCK_SECONDS-elapsed
+  );
+
+}
+
+
+function refreshSaveLock(){
+
+  clearInterval(countdownTimer);
+
+  const button =
+    document.getElementById("saveButton");
+
+  const box =
+    document.getElementById("saveCountdown");
+
+  function update(){
+
+    const remaining =
+      secondsRemaining();
+
+    if(
+      remaining>0 &&
+      !editingInspectionId
+    ){
+
+      button.disabled = true;
+
+      box.innerHTML =
+        `<div class="countdown">
+        ✅ Entry saved.
+        New save available in ${remaining} seconds.
+        </div>`;
+
+    }else{
+
+      button.disabled = false;
+
+      box.innerHTML = "";
+
+      clearInterval(countdownTimer);
+
+    }
+
   }
 
-  if (status === "REPAIR") {
-    document.getElementById("repairBtn")
-      .classList.add("selected-repair");
+  update();
+
+  countdownTimer =
+    setInterval(update,1000);
+
+}
+
+
+/* ---------------- SAVE INSPECTION ---------------- */
+
+function saveInspection(){
+
+  if(
+    !editingInspectionId &&
+    secondsRemaining()>0
+  ){
+
+    refreshSaveLock();
+
+    return;
+
   }
-
-  if (status === "OOS") {
-    document.getElementById("oosBtn")
-      .classList.add("selected-oos");
-  }
-
-}
-
-
-function statusColor(status) {
-
-  if (status === "READY") return "green";
-
-  if (status === "REPAIR") return "yellow";
-
-  if (status === "OOS") return "red";
-
-  return "gray";
-
-}
-
-
-function latestStatusForTruck(truck) {
-
-  const record =
-    inspections.find(item => item.truck === truck);
-
-  if (!record) return "gray";
-
-  return statusColor(record.status);
-
-}
-
-
-function submitTruck() {
 
   const truck =
-    document.getElementById("truckSelect").value;
+    document.getElementById(
+      "truckSelect"
+    ).value;
 
-  const driver =
-    document.getElementById("driverName").value.trim();
+  const inspector =
+    document.getElementById(
+      "inspectorSelect"
+    ).value;
+
+  if(!truck){
+    alert("Choose a truck.");
+    return;
+  }
+
+  if(!inspector){
+    alert("Choose an inspector.");
+    return;
+  }
 
   const notes = [];
 
-  for (let i = 0; i < 5; i++) {
+  for(let i=0;i<5;i++){
 
     const text =
-      document.getElementById("note" + i).value.trim();
+      document.getElementById(
+        "note"+i
+      ).value.trim();
 
-    if (text || notePhotos[i].length) {
+    if(
+      text ||
+      notePhotos[i].length
+    ){
 
       notes.push({
-        text: text,
-        photos: notePhotos[i]
+        text,
+        photos:notePhotos[i]
       });
 
     }
 
   }
 
+
+  /* EDIT EXISTING ENTRY */
+
+  if(editingInspectionId){
+
+    const record =
+      inspections.find(
+        i=>i.id===editingInspectionId
+      );
+
+    if(!record) return;
+
+    record.truck = truck;
+    record.inspector = inspector;
+    record.status = currentStatus;
+    record.notes = notes;
+    record.photos = mainPhotos;
+    record.editedAt =
+      new Date().toLocaleString();
+
+    truckStatuses[truck] =
+      currentStatus;
+
+    addAudit(
+      inspector,
+      "edited inspection",
+      truck
+    );
+
+    editingInspectionId = null;
+
+    saveData();
+
+    alert("Entry updated.");
+
+    openDashboard();
+
+    return;
+
+  }
+
+
+  /* NEW ENTRY */
+
   const record = {
 
-    id: Date.now(),
+    id:Date.now(),
 
-    truck: truck,
+    truck,
 
-    driver: driver || "Not entered",
+    inspector,
 
-    status: currentStatus,
+    status:currentStatus,
 
-    notes: notes,
+    notes,
 
-    photos: mainPhotos,
+    photos:mainPhotos,
 
-    timestamp: new Date().toLocaleString()
+    timestamp:
+      new Date().toLocaleString(),
+
+    dateKey:
+      new Date().toLocaleDateString()
 
   };
 
   inspections.unshift(record);
 
+  truckStatuses[truck] =
+    currentStatus;
 
-  if (
-    currentStatus === "REPAIR" ||
-    currentStatus === "OOS"
-  ) {
+
+  if(
+    currentStatus==="REPAIR" ||
+    currentStatus==="OOS"
+  ){
+
+    const description =
+      notes
+      .map(n=>n.text)
+      .filter(Boolean)
+      .join(" • ")
+      ||
+      (
+        currentStatus==="OOS"
+        ? "Truck marked Out of Service"
+        : "Truck needs repair"
+      );
 
     issues.unshift({
 
-      id: Date.now() + 1,
+      id:Date.now()+1,
 
-      truck: truck,
+      truck,
 
-      status:
-        currentStatus === "OOS"
-          ? "red"
-          : "yellow",
+      description,
 
-      description:
-        notes.length
-          ? notes
-              .map(note => note.text)
-              .filter(Boolean)
-              .join(" • ")
-          : currentStatus === "OOS"
-            ? "Truck marked Out of Service"
-            : "Truck requires repair",
+      level:
+        currentStatus==="OOS"
+        ? "red"
+        : "yellow",
 
-      reportedBy: driver || "Not entered",
+      reportedBy:inspector,
 
-      resolved: false,
+      reportedAt:
+        new Date().toLocaleString(),
 
-      timestamp: new Date().toLocaleString()
+      resolved:false,
+
+      resolvedBy:null,
+
+      resolvedAt:null
 
     });
 
   }
 
+  addAudit(
+    inspector,
+    "saved inspection",
+    truck
+  );
+
+  lastSaveTime = Date.now();
+
+  localStorage.setItem(
+    "fcfl_v4_lastSaveTime",
+    lastSaveTime
+  );
+
   saveData();
 
-  resetForm();
+  showSaveConfirmation(record);
+
+  resetInspectionForm();
 
   refresh();
 
-  alert("Truck check saved.");
+}
+
+
+/* ---------------- CONFIRMATION ---------------- */
+
+function showSaveConfirmation(record){
+
+  document.getElementById(
+    "lastEntryCard"
+  ).innerHTML = `
+
+    <div class="card success">
+
+      <h3>✅ Entry Saved</h3>
+
+      <strong>${record.truck}</strong>
+
+      <p>
+        ${record.status}
+        <br>
+        Inspector: ${record.inspector}
+        <br>
+        ${record.timestamp}
+      </p>
+
+      <button class="secondary"
+        onclick="editInspection(${record.id})">
+        Edit Last Entry
+      </button>
+
+    </div>
+
+  `;
+
+  openDashboard();
 
 }
 
 
-function resetForm() {
+/* ---------------- EDIT LAST ENTRY ---------------- */
 
-  document.getElementById("driverName").value = "";
+function editInspection(id){
 
-  mainPhotos = [];
+  const record =
+    inspections.find(
+      i=>i.id===id
+    );
 
-  notePhotos = [[], [], [], [], []];
+  if(!record) return;
 
-  currentStatus = "READY";
+  editingInspectionId = id;
 
-  makeNotes();
+  showPage("new");
+
+  document.getElementById(
+    "inspectionTitle"
+  ).textContent =
+    "Edit Inspection";
+
+  document.getElementById(
+    "truckSelect"
+  ).value =
+    record.truck;
+
+  document.getElementById(
+    "inspectorSelect"
+  ).value =
+    record.inspector;
+
+  setStatus(
+    record.status
+  );
+
+  mainPhotos =
+    record.photos || [];
 
   renderMainPhotos();
 
-  setStatus("READY");
+  notePhotos =
+    [[],[],[],[],[]];
+
+  makeNoteRows();
+
+  record.notes
+    .slice(0,5)
+    .forEach((note,index)=>{
+
+      document.getElementById(
+        "note"+index
+      ).value =
+        note.text || "";
+
+      notePhotos[index] =
+        note.photos || [];
+
+      document.getElementById(
+        "notePreview"+index
+      ).innerHTML =
+        notePhotos[index]
+        .map(p=>
+          `<img class="preview" src="${p}">`
+        ).join("");
+
+    });
+
+  document.getElementById(
+    "saveButton"
+  ).disabled=false;
+
+  document.getElementById(
+    "saveCountdown"
+  ).innerHTML="";
 
 }
 
 
-function resolveIssue(id) {
+/* ---------------- RESOLVE ISSUE ---------------- */
 
-  if (!admin) {
-
-    alert("Set the administrator name in Settings first.");
-
-    return;
-
-  }
-
-  const entered =
-    prompt("Enter administrator name:");
-
-  if (!entered) return;
-
-  if (
-    entered.trim().toLowerCase()
-    !== admin.trim().toLowerCase()
-  ) {
-
-    alert("Only the administrator can resolve this issue.");
-
-    return;
-
-  }
+function resolveIssue(id){
 
   const issue =
-    issues.find(item => item.id === id);
+    issues.find(
+      i=>i.id===id
+    );
 
-  if (!issue) return;
+  if(!issue) return;
+
+  const resolver =
+    prompt(
+      "Who is marking this issue resolved?"
+    );
+
+  if(!resolver) return;
+
+  if(
+    resolver.trim().toLowerCase()
+    !== ADMIN.toLowerCase()
+  ){
+
+    alert(
+      "Only Alex can mark an issue resolved in this test version."
+    );
+
+    return;
+
+  }
 
   issue.resolved = true;
+
+  issue.resolvedBy =
+    resolver.trim();
 
   issue.resolvedAt =
     new Date().toLocaleString();
 
-  saveData();
+  truckStatuses[
+    issue.truck
+  ] = "READY";
 
-  refresh();
-
-}
-
-
-function saveAdmin() {
-
-  admin =
-    document.getElementById("adminName")
-      .value
-      .trim();
-
-  localStorage.setItem(
-    "fcfl_admin_v3",
-    admin
+  addAudit(
+    resolver.trim(),
+    "marked issue resolved",
+    issue.truck
   );
 
-  alert("Administrator saved.");
+  saveData();
+
+  refresh();
+
+  alert(
+    issue.truck +
+    " is now marked READY / GREEN."
+  );
 
 }
 
 
-function addTruck() {
+/* ---------------- ADD TRUCK ---------------- */
+
+function addTruck(){
 
   let name =
-    document.getElementById("newTruckName")
-      .value
-      .trim();
+    document.getElementById(
+      "newTruckName"
+    ).value.trim();
 
-  if (!name) return;
+  if(!name) return;
 
-  if (
-    !name.toUpperCase().startsWith("FCFL")
-  ) {
+  name =
+    name.toUpperCase();
 
-    name = "FCFL" + name;
+  if(!name.startsWith("FCFL")){
 
-  }
-
-  if (!trucks.includes(name)) {
-
-    trucks.push(name);
+    name =
+      "FCFL " + name;
 
   }
 
-  document.getElementById("newTruckName").value = "";
+  name =
+    name.replace(
+      /^FCFL\s*/,
+      "FCFL "
+    );
+
+  if(
+    trucks.some(
+      t=>
+        t.toLowerCase()===
+        name.toLowerCase()
+    )
+  ){
+
+    alert(
+      "That truck already exists."
+    );
+
+    return;
+
+  }
+
+  trucks.push(name);
+
+  truckStatuses[name] =
+    "READY";
+
+  addAudit(
+    ADMIN,
+    "added truck",
+    name
+  );
 
   saveData();
 
-  refresh();
+  document.getElementById(
+    "newTruckName"
+  ).value="";
+
+  alert("Truck added.");
+
+  showPage("settings");
 
 }
 
 
-function addGuest() {
+/* ---------------- GUEST USERS ---------------- */
+
+function addGuest(){
+
+  if(
+    guests.length>=MAX_GUESTS
+  ){
+
+    alert(
+      "Maximum of 10 guest users reached."
+    );
+
+    return;
+
+  }
 
   const name =
-    document.getElementById("guestName")
-      .value
-      .trim();
+    document.getElementById(
+      "newGuestName"
+    ).value.trim();
 
-  if (!name) return;
+  if(!name) return;
+
+  if(
+    guests.some(
+      g=>
+        g.name.toLowerCase()===
+        name.toLowerCase()
+    )
+  ){
+
+    alert(
+      "That guest already exists."
+    );
+
+    return;
+
+  }
 
   guests.push({
-    name: name,
-    role: "Inspector"
+    id:Date.now(),
+    name,
+    role:"Inspector"
   });
 
-  document.getElementById("guestName").value = "";
+  addAudit(
+    ADMIN,
+    "added guest user: "+name
+  );
+
+  saveData();
+
+  document.getElementById(
+    "newGuestName"
+  ).value="";
+
+  alert("Guest added.");
+
+  showPage("settings");
+
+}
+
+
+function removeGuest(id){
+
+  const guest =
+    guests.find(
+      g=>g.id===id
+    );
+
+  if(!guest) return;
+
+  if(
+    !confirm(
+      "Remove "+guest.name+"?"
+    )
+  ) return;
+
+  guests =
+    guests.filter(
+      g=>g.id!==id
+    );
+
+  addAudit(
+    ADMIN,
+    "removed guest user: "+guest.name
+  );
 
   saveData();
 
@@ -972,220 +1631,432 @@ function addGuest() {
 }
 
 
-function refresh() {
+/* ---------------- INSPECTOR LIST ---------------- */
 
-  const options =
-    trucks
-      .map(truck =>
-        `<option value="${truck}">${truck}</option>`
-      )
-      .join("");
+function refreshInspectorList(){
 
-  document.getElementById("truckSelect").innerHTML =
-    options;
+  const people = [
+    ADMIN,
+    ...guests.map(g=>g.name)
+  ];
 
-
-  document.getElementById("issuesList").innerHTML =
-    renderIssues();
-
-
-  document.getElementById("historyList").innerHTML =
-    renderHistory();
-
-
-  document.getElementById("truckSettingsList").innerHTML =
-    trucks
-      .map(truck => `
-        <div class="truck-line">
-
-          <div class="left-truck">
-
-            <span
-              class="dot ${latestStatusForTruck(truck)}">
-            </span>
-
-            <strong>${truck}</strong>
-
-          </div>
-
-        </div>
-      `)
-      .join("");
-
-
-  document.getElementById("guestList").innerHTML =
-    guests.length
-      ? guests
-          .map(guest => `
-            <div class="truck-line">
-              <div>
-                <strong>${guest.name}</strong>
-                <div class="small">
-                  Guest / Inspector
-                </div>
-              </div>
-            </div>
-          `)
-          .join("")
-      : `<p class="small">No guest users added.</p>`;
-
-
-  document.getElementById("adminName").value =
-    admin;
+  document.getElementById(
+    "inspectorSelect"
+  ).innerHTML =
+    people.map(
+      name=>
+      `<option value="${name}">
+      ${name}
+      </option>`
+    ).join("");
 
 }
 
 
-function renderIssues() {
+/* ---------------- RENDER ISSUES ---------------- */
+
+function renderIssues(){
 
   const priority = {
-    red: 1,
-    yellow: 2,
-    green: 3
+    red:1,
+    yellow:2,
+    green:3
   };
 
-  const openIssues =
+  const open =
     issues
-      .filter(issue => !issue.resolved)
+      .filter(i=>!i.resolved)
       .sort(
-        (a, b) =>
-          priority[a.status] -
-          priority[b.status]
+        (a,b)=>
+        priority[a.level]-
+        priority[b.level]
       );
 
-  if (!openIssues.length) {
+  if(!open.length){
 
     return `
       <div class="card">
-        <strong>No open truck issues.</strong>
+      ✅ No open truck issues.
       </div>
     `;
 
   }
 
-  return openIssues
-    .map(issue => `
+  return open.map(issue=>`
 
-      <div class="issue-card issue-${issue.status}">
+    <div class="card issue ${
+      issue.level==="red"
+      ? "red-border"
+      : "yellow-border"
+    }">
 
-        <div class="left-truck">
+      <div class="truck-left">
 
-          <span class="dot ${issue.status}"></span>
+        <span class="dot ${issue.level}"></span>
 
-          <h3 style="margin:0;">
-            ${issue.truck}
-          </h3>
-
-        </div>
-
-        <p>${issue.description}</p>
-
-        <p class="small">
-          Reported by: ${issue.reportedBy}
-          <br>
-          ${issue.timestamp}
-        </p>
-
-        <strong>
-          ${
-            issue.status === "red"
-              ? "🛑 OUT OF SERVICE"
-              : issue.status === "yellow"
-                ? "⚠️ NEEDS REPAIR"
-                : "✅ MONITOR"
-          }
-        </strong>
-
-        <br><br>
-
-        <button
-          class="resolve-btn"
-          onclick="resolveIssue(${issue.id})">
-          Mark Resolved
-        </button>
+        <h3 style="margin:0">
+          ${issue.truck}
+        </h3>
 
       </div>
 
-    `)
-    .join("");
+      <p>
+        ${issue.description}
+      </p>
+
+      <p class="small">
+        Reported by:
+        ${issue.reportedBy}
+        <br>
+        ${issue.reportedAt}
+      </p>
+
+      <span class="badge ${
+        issue.level==="red"
+        ? "red-badge"
+        : "yellow-badge"
+      }">
+
+        ${
+          issue.level==="red"
+          ? "OUT OF SERVICE"
+          : "NEEDS REPAIR"
+        }
+
+      </span>
+
+      <br><br>
+
+      <button class="resolve"
+        onclick="resolveIssue(${issue.id})">
+        Mark Resolved
+      </button>
+
+    </div>
+
+  `).join("");
 
 }
 
 
-function renderHistory() {
+/* ---------------- HISTORY ---------------- */
 
-  if (!inspections.length) {
+function renderHistory(){
 
-    return `<p>No history yet.</p>`;
+  if(!inspections.length){
+
+    return `<p>No inspection history yet.</p>`;
 
   }
 
-  return inspections
-    .map(item => `
+  return inspections.map(record=>{
 
-      <div class="history-item">
+    const resolved =
+      issues.find(
+        issue=>
+          issue.truck===record.truck &&
+          issue.resolved &&
+          issue.reportedAt>=record.timestamp
+      );
 
-        <div class="left-truck">
+    return `
 
-          <span
-            class="dot ${statusColor(item.status)}">
-          </span>
+      <div class="audit-item">
 
-          <strong>${item.truck}</strong>
+        <div class="truck-left">
+
+          <span class="dot ${
+            statusColor(record.status)
+          }"></span>
+
+          <strong>
+            ${record.truck}
+          </strong>
 
         </div>
 
         <p>
           Status:
-          <strong>${item.status}</strong>
+          <strong>${record.status}</strong>
         </p>
 
         <p>
           Inspector:
-          ${item.driver}
+          ${record.inspector}
         </p>
 
         ${
-          item.notes.length
-            ? item.notes
-                .map(note => `
-                  <p>
-                    ${note.text || "Photo attached"}
-                  </p>
-                `)
-                .join("")
-            : `<p class="small">No notes.</p>`
+          record.notes.length
+          ?
+          record.notes.map(n=>
+            `<div>
+              ${n.text || "Photo attached"}
+            </div>`
+          ).join("")
+          :
+          `<div class="small">
+          No notes.
+          </div>`
         }
 
-        <div class="preview-row">
+        <p class="small">
+          ${record.timestamp}
+        </p>
 
-          ${
-            item.photos
-              ? item.photos
-                  .map(photo =>
-                    `<img src="${photo}">`
-                  )
-                  .join("")
-              : ""
-          }
+        ${
+          record.editedAt
+          ?
+          `<p class="small">
+          Edited: ${record.editedAt}
+          </p>`
+          :""
+        }
 
-        </div>
-
-        <div class="small">
-          ${item.timestamp}
-        </div>
+        ${
+          resolved
+          ?
+          `<p>
+          <span class="badge green-badge">
+          ✅ Resolved
+          </span>
+          <br>
+          Resolved by:
+          <strong>${resolved.resolvedBy}</strong>
+          <br>
+          <span class="small">
+          ${resolved.resolvedAt}
+          </span>
+          </p>`
+          :""
+        }
 
       </div>
 
-    `)
-    .join("");
+    `;
+
+  }).join("");
 
 }
 
 
-makeNotes();
+/* ---------------- AUDIT TRAIL ---------------- */
+
+function renderAudit(){
+
+  if(!audit.length){
+
+    return `<p>No activity yet.</p>`;
+
+  }
+
+  return audit.map(item=>`
+
+    <div class="audit-item">
+
+      <strong>
+        ${item.person}
+      </strong>
+
+      ${item.action}
+
+      ${
+        item.truck
+        ?
+        `<strong>
+        ${item.truck}
+        </strong>`
+        :""
+      }
+
+      <div class="small">
+        ${item.timestamp}
+      </div>
+
+    </div>
+
+  `).join("");
+
+}
+
+
+/* ---------------- REFRESH ---------------- */
+
+function refresh(){
+
+  const truckOptions =
+    trucks.map(
+      truck=>
+      `<option value="${truck}">
+      ${truck}
+      </option>`
+    ).join("");
+
+  document.getElementById(
+    "truckSelect"
+  ).innerHTML =
+    truckOptions;
+
+
+  refreshInspectorList();
+
+
+  document.getElementById(
+    "truckCount"
+  ).textContent =
+    trucks.length;
+
+
+  const today =
+    new Date()
+    .toLocaleDateString();
+
+  const checkedToday =
+    new Set(
+      inspections
+      .filter(
+        i=>i.dateKey===today
+      )
+      .map(i=>i.truck)
+    ).size;
+
+  document.getElementById(
+    "todayCount"
+  ).textContent =
+    checkedToday;
+
+
+  document.getElementById(
+    "openCount"
+  ).textContent =
+    issues.filter(
+      i=>!i.resolved
+    ).length;
+
+
+  document.getElementById(
+    "dashboardTrucks"
+  ).innerHTML =
+    trucks.map(truck=>{
+
+      const status =
+        truckStatuses[truck]
+        || "READY";
+
+      return `
+
+        <div class="truck-row">
+
+          <div class="truck-left">
+
+            <span class="dot ${
+              statusColor(status)
+            }"></span>
+
+            <strong>
+              ${truck}
+            </strong>
+
+          </div>
+
+          <span class="small">
+            ${status}
+          </span>
+
+        </div>
+
+      `;
+
+    }).join("");
+
+
+  document.getElementById(
+    "issueList"
+  ).innerHTML =
+    renderIssues();
+
+
+  document.getElementById(
+    "historyList"
+  ).innerHTML =
+    renderHistory();
+
+
+  document.getElementById(
+    "auditList"
+  ).innerHTML =
+    renderAudit();
+
+
+  document.getElementById(
+    "guestCounter"
+  ).textContent =
+    `${guests.length} / ${MAX_GUESTS} guest users`;
+
+
+  document.getElementById(
+    "guestPageCounter"
+  ).textContent =
+    `${guests.length} / ${MAX_GUESTS} guest users`;
+
+
+  const guestButton =
+    document.getElementById(
+      "addGuestButton"
+    );
+
+  guestButton.disabled =
+    guests.length>=MAX_GUESTS;
+
+
+  document.getElementById(
+    "guestList"
+  ).innerHTML =
+
+    guests.length
+
+    ?
+
+    guests.map(g=>`
+
+      <div class="truck-row">
+
+        <div>
+
+          <strong>
+            ${g.name}
+          </strong>
+
+          <div class="small">
+            Guest / Inspector
+          </div>
+
+        </div>
+
+        <button
+          onclick="removeGuest(${g.id})">
+          Remove
+        </button>
+
+      </div>
+
+    `).join("")
+
+    :
+
+    `<p class="small">
+    No guest users added.
+    </p>`;
+
+}
+
+
+/* ---------------- STARTUP ---------------- */
+
+makeNoteRows();
 
 refresh();
+
+refreshSaveLock();
 
 </script>
 
