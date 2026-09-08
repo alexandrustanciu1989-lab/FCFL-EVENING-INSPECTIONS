@@ -6,9 +6,12 @@ Slide deck for presenting **ForeverClean Routes** (demo: [cardinal-routes.vercel
 
 Open `index.html` in a browser (or serve the folder).
 
-- **Next / Prev:** arrow keys, space, click buttons, or swipe
-- **Jump:** click the dots, or `#3` in the URL for slide 3
-- **Fullscreen:** browser fullscreen (F11) for presenting
+- **Desktop:** arrow keys, space, click Prev/Next
+- **iPad:** swipe left/right, or tap Prev/Next (44px targets)
+- **Jump:** `#3` in the URL for slide 3
+- **Presenting:** Safari fullscreen / Add to Home Screen works best landscape
+
+On iPad and tablets the head-to-head slide switches from a wide table to side-by-side comparison cards so text stays readable.
 
 ## What’s in the pitch
 
