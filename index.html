@@ -1,2064 +1,1385 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FCFL Daily Truck Check</title>
-
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<title>ForeverClean Routes — Why it's better than ServiceCore</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet" />
 <style>
-*{box-sizing:border-box}
-
-:root{
-  --blue:#1467d8;
-  --lightblue:#eef4ff;
-  --green:#22c55e;
-  --yellow:#eab308;
-  --red:#ef4444;
-  --gray:#9ca3af;
-  --bg:#f3f4f6;
-}
-
-body{
-  margin:0;
-  font-family:Arial,Helvetica,sans-serif;
-  background:var(--bg);
-  color:#111827;
-}
-
-button,input,select,textarea{
-  font:inherit;
-}
-
-.topbar{
-  background:#fff;
-  border-bottom:1px solid #dfe3e8;
-  padding:16px;
-}
-
-.top-inner{
-  max-width:850px;
-  margin:auto;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.logo{
-  font-size:21px;
-  font-weight:800;
-  cursor:pointer;
-}
-
-.gear{
-  width:48px;
-  height:44px;
-  border:0;
-  border-radius:10px;
-  background:var(--lightblue);
-  font-size:21px;
-  cursor:pointer;
-}
-
-.container{
-  max-width:850px;
-  margin:auto;
-  padding:14px 14px 100px;
-}
-
-.tabs{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:7px;
-  margin-bottom:14px;
-}
-
-.tab{
-  border:0;
-  border-radius:10px;
-  padding:13px 5px;
-  font-weight:700;
-  background:#e5e7eb;
-  color:#1760b5;
-  cursor:pointer;
-}
-
-.tab.active{
-  color:#fff;
-  background:var(--blue);
-}
-
-.page{display:none}
-.page.active{display:block}
-
-.card{
-  background:#fff;
-  border-radius:15px;
-  padding:16px;
-  margin-bottom:13px;
-  box-shadow:0 3px 14px rgba(0,0,0,.06);
-}
-
-h2,h3{
-  margin-top:3px;
-}
-
-label{
-  display:block;
-  font-weight:700;
-  margin:13px 0 6px;
-}
-
-input[type=text],
-select,
-textarea{
-  width:100%;
-  border:1px solid #cfd5dc;
-  border-radius:10px;
-  padding:12px;
-  background:#fff;
-}
-
-textarea{
-  min-height:80px;
-  resize:vertical;
-}
-
-.primary{
-  width:100%;
-  border:0;
-  border-radius:10px;
-  background:var(--blue);
-  color:#fff;
-  padding:14px;
-  margin-top:13px;
-  font-weight:800;
-  cursor:pointer;
-}
-
-.secondary{
-  width:100%;
-  border:0;
-  border-radius:10px;
-  background:#e8f0ff;
-  color:#1553a7;
-  padding:13px;
-  margin-top:9px;
-  font-weight:800;
-  cursor:pointer;
-}
-
-.danger{
-  background:#b91c1c;
-  color:white;
-}
-
-.primary:disabled{
-  opacity:.45;
-  cursor:not-allowed;
-}
-
-.grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:10px;
-}
-
-.stat{
-  font-size:28px;
-  font-weight:800;
-  margin-top:5px;
-}
-
-.small{
-  color:#6b7280;
-  font-size:13px;
-}
-
-.dot{
-  width:16px;
-  height:16px;
-  border-radius:50%;
-  display:inline-block;
-  flex:0 0 auto;
-}
-
-.green{background:var(--green)}
-.yellow{background:var(--yellow)}
-.red{background:var(--red)}
-.gray{background:var(--gray)}
-
-.truck-row{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  padding:12px 3px;
-  border-bottom:1px solid #edf0f3;
-}
-
-.truck-left{
-  display:flex;
-  align-items:center;
-  gap:9px;
-}
-
-.status-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:8px;
-}
-
-.status-btn{
-  border:1px solid #d1d5db;
-  background:#fff;
-  border-radius:10px;
-  padding:13px 5px;
-  font-weight:800;
-  cursor:pointer;
-}
-
-.status-btn.ready.active{
-  background:#e9f9ee;
-  color:#187533;
-  border-color:#4abe68;
-}
-
-.status-btn.repair.active{
-  background:#fff8dc;
-  color:#835f00;
-  border-color:#d9af26;
-}
-
-.status-btn.oos.active{
-  background:#fdeaea;
-  color:#a92020;
-  border-color:#e98d8d;
-}
-
-.note-row{
-  display:grid;
-  grid-template-columns:1fr 50px;
-  gap:8px;
-  margin-bottom:7px;
-}
-
-.note-row input{
-  width:100%;
-  border:1px solid #cfd5dc;
-  border-radius:10px;
-  padding:11px;
-}
-
-.plus{
-  border:0;
-  border-radius:10px;
-  background:var(--lightblue);
-  color:var(--blue);
-  font-size:23px;
-  font-weight:800;
-  cursor:pointer;
-}
-
-.photo-main{
-  width:100%;
-  border:2px dashed #9dbce6;
-  border-radius:13px;
-  padding:19px 10px;
-  background:#f8fbff;
-  color:var(--blue);
-  font-weight:800;
-  cursor:pointer;
-}
-
-.hidden{display:none}
-
-.previews{
-  display:flex;
-  flex-wrap:wrap;
-  gap:7px;
-  margin-top:8px;
-}
-
-.preview{
-  width:82px;
-  height:82px;
-  object-fit:cover;
-  border-radius:9px;
-}
-
-.issue{
-  border-left:7px solid var(--gray);
-}
-
-.issue.red-border{border-left-color:var(--red)}
-.issue.yellow-border{border-left-color:var(--yellow)}
-.issue.green-border{border-left-color:var(--green)}
-
-.resolve{
-  border:0;
-  border-radius:9px;
-  background:#16833b;
-  color:#fff;
-  padding:10px 13px;
-  font-weight:800;
-  cursor:pointer;
-}
-
-.success{
-  border:1px solid #8ed49d;
-  background:#edf9f0;
-}
-
-.countdown{
-  font-size:16px;
-  font-weight:800;
-  color:#155e2e;
-  margin-top:8px;
-}
-
-.audit-item{
-  border-bottom:1px solid #eceff2;
-  padding:11px 0;
-}
-
-.warning{
-  background:#fff7df;
-  border:1px solid #f0d487;
-  border-radius:10px;
-  padding:12px;
-  margin-bottom:12px;
-}
-
-.badge{
-  display:inline-block;
-  border-radius:20px;
-  padding:5px 9px;
-  font-size:12px;
-  font-weight:800;
-}
-
-.badge.green-badge{
-  background:#dcfce7;
-  color:#166534;
-}
-
-.badge.yellow-badge{
-  background:#fef9c3;
-  color:#854d0e;
-}
-
-.badge.red-badge{
-  background:#fee2e2;
-  color:#991b1b;
-}
-
-.bottom-nav{
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  background:#fff;
-  border-top:1px solid #ddd;
-  padding:8px 14px 11px;
-}
-
-.bottom-inner{
-  max-width:850px;
-  margin:auto;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
-}
-
-.bottom-btn{
-  border:0;
-  border-radius:10px;
-  height:48px;
-  font-weight:800;
-}
-
-.bottom-new{
-  background:var(--blue);
-  color:#fff;
-}
-
-.bottom-issues{
-  background:#e8f0ff;
-  color:#1553a7;
-}
-
-@media(max-width:600px){
-  .tabs{
-    grid-template-columns:repeat(2,1fr);
+  :root {
+    --cardinal: #e40014;
+    --cardinal-deep: #9f0712;
+    --cardinal-ink: #6b040c;
+    --ink: #16181d;
+    --muted: #5c6370;
+    --line: #e6e8ee;
+    --paper: #fcfcfb;
+    --wash: #f4f5f7;
+    --good: #007956;
+    --good-bg: #ecfdf5;
+    --bad: #9f0712;
+    --bad-bg: #fef2f2;
+    --amber: #b75000;
+    --amber-bg: #fffbeb;
   }
 
-  .grid{
-    grid-template-columns:1fr;
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: 100%;
+    height: 100dvh;
+    background: #0e1014;
+    color: var(--ink);
+    font-family: "DM Sans", system-ui, sans-serif;
+    overflow: hidden;
+    -webkit-text-size-adjust: 100%;
+    touch-action: manipulation;
   }
-}
+
+  .deck {
+    height: 100%;
+    width: 100%;
+    position: relative;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: none;
+    padding: clamp(1.1rem, 2.8vw, 2.75rem);
+    padding-bottom: calc(4.75rem + env(safe-area-inset-bottom, 0px));
+    background:
+      radial-gradient(1200px 600px at 85% -10%, rgba(228, 0, 20, 0.12), transparent 55%),
+      radial-gradient(900px 500px at -10% 110%, rgba(0, 121, 86, 0.08), transparent 50%),
+      linear-gradient(165deg, #fcfcfb 0%, #f3f4f6 48%, #eceef2 100%);
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .slide.active {
+    display: flex;
+    flex-direction: column;
+    animation: rise 420ms cubic-bezier(.2,.8,.2,1);
+  }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: none; }
+  }
+
+  @keyframes pulseBar {
+    0%, 100% { opacity: .35; width: 18%; }
+    50% { opacity: 1; width: 72%; }
+  }
+
+  @keyframes countIn {
+    from { opacity: 0; transform: scale(.92); }
+    to { opacity: 1; transform: none; }
+  }
+
+  .brand-mark {
+    display: inline-flex;
+    align-items: center;
+    gap: .7rem;
+    font-family: "Barlow Condensed", sans-serif;
+    font-weight: 800;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+    font-size: 1.05rem;
+  }
+
+  .brand-mark .dot {
+    width: 1.55rem;
+    height: 1.55rem;
+    border-radius: .45rem;
+    background: var(--cardinal);
+    color: #fff;
+    display: grid;
+    place-items: center;
+    font-size: .85rem;
+    box-shadow: 0 6px 18px rgba(228, 0, 20, .28);
+  }
+
+  .eyebrow {
+    font-family: "Barlow Condensed", sans-serif;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--cardinal);
+    font-size: .95rem;
+    margin-bottom: .85rem;
+  }
+
+  h1 {
+    font-family: "Barlow Condensed", sans-serif;
+    font-weight: 800;
+    line-height: .92;
+    letter-spacing: -.01em;
+    font-size: clamp(2.35rem, 7vw, 5.6rem);
+    text-transform: uppercase;
+  }
+
+  h1 .accent { color: var(--cardinal); }
+
+  h2 {
+    font-family: "Barlow Condensed", sans-serif;
+    font-weight: 800;
+    line-height: .95;
+    letter-spacing: -.01em;
+    font-size: clamp(1.85rem, 4.8vw, 3.8rem);
+    text-transform: uppercase;
+    max-width: 20ch;
+  }
+
+  .lead {
+    margin-top: 1.1rem;
+    font-size: clamp(1rem, 1.8vw, 1.35rem);
+    color: var(--muted);
+    max-width: 40rem;
+    line-height: 1.45;
+  }
+
+  .slide-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: clamp(.85rem, 2vh, 2.2rem);
+    gap: 1rem;
+    flex-shrink: 0;
+  }
+
+  .slide-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 0;
+  }
+
+  .hero-slide .slide-body {
+    justify-content: flex-end;
+    padding-bottom: clamp(1rem, 4vh, 3rem);
+  }
+
+  .hero-slide {
+    background:
+      linear-gradient(115deg, rgba(22,24,29,.88) 0%, rgba(22,24,29,.55) 42%, rgba(159,7,18,.45) 100%),
+      radial-gradient(900px 500px at 70% 20%, rgba(228,0,20,.35), transparent 60%),
+      linear-gradient(160deg, #1a1d24, #0e1014);
+    color: #f7f7f5;
+  }
+
+  .hero-slide .lead { color: rgba(247,247,245,.78); }
+  .hero-slide .eyebrow { color: #ffa3a3; }
+  .hero-slide .brand-mark { color: #fff; }
+
+  .cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .75rem;
+    margin-top: 1.75rem;
+  }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    padding: .55rem .9rem;
+    border-radius: 999px;
+    background: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.18);
+    font-size: .9rem;
+    font-weight: 600;
+  }
+
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1.4rem;
+  }
+
+  .panel {
+    border-radius: 1.1rem;
+    padding: 1.15rem 1.25rem;
+    border: 1px solid var(--line);
+    background: rgba(255,255,255,.72);
+    backdrop-filter: blur(8px);
+  }
+
+  .panel.bad {
+    background: linear-gradient(180deg, #fff 0%, var(--bad-bg) 100%);
+    border-color: #ffcaca;
+  }
+
+  .panel.good {
+    background: linear-gradient(180deg, #fff 0%, var(--good-bg) 100%);
+    border-color: #a4f4cf;
+  }
+
+  .panel h3 {
+    font-family: "Barlow Condensed", sans-serif;
+    font-size: 1.25rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .02em;
+    margin-bottom: .65rem;
+  }
+
+  .panel.bad h3 { color: var(--bad); }
+  .panel.good h3 { color: var(--good); }
+
+  .panel ul {
+    list-style: none;
+    display: grid;
+    gap: .5rem;
+  }
+
+  .panel li {
+    display: grid;
+    grid-template-columns: 1.1rem 1fr;
+    gap: .55rem;
+    align-items: start;
+    font-size: clamp(.92rem, 1.4vw, 1.05rem);
+    line-height: 1.35;
+    color: #2a2f38;
+  }
+
+  .panel li::before {
+    content: "";
+    width: .65rem;
+    height: .65rem;
+    border-radius: 50%;
+    margin-top: .35rem;
+    background: currentColor;
+    opacity: .55;
+  }
+
+  .panel.bad li::before { background: var(--cardinal); opacity: 1; }
+  .panel.good li::before { background: var(--good); opacity: 1; }
+
+  .speed-stage {
+    display: grid;
+    grid-template-columns: 1.15fr .85fr;
+    gap: 1.15rem;
+    align-items: stretch;
+    margin-top: 1rem;
+  }
+
+  .race {
+    display: grid;
+    gap: .85rem;
+  }
+
+  .race-row {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 1rem;
+    padding: .95rem 1.05rem;
+  }
+
+  .race-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: .75rem;
+    margin-bottom: .55rem;
+    font-weight: 700;
+    flex-wrap: wrap;
+  }
+
+  .race-label .time {
+    font-family: "Barlow Condensed", sans-serif;
+    font-size: clamp(1.35rem, 2.5vw, 1.6rem);
+    font-weight: 800;
+  }
+
+  .track {
+    height: .7rem;
+    border-radius: 999px;
+    background: var(--wash);
+    overflow: hidden;
+    position: relative;
+  }
+
+  .bar {
+    height: 100%;
+    border-radius: inherit;
+  }
+
+  .bar.slow {
+    width: 18%;
+    background: #c5c9d2;
+    animation: pulseBar 2.4s ease-in-out infinite;
+  }
+
+  .bar.fast {
+    width: 4%;
+    min-width: 12px;
+    background: var(--cardinal);
+    box-shadow: 0 0 0 3px rgba(228,0,20,.15);
+  }
+
+  .race-note {
+    margin-top: .85rem;
+    padding: .85rem 1rem;
+    border-left: 4px solid var(--cardinal);
+    background: #fff;
+    border-radius: 0 .75rem .75rem 0;
+    color: var(--muted);
+    font-size: .98rem;
+  }
+
+  .stat-stack {
+    display: grid;
+    gap: .7rem;
+  }
+
+  .stat {
+    background: #16181d;
+    color: #fff;
+    border-radius: 1rem;
+    padding: 1rem 1.15rem;
+    animation: countIn 500ms ease both;
+  }
+
+  .stat:nth-child(2) { animation-delay: 80ms; }
+  .stat:nth-child(3) { animation-delay: 160ms; }
+
+  .stat .k {
+    font-family: "Barlow Condensed", sans-serif;
+    font-size: clamp(1.9rem, 4.2vw, 3.2rem);
+    font-weight: 800;
+    line-height: 1;
+    color: #ffa3a3;
+  }
+
+  .stat .v {
+    margin-top: .3rem;
+    color: rgba(255,255,255,.78);
+    font-size: .92rem;
+  }
+
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: .75rem;
+    margin-top: 1.1rem;
+  }
+
+  .feat {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 1rem;
+    padding: 1rem 1.05rem;
+    transition: transform 180ms ease, box-shadow 180ms ease;
+  }
+
+  .slide.active .feat {
+    animation: rise 480ms ease both;
+  }
+
+  .slide.active .feat:nth-child(2) { animation-delay: 70ms; }
+  .slide.active .feat:nth-child(3) { animation-delay: 140ms; }
+  .slide.active .feat:nth-child(4) { animation-delay: 210ms; }
+  .slide.active .feat:nth-child(5) { animation-delay: 280ms; }
+  .slide.active .feat:nth-child(6) { animation-delay: 350ms; }
+
+  .feat .num {
+    font-family: "Barlow Condensed", sans-serif;
+    font-weight: 800;
+    color: var(--cardinal);
+    font-size: 1.05rem;
+    letter-spacing: .08em;
+  }
+
+  .feat h3 {
+    margin: .3rem 0 .4rem;
+    font-size: 1.05rem;
+    font-weight: 700;
+  }
+
+  .feat p {
+    color: var(--muted);
+    font-size: .9rem;
+    line-height: 1.4;
+  }
+
+  /* Desktop table — hidden on tablet/phone in favor of cards */
+  .vs-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 1rem;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 1rem;
+    overflow: hidden;
+  }
+
+  .vs-table th,
+  .vs-table td {
+    padding: .75rem .9rem;
+    text-align: left;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+    font-size: .95rem;
+  }
+
+  .vs-table th {
+    font-family: "Barlow Condensed", sans-serif;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    font-size: .9rem;
+    background: var(--wash);
+  }
+
+  .vs-table th:nth-child(2) { color: var(--bad); }
+  .vs-table th:nth-child(3) { color: var(--good); }
+
+  .vs-table tr:last-child td { border-bottom: 0; }
+
+  .vs-table td:first-child {
+    font-weight: 700;
+    width: 18%;
+  }
+
+  .vs-cards {
+    display: none;
+    gap: .7rem;
+    margin-top: 1rem;
+  }
+
+  .vs-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 1rem;
+    padding: .95rem 1.05rem;
+  }
+
+  .vs-card .cap {
+    font-family: "Barlow Condensed", sans-serif;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    font-size: 1.05rem;
+    margin-bottom: .65rem;
+  }
+
+  .vs-card .sides {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .65rem;
+  }
+
+  .vs-card .side {
+    border-radius: .75rem;
+    padding: .7rem .75rem;
+    font-size: .88rem;
+    line-height: 1.35;
+  }
+
+  .vs-card .side.sc {
+    background: var(--bad-bg);
+    border: 1px solid #ffcaca;
+  }
+
+  .vs-card .side.fc {
+    background: var(--good-bg);
+    border: 1px solid #a4f4cf;
+  }
+
+  .tag {
+    display: inline-block;
+    font-size: .68rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    padding: .18rem .4rem;
+    border-radius: .35rem;
+    margin-bottom: .3rem;
+  }
+
+  .tag.sc { background: #fee2e2; color: var(--bad); }
+  .tag.fc { background: #d0fae5; color: var(--good); }
+
+  .quote {
+    margin-top: 1rem;
+    max-width: 42rem;
+    font-size: clamp(1.15rem, 2.6vw, 1.85rem);
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  .quote cite {
+    display: block;
+    margin-top: .75rem;
+    font-style: normal;
+    font-size: .9rem;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  .next-list {
+    display: grid;
+    gap: .65rem;
+    margin-top: 1.2rem;
+    max-width: 42rem;
+  }
+
+  .next-list li {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 2.1rem 1fr;
+    gap: .8rem;
+    align-items: start;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: .9rem;
+    padding: .85rem 1rem;
+  }
+
+  .next-list .n {
+    font-family: "Barlow Condensed", sans-serif;
+    font-weight: 800;
+    font-size: 1.35rem;
+    color: var(--cardinal);
+    line-height: 1;
+  }
+
+  .next-list strong {
+    display: block;
+    margin-bottom: .15rem;
+  }
+
+  .next-list span {
+    color: var(--muted);
+    font-size: .92rem;
+  }
+
+  .footer-nav {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 20;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: .75rem;
+    padding: .7rem clamp(.85rem, 2.5vw, 1.75rem);
+    padding-bottom: calc(.7rem + env(safe-area-inset-bottom, 0px));
+    background: rgba(14,16,20,.9);
+    color: #fff;
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255,255,255,.08);
+  }
+
+  .footer-nav button {
+    border: 0;
+    background: rgba(255,255,255,.12);
+    color: #fff;
+    font: inherit;
+    font-weight: 700;
+    padding: .7rem 1.05rem;
+    min-height: 44px;
+    min-width: 44px;
+    border-radius: .7rem;
+    cursor: pointer;
+  }
+
+  .footer-nav button:hover { background: var(--cardinal); }
+  .footer-nav button:disabled {
+    opacity: .35;
+    cursor: not-allowed;
+  }
+
+  .progress {
+    display: flex;
+    gap: .4rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .progress button {
+    width: .7rem;
+    height: .7rem;
+    min-width: .7rem;
+    min-height: .7rem;
+    padding: 0;
+    border-radius: 50%;
+    background: rgba(255,255,255,.28);
+  }
+
+  .progress button.on {
+    background: var(--cardinal);
+    transform: scale(1.2);
+  }
+
+  .slide-count {
+    font-family: "Barlow Condensed", sans-serif;
+    letter-spacing: .08em;
+    font-weight: 700;
+    opacity: .8;
+    min-width: 4.2rem;
+    text-align: right;
+    font-size: .95rem;
+  }
+
+  .hint {
+    position: fixed;
+    top: calc(.75rem + env(safe-area-inset-top, 0px));
+    right: .85rem;
+    z-index: 30;
+    background: rgba(22,24,29,.85);
+    color: #fff;
+    font-size: .75rem;
+    padding: .4rem .65rem;
+    border-radius: .5rem;
+    opacity: .65;
+    pointer-events: none;
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1.05fr .95fr;
+    gap: 1.25rem;
+    align-items: center;
+  }
+
+  .big-number {
+    font-family: "Barlow Condensed", sans-serif;
+    font-weight: 800;
+    font-size: clamp(3.4rem, 12vw, 8rem);
+    line-height: .85;
+    color: var(--cardinal);
+  }
+
+  .demo-link {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    margin-top: 1.2rem;
+    margin-bottom: .35rem;
+    color: inherit;
+    font-weight: 700;
+    text-decoration: none;
+    border-bottom: 2px solid var(--cardinal);
+    padding-bottom: .15rem;
+    width: fit-content;
+    min-height: 44px;
+  }
+
+  .hero-slide .demo-link { border-color: #ffa3a3; }
+
+  .map-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    padding: .35rem .65rem;
+    border-radius: 999px;
+    font-size: .78rem;
+    font-weight: 700;
+    margin: .2rem .2rem 0 0;
+  }
+
+  .chip-gray { background: #e5e7eb; color: #374151; }
+  .chip-amber { background: #fef3c6; color: #854d0e; }
+  .chip-green { background: #d0fae5; color: #065f46; }
+  .chip-red { background: #fecaca; color: #7f1d1d; }
+
+  /* —— iPad / tablet (portrait + landscape) —— */
+  @media (max-width: 1180px) {
+    .feature-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .speed-stage {
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .vs-table { display: none; }
+    .vs-cards { display: grid; }
+
+    .hint { display: none; }
+  }
+
+  @media (max-width: 980px) {
+    .speed-stage {
+      grid-template-columns: 1fr;
+    }
+
+    .stat-stack {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .two-col {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .two-col .panel {
+      order: 2;
+    }
+  }
+
+  @media (max-width: 820px) {
+    .compare-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .feature-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .vs-card .sides {
+      grid-template-columns: 1fr;
+    }
+
+    .stat-stack {
+      grid-template-columns: 1fr;
+    }
+
+    .progress {
+      display: none;
+    }
+
+    .footer-nav {
+      gap: .5rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .feature-grid {
+      grid-template-columns: 1fr;
+    }
+
+    h2 { max-width: none; }
+  }
+
+  /* iPad landscape short height — keep content in first viewport */
+  @media (max-height: 860px) and (min-width: 900px) {
+    .slide {
+      padding-top: 1rem;
+      padding-bottom: calc(4.4rem + env(safe-area-inset-bottom, 0px));
+    }
+
+    .slide-top { margin-bottom: .65rem; }
+
+    h1 { font-size: clamp(2.2rem, 6.2vh, 4.2rem); }
+    h2 { font-size: clamp(1.7rem, 4.8vh, 2.8rem); }
+
+    .lead { margin-top: .7rem; font-size: 1rem; }
+
+    .feature-grid { gap: .55rem; margin-top: .75rem; }
+    .feat { padding: .75rem .85rem; }
+    .feat p { font-size: .84rem; }
+
+    .vs-cards { gap: .5rem; margin-top: .7rem; }
+    .vs-card { padding: .7rem .8rem; }
+    .vs-card .side { font-size: .82rem; padding: .55rem .6rem; }
+
+    .panel { padding: .9rem 1rem; }
+    .panel li { font-size: .9rem; }
+
+    .next-list { gap: .45rem; margin-top: .85rem; }
+    .next-list li { padding: .65rem .8rem; }
+  }
+
+  @media (max-height: 720px) {
+    .cta-row { margin-top: 1rem; }
+    .stat .k { font-size: 1.7rem; }
+    .big-number { font-size: clamp(2.8rem, 10vh, 5rem); }
+  }
+
+  @supports (padding: max(0px)) {
+    .slide {
+      padding-left: max(clamp(1.1rem, 2.8vw, 2.75rem), env(safe-area-inset-left));
+      padding-right: max(clamp(1.1rem, 2.8vw, 2.75rem), env(safe-area-inset-right));
+    }
+  }
 </style>
 </head>
-
 <body>
+<div class="hint">Swipe or tap Next</div>
 
-<div class="topbar">
-  <div class="top-inner">
-    <div class="logo" onclick="openDashboard()">🚛 FCFL Daily Truck Check</div>
-    <button class="gear" onclick="showPage('settings')">⚙️</button>
-  </div>
-</div>
+<div class="deck" id="deck">
 
-<div class="container">
-
-<div class="tabs">
-  <button id="tab-dashboard" class="tab active" onclick="openDashboard()">Dashboard</button>
-  <button id="tab-new" class="tab" onclick="newInspection()">New Check</button>
-  <button id="tab-issues" class="tab" onclick="showPage('issues')">Open Issues</button>
-  <button id="tab-history" class="tab" onclick="showPage('history')">History</button>
-</div>
-
-<!-- DASHBOARD -->
-
-<section id="dashboard" class="page active">
-
-  <div class="grid">
-
-    <div class="card">
-      <div>Trucks</div>
-      <div id="truckCount" class="stat">0</div>
+  <!-- 1 TITLE -->
+  <section class="slide hero-slide active" data-title="Title">
+    <div class="slide-top">
+      <div class="brand-mark"><span class="dot">♻</span> ForeverClean Routes</div>
+      <div style="opacity:.7;font-size:.9rem;font-weight:600">Internal company pitch</div>
     </div>
-
-    <div class="card">
-      <div>Checked Today</div>
-      <div id="todayCount" class="stat">0</div>
-    </div>
-
-    <div class="card">
-      <div>Open Issues</div>
-      <div id="openCount" class="stat">0</div>
-    </div>
-
-  </div>
-
-  <div id="lastEntryCard"></div>
-
-  <div class="card">
-    <h3>Truck Status</h3>
-    <div id="dashboardTrucks"></div>
-  </div>
-
-</section>
-
-<!-- NEW INSPECTION -->
-
-<section id="new" class="page">
-
-  <div id="saveNotice"></div>
-
-  <div class="card">
-
-    <h2 id="inspectionTitle">New Truck Inspection</h2>
-
-    <label>Truck</label>
-    <select id="truckSelect"></select>
-
-    <label>Photos</label>
-
-    <button class="photo-main" type="button"
-      onclick="document.getElementById('mainPhotos').click()">
-      📸 Take Picture / Upload
-    </button>
-
-    <input
-      id="mainPhotos"
-      class="hidden"
-      type="file"
-      accept="image/*"
-      capture="environment"
-      multiple
-      onchange="loadMainPhotos(this)"
-    >
-
-    <div id="mainPreview" class="previews"></div>
-
-    <label>Problems / Notes</label>
-    <div id="noteRows"></div>
-
-    <label>Status</label>
-
-    <div class="status-grid">
-
-      <button id="readyBtn"
-        class="status-btn ready active"
-        onclick="setStatus('READY')">
-        ✅ Ready
-      </button>
-
-      <button id="repairBtn"
-        class="status-btn repair"
-        onclick="setStatus('REPAIR')">
-        ⚠️ Repair
-      </button>
-
-      <button id="oosBtn"
-        class="status-btn oos"
-        onclick="setStatus('OOS')">
-        🛑 OOS
-      </button>
-
-    </div>
-
-    <label>Driver / Inspector</label>
-    <select id="inspectorSelect"></select>
-
-    <button id="saveButton"
-      class="primary"
-      onclick="saveInspection()">
-      SAVE ENTRY
-    </button>
-
-    <div id="saveCountdown"></div>
-
-    <button class="secondary"
-      onclick="openDashboard()">
-      Cancel / Dashboard
-    </button>
-
-  </div>
-
-</section>
-
-<!-- OPEN ISSUES -->
-
-<section id="issues" class="page">
-
-  <div class="card">
-    <h2>Open Truck Issues</h2>
-    <p class="small">
-      Out of Service trucks appear first, then Repair trucks.
-    </p>
-  </div>
-
-  <div id="issueList"></div>
-
-</section>
-
-<!-- HISTORY -->
-
-<section id="history" class="page">
-
-  <div class="card">
-    <h2>Inspection History</h2>
-    <div id="historyList"></div>
-  </div>
-
-  <div class="card">
-    <h2>Activity Trail</h2>
-    <p class="small">
-      Shows who performed important actions in the app.
-    </p>
-    <div id="auditList"></div>
-  </div>
-
-</section>
-
-<!-- SETTINGS -->
-
-<section id="settings" class="page">
-
-  <div class="card">
-
-    <h2>Settings</h2>
-
-    <div class="warning">
-      Alex is the default administrator.
-      This GitHub Pages version is still a test version and does not yet have secure login authentication.
-    </div>
-
-    <div class="truck-row">
-      <div>
-        <strong>Administrator</strong>
-        <div class="small">Full access</div>
+    <div class="slide-body">
+      <p class="eyebrow">Cardboard &amp; recycling fleets · FEL &amp; bale routes</p>
+      <h1>Built for<br />the route,<br /><span class="accent">not the spinner.</span></h1>
+      <p class="lead">
+        A driver-first route, service, and dispatch app — same job as ServiceCore,
+        designed around how ForeverClean actually runs Sampson &amp; Wake County routes.
+      </p>
+      <div class="cta-row">
+        <span class="pill">Faster in every tap</span>
+        <span class="pill">Works offline</span>
+        <span class="pill">Built from driver feedback</span>
       </div>
-      <strong>Alex</strong>
+      <a class="demo-link" href="https://cardinal-routes.vercel.app/" target="_blank" rel="noopener">
+        Live demo → cardinal-routes.vercel.app
+      </a>
     </div>
+  </section>
 
-    <button class="primary" onclick="showPage('addTruck')">
-      + Add New Truck
-    </button>
+  <!-- 2 THE ASK -->
+  <section class="slide" data-title="The ask">
+    <div class="slide-top">
+      <div class="brand-mark"><span class="dot">♻</span> ForeverClean Routes</div>
+    </div>
+    <div class="slide-body">
+      <p class="eyebrow">Why we're here</p>
+      <h2>Replace the daily friction of ServiceCore — without losing the workflow.</h2>
+      <p class="lead">
+        Drivers and dispatch already know what “good” looks like.
+        ServiceCore does the job. It just makes every tap cost time.
+        This demo proves we can keep the purpose and cut the wait.
+      </p>
+      <div class="compare-grid" style="margin-top:1.6rem">
+        <div class="panel bad">
+          <h3>What ServiceCore is</h3>
+          <ul>
+            <li>Industry route / service / dispatch platform</li>
+            <li>Jobs, photos, optimize day, mobile app</li>
+            <li>Works — but slow, noisy, and generic</li>
+          </ul>
+        </div>
+        <div class="panel good">
+          <h3>What ForeverClean Routes is</h3>
+          <ul>
+            <li>Same core purpose: route → service → proof → office</li>
+            <li>Tuned for FEL &amp; bale cardboard / recycling</li>
+            <li>Instant screens, real offline, live NC roads</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <button class="secondary" onclick="showPage('addGuest')">
-      + Add Guest User
-    </button>
+  <!-- 3 SPEED THESIS -->
+  <section class="slide" data-title="Speed">
+    <div class="slide-top">
+      <div class="brand-mark"><span class="dot">♻</span> ForeverClean Routes</div>
+    </div>
+    <div class="slide-body">
+      <p class="eyebrow">The whole thesis</p>
+      <h2>Same action. Open one job.</h2>
+      <div class="speed-stage">
+        <div>
+          <div class="race">
+            <div class="race-row">
+              <div class="race-label">
+                <span>The app drivers use today</span>
+                <span class="time" style="color:var(--muted)">0.0s → waiting…</span>
+              </div>
+              <div class="track"><div class="bar slow"></div></div>
+            </div>
+            <div class="race-row">
+              <div class="race-label">
+                <span>ForeverClean Routes</span>
+                <span class="time" style="color:var(--cardinal)">0.05s</span>
+              </div>
+              <div class="track"><div class="bar fast"></div></div>
+            </div>
+          </div>
+          <p class="race-note">
+            The gray bar is still loading. That wait repeats on <strong>every tap</strong> —
+            inventory search, job open, map, complete. Multiply by 60–70 stops.
+          </p>
+        </div>
+        <div class="stat-stack">
+          <div class="stat">
+            <div class="k">&lt; 50ms</div>
+            <div class="v">Typical screen open on device — zero spinners</div>
+          </div>
+          <div class="stat">
+            <div class="k">0</div>
+            <div class="v">Spinner screens in the driver flow</div>
+          </div>
+          <div class="stat">
+            <div class="k">70+</div>
+            <div class="v">Stops where that difference compounds every day</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <h3 style="margin-top:22px">Guest Users</h3>
+  <!-- 4 DRIVER PAIN -->
+  <section class="slide" data-title="Driver pain">
+    <div class="slide-top">
+      <div class="brand-mark"><span class="dot">♻</span> ForeverClean Routes</div>
+    </div>
+    <div class="slide-body">
+      <p class="eyebrow">Straight from the route</p>
+      <h2>ServiceCore friction our drivers already named.</h2>
+      <div class="feature-grid">
+        <article class="feat">
+          <div class="num">01</div>
+          <h3>Inventory search &gt; 1 min</h3>
+          <p>Spinners on every tap. Tens of thousands of cans — still waiting for the server.</p>
+        </article>
+        <article class="feat">
+          <div class="num">02</div>
+          <h3>Kicked out to Maps</h3>
+          <p>“Get Directions” dumps the driver into Google/Apple Maps. Split-screen becomes the daily workaround.</p>
+        </article>
+        <article class="feat">
+          <div class="num">03</div>
+          <h3>Map is half-blind</h3>
+          <p>No status colors. Time windows stay yellow in the list only. Emergencies don’t ring on the map.</p>
+        </article>
+        <article class="feat">
+          <div class="num">04</div>
+          <h3>Wrong stops every week</h3>
+          <p>Bi-weekly &amp; monthly stops show up every week. Drivers check WhatsApp to know whether to go.</p>
+        </article>
+        <article class="feat">
+          <div class="num">05</div>
+          <h3>Dispatch can’t see trucks</h3>
+          <p>No live GPS board. Drivers have no overview of where they are on the full route.</p>
+        </article>
+        <article class="feat">
+          <div class="num">06</div>
+          <h3>Optimize ignores windows</h3>
+          <p>ServiceCore’s Optimize Day can’t see service hours — so “fewer miles” still misses docks.</p>
+        </article>
+      </div>
+    </div>
+  </section>
 
-    <div id="guestCounter" class="small"></div>
-    <div id="guestList"></div>
+  <!-- 5 HEAD TO HEAD -->
+  <section class="slide" data-title="Head to head">
+    <div class="slide-top">
+      <div class="brand-mark"><span class="dot">♻</span> ForeverClean Routes</div>
+    </div>
+    <div class="slide-body">
+      <p class="eyebrow">Head-to-head</p>
+      <h2>Same purpose. Clearer winner on the route.</h2>
+      <table class="vs-table">
+        <thead>
+          <tr>
+            <th>Capability</th>
+            <th>ServiceCore</th>
+            <th>ForeverClean Routes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Speed</td>
+            <td><span class="tag sc">Today</span><br />Spinners; inventory search can take over a minute</td>
+            <td><span class="tag fc">Demo</span><br />On-device search &amp; screens open in milliseconds</td>
+          </tr>
+          <tr>
+            <td>Navigation</td>
+            <td><span class="tag sc">Today</span><br />Leaves the app for Google / Apple Maps</td>
+            <td><span class="tag fc">Demo</span><br />Waze-style nav inside the app — camera, tilt, ETA</td>
+          </tr>
+          <tr>
+            <td>Map + job</td>
+            <td><span class="tag sc">Today</span><br />Tablet split-screen workaround</td>
+            <td><span class="tag fc">Demo</span><br />Half map / half job details, built in</td>
+          </tr>
+          <tr>
+            <td>Cadence</td>
+            <td><span class="tag sc">Today</span><br />Bi-weekly &amp; monthly clutter every week</td>
+            <td><span class="tag fc">Demo</span><br />Only due stops appear; badges when they’re on</td>
+          </tr>
+          <tr>
+            <td>Optimize</td>
+            <td><span class="tag sc">Today</span><br />Optimize Day without service windows</td>
+            <td><span class="tag fc">Demo</span><br />Windows respected, emergencies first, live push</td>
+          </tr>
+          <tr>
+            <td>Offline</td>
+            <td><span class="tag sc">Today</span><br />Fragile in dead zones</td>
+            <td><span class="tag fc">Demo</span><br />Full route cached; readable sync queue; nothing lost</td>
+          </tr>
+        </tbody>
+      </table>
 
-  </div>
+      <div class="vs-cards" aria-label="ServiceCore vs ForeverClean Routes">
+        <article class="vs-card">
+          <div class="cap">Speed</div>
+          <div class="sides">
+            <div class="side sc"><span class="tag sc">ServiceCore</span><br />Spinners; inventory search can take over a minute</div>
+            <div class="side fc"><span class="tag fc">ForeverClean</span><br />On-device search &amp; screens open in milliseconds</div>
+          </div>
+        </article>
+        <article class="vs-card">
+          <div class="cap">Navigation</div>
+          <div class="sides">
+            <div class="side sc"><span class="tag sc">ServiceCore</span><br />Leaves the app for Google / Apple Maps</div>
+            <div class="side fc"><span class="tag fc">ForeverClean</span><br />Waze-style nav inside the app — camera, tilt, ETA</div>
+          </div>
+        </article>
+        <article class="vs-card">
+          <div class="cap">Map + job</div>
+          <div class="sides">
+            <div class="side sc"><span class="tag sc">ServiceCore</span><br />Tablet split-screen workaround</div>
+            <div class="side fc"><span class="tag fc">ForeverClean</span><br />Half map / half job details, built in</div>
+          </div>
+        </article>
+        <article class="vs-card">
+          <div class="cap">Cadence</div>
+          <div class="sides">
+            <div class="side sc"><span class="tag sc">ServiceCore</span><br />Bi-weekly &amp; monthly clutter every week</div>
+            <div class="side fc"><span class="tag fc">ForeverClean</span><br />Only due stops appear; badges when they’re on</div>
+          </div>
+        </article>
+        <article class="vs-card">
+          <div class="cap">Optimize</div>
+          <div class="sides">
+            <div class="side sc"><span class="tag sc">ServiceCore</span><br />Optimize Day without service windows</div>
+            <div class="side fc"><span class="tag fc">ForeverClean</span><br />Windows respected, emergencies first, live push</div>
+          </div>
+        </article>
+        <article class="vs-card">
+          <div class="cap">Offline</div>
+          <div class="sides">
+            <div class="side sc"><span class="tag sc">ServiceCore</span><br />Fragile in dead zones</div>
+            <div class="side fc"><span class="tag fc">ForeverClean</span><br />Full route cached; readable sync queue; nothing lost</div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
 
-</section>
+  <!-- 6 DRIVER APP -->
+  <section class="slide" data-title="Driver app">
+    <div class="slide-top">
+      <div class="brand-mark"><span class="dot">♻</span> ForeverClean Routes</div>
+    </div>
+    <div class="slide-body two-col">
+      <div>
+        <p class="eyebrow">Stop 01 · Driver app</p>
+        <h2>Everything the stop needs — on one screen.</h2>
+        <p class="lead">
+          Today’s route as a timeline. One tap to start and complete.
+          Gate codes, can numbers, location photos, and GPS proof baked in.
+        </p>
+        <div style="margin-top:1rem">
+          <span class="map-chip chip-gray">Not started</span>
+          <span class="map-chip chip-amber">In progress</span>
+          <span class="map-chip chip-green">Done</span>
+          <span class="map-chip chip-red">Unable</span>
+        </div>
+        <a class="demo-link" href="https://cardinal-routes.vercel.app/driver" target="_blank" rel="noopener">
+          Open driver app →
+        </a>
+      </div>
+      <div class="panel good">
+        <h3>Better than ServiceCore because</h3>
+        <ul>
+          <li>Navigate never kicks you out of the app</li>
+          <li>Tap a job on the map → half map, half details</li>
+          <li>Service windows &amp; emergencies ring on the map</li>
+          <li>Can serials as chips on every route card</li>
+          <li>Site code under the address, every time</li>
+          <li>Unable to service in two taps, with photo</li>
+          <li>“Hide serviced” without renumbering stops</li>
+        </ul>
+      </div>
+    </div>
+  </section>
 
-<!-- ADD TRUCK PAGE -->
+  <!-- 7 DISPATCH -->
+  <section class="slide" data-title="Dispatch">
+    <div class="slide-top">
+      <div class="brand-mark"><span class="dot">♻</span> ForeverClean Routes</div>
+    </div>
+    <div class="slide-body two-col">
+      <div>
+        <p class="eyebrow">Stop 02 · Live board</p>
+        <h2>Trucks on real NC roads. Exceptions with the photo attached.</h2>
+        <p class="lead">
+          Dispatch sees progress stop by stop the moment the driver acts —
+          and can re-sequence or optimize without a phone call.
+        </p>
+        <a class="demo-link" href="https://cardinal-routes.vercel.app/dispatch" target="_blank" rel="noopener">
+          Open dispatch →
+        </a>
+      </div>
+      <div class="panel good">
+        <h3>Better than ServiceCore because</h3>
+        <ul>
+          <li>Live GPS board with driver + truck labels</li>
+          <li>Drag to re-sequence — driver sees it live</li>
+          <li>Optimize: fewer miles, windows respected, pushed to phone</li>
+          <li>Example: 163 mi → 120 mi (−27%)</li>
+          <li>Bi-weekly / monthly only on due weeks</li>
+          <li>Full serviced history with proof, day by day</li>
+          <li>Billable add-ons flow straight to the office</li>
+        </ul>
+      </div>
+    </div>
+  </section>
 
-<section id="addTruck" class="page">
+  <!-- 8 OFFLINE -->
+  <section class="slide" data-title="Offline">
+    <div class="slide-top">
+      <div class="brand-mark"><span class="dot">♻</span> ForeverClean Routes</div>
+    </div>
+    <div class="slide-body two-col">
+      <div>
+        <p class="eyebrow">Stop 03 · Offline</p>
+        <div class="big-number">0%</div>
+        <h2 style="margin-top:.4rem">signal between Roseboro and Dunn?</h2>
+        <p class="lead">
+          The app does not care. Every action lands locally in milliseconds and queues.
+          Reconnect — and the day syncs itself.
+        </p>
+        <a class="demo-link" href="https://cardinal-routes.vercel.app/driver/sync" target="_blank" rel="noopener">
+          See the sync queue →
+        </a>
+      </div>
+      <div class="panel good">
+        <h3>Better than ServiceCore because</h3>
+        <ul>
+          <li>Full route cached on the phone before the day starts</li>
+          <li>Human-readable sync queue — not a black box</li>
+          <li>Nothing lost to a spinner when the tower drops</li>
+          <li>Built for NC dead zones, not office Wi‑Fi demos</li>
+        </ul>
+      </div>
+    </div>
+  </section>
 
-  <div class="card">
+  <!-- 9 FEEDBACK LOOP -->
+  <section class="slide" data-title="Built from feedback">
+    <div class="slide-top">
+      <div class="brand-mark"><span class="dot">♻</span> ForeverClean Routes</div>
+    </div>
+    <div class="slide-body">
+      <p class="eyebrow">Not a theory product</p>
+      <h2>15 driver complaints. 15 answers already in the demo.</h2>
+      <p class="quote">
+        “Every point below came straight from a route driver — and every answer is live in this demo.”
+        <cite>ForeverClean Routes feedback board · Sampson &amp; Wake County, NC</cite>
+      </p>
+      <div class="feature-grid" style="grid-template-columns:repeat(3,1fr)">
+        <article class="feat">
+          <div class="num">Search</div>
+          <h3>On-device index</h3>
+          <p>Inventory answers in ms — even at tens of thousands of cans.</p>
+        </article>
+        <article class="feat">
+          <div class="num">Layout</div>
+          <h3>Truly responsive</h3>
+          <p>Phone to projector. Resize live — nothing falls off screen.</p>
+        </article>
+        <article class="feat">
+          <div class="num">Yard</div>
+          <h3>Real end-of-day stop</h3>
+          <p>No fake “drive back to yard” clutter — only the compactor haul + scale ticket.</p>
+        </article>
+        <article class="feat">
+          <div class="num">Assets</div>
+          <h3>Location photo forever</h3>
+          <p>Where the dumpster sits, from first delivery — on every work order.</p>
+        </article>
+        <article class="feat">
+          <div class="num">Proof</div>
+          <h3>GPS + timestamp</h3>
+          <p>Photo proof baked in when the driver completes or can’t service.</p>
+        </article>
+        <article class="feat">
+          <div class="num">Theme</div>
+          <h3>Fast is the product</h3>
+          <p>Zero spinners anywhere. That is the thesis.</p>
+        </article>
+      </div>
+      <a class="demo-link" href="https://cardinal-routes.vercel.app/feedback" target="_blank" rel="noopener">
+        Full feedback → feature map →
+      </a>
+    </div>
+  </section>
 
-    <h2>Add New Truck</h2>
+  <!-- 10 WHY IT MATTERS -->
+  <section class="slide" data-title="Business case">
+    <div class="slide-top">
+      <div class="brand-mark"><span class="dot">♻</span> ForeverClean Routes</div>
+    </div>
+    <div class="slide-body">
+      <p class="eyebrow">Why this is better for ForeverClean</p>
+      <h2>Minutes saved per stop become hours back on the route.</h2>
+      <div class="compare-grid">
+        <div class="panel">
+          <h3 style="color:var(--ink)">For drivers</h3>
+          <ul>
+            <li>Less waiting, less split-screen juggling</li>
+            <li>Nav + job details stay in one place</li>
+            <li>Only the stops that are actually due</li>
+            <li>Works through dead zones</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h3 style="color:var(--ink)">For dispatch &amp; office</h3>
+          <ul>
+            <li>Live trucks and exceptions with photos</li>
+            <li>Optimize that respects service windows</li>
+            <li>Cleaner history and billable add-ons</li>
+            <li>Software shaped for cardboard / recycling — not portable toilets bolted on</li>
+          </ul>
+        </div>
+      </div>
+      <p class="lead" style="margin-top:1.4rem;max-width:42rem">
+        ServiceCore serves a broad sanitation market. ForeverClean Routes serves
+        <strong>our</strong> routes: schools, restaurants, retail docks, FEL and bale.
+      </p>
+    </div>
+  </section>
 
-    <label>Truck Number / Name</label>
-    <input id="newTruckName"
-      type="text"
-      placeholder="Example: 116 or R10">
+  <!-- 11 DEMO PLAN -->
+  <section class="slide" data-title="Live demo">
+    <div class="slide-top">
+      <div class="brand-mark"><span class="dot">♻</span> ForeverClean Routes</div>
+    </div>
+    <div class="slide-body">
+      <p class="eyebrow">Show, don’t tell</p>
+      <h2>5-minute live walkthrough.</h2>
+      <ol class="next-list">
+        <li>
+          <span class="n">1</span>
+          <div>
+            <strong>Speed race</strong>
+            <span>Open one job in ServiceCore vs ForeverClean Routes. Watch the spinner lose.</span>
+          </div>
+        </li>
+        <li>
+          <span class="n">2</span>
+          <div>
+            <strong>Driver stop</strong>
+            <span>Navigate in-app → half map / half job → complete with photo proof.</span>
+          </div>
+        </li>
+        <li>
+          <span class="n">3</span>
+          <div>
+            <strong>Dispatch board</strong>
+            <span>Watch the truck move on NC roads; drag re-sequence; hit Optimize.</span>
+          </div>
+        </li>
+        <li>
+          <span class="n">4</span>
+          <div>
+            <strong>Cadence flip</strong>
+            <span>Jump a week ahead — bi-weekly / monthly stops disappear when not due.</span>
+          </div>
+        </li>
+        <li>
+          <span class="n">5</span>
+          <div>
+            <strong>Offline / sync</strong>
+            <span>Show the queue: actions land locally, sync when signal returns.</span>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
 
-    <button class="primary" onclick="addTruck()">
-      Save Truck
-    </button>
-
-    <button class="secondary" onclick="showPage('settings')">
-      Cancel
-    </button>
-
-  </div>
-
-</section>
-
-<!-- ADD GUEST PAGE -->
-
-<section id="addGuest" class="page">
-
-  <div class="card">
-
-    <h2>Add Guest User</h2>
-
-    <p id="guestPageCounter" class="small"></p>
-
-    <label>Guest Name</label>
-
-    <input id="newGuestName"
-      type="text"
-      placeholder="Employee name">
-
-    <button id="addGuestButton"
-      class="primary"
-      onclick="addGuest()">
-      Save Guest
-    </button>
-
-    <button class="secondary" onclick="showPage('settings')">
-      Cancel
-    </button>
-
-  </div>
-
-</section>
+  <!-- 12 CLOSE -->
+  <section class="slide hero-slide" data-title="Close">
+    <div class="slide-top">
+      <div class="brand-mark"><span class="dot">♻</span> ForeverClean Routes</div>
+    </div>
+    <div class="slide-body">
+      <p class="eyebrow">The ask</p>
+      <h1>Same job as<br />ServiceCore.<br /><span class="accent">Faster where it counts.</span></h1>
+      <p class="lead">
+        Approve a pilot on real ForeverClean routes.
+        Keep what works. Cut the spinners. Let drivers prove it on the road.
+      </p>
+      <div class="cta-row">
+        <span class="pill">Demo: cardinal-routes.vercel.app</span>
+        <span class="pill">Driver · Dispatch · Feedback board</span>
+      </div>
+      <p class="lead" style="margin-top:2rem;font-size:1rem;opacity:.7">
+        Built for the route, not the spinner.
+      </p>
+    </div>
+  </section>
 
 </div>
 
-<div class="bottom-nav">
-
-  <div class="bottom-inner">
-
-    <button class="bottom-btn bottom-new"
-      onclick="newInspection()">
-      ➕ New Check
-    </button>
-
-    <button class="bottom-btn bottom-issues"
-      onclick="showPage('issues')">
-      🔧 Open Issues
-    </button>
-
+<footer class="footer-nav">
+  <button type="button" id="prevBtn" aria-label="Previous slide">← Prev</button>
+  <div class="progress" id="dots" aria-label="Slide progress"></div>
+  <div style="display:flex;align-items:center;gap:.75rem">
+    <span class="slide-count" id="count">01 / 12</span>
+    <button type="button" id="nextBtn" aria-label="Next slide">Next →</button>
   </div>
-
-</div>
+</footer>
 
 <script>
+  const slides = [...document.querySelectorAll(".slide")];
+  const dots = document.getElementById("dots");
+  const count = document.getElementById("count");
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
+  let i = 0;
 
-const ADMIN = "Alex";
-const MAX_GUESTS = 10;
-const SAVE_LOCK_SECONDS = 15;
-
-const defaultTrucks = [
-  "FCFL 103",
-  "FCFL 105",
-  "FCFL 107",
-  "FCFL 108",
-  "FCFL 109",
-  "FCFL 111",
-  "FCFL 112",
-  "FCFL 113",
-  "FCFL 114",
-  "FCFL 115",
-  "FCFL R2",
-  "FCFL R4",
-  "FCFL R7",
-  "FCFL R9"
-];
-
-let trucks =
-  JSON.parse(localStorage.getItem("fcfl_v4_trucks"))
-  || defaultTrucks;
-
-let inspections =
-  JSON.parse(localStorage.getItem("fcfl_v4_inspections"))
-  || [];
-
-let issues =
-  JSON.parse(localStorage.getItem("fcfl_v4_issues"))
-  || [];
-
-let guests =
-  JSON.parse(localStorage.getItem("fcfl_v4_guests"))
-  || [];
-
-let audit =
-  JSON.parse(localStorage.getItem("fcfl_v4_audit"))
-  || [];
-
-let truckStatuses =
-  JSON.parse(localStorage.getItem("fcfl_v4_statuses"))
-  || {};
-
-let currentStatus = "READY";
-let mainPhotos = [];
-let notePhotos = [[],[],[],[],[]];
-
-let editingInspectionId = null;
-
-let lastSaveTime =
-  Number(localStorage.getItem("fcfl_v4_lastSaveTime"))
-  || 0;
-
-let countdownTimer = null;
-
-
-/* ---------------- DATA ---------------- */
-
-function saveData(){
-
-  localStorage.setItem(
-    "fcfl_v4_trucks",
-    JSON.stringify(trucks)
-  );
-
-  localStorage.setItem(
-    "fcfl_v4_inspections",
-    JSON.stringify(inspections)
-  );
-
-  localStorage.setItem(
-    "fcfl_v4_issues",
-    JSON.stringify(issues)
-  );
-
-  localStorage.setItem(
-    "fcfl_v4_guests",
-    JSON.stringify(guests)
-  );
-
-  localStorage.setItem(
-    "fcfl_v4_audit",
-    JSON.stringify(audit)
-  );
-
-  localStorage.setItem(
-    "fcfl_v4_statuses",
-    JSON.stringify(truckStatuses)
-  );
-
-}
-
-
-/* ---------------- NAVIGATION ---------------- */
-
-function showPage(name){
-
-  document.querySelectorAll(".page")
-    .forEach(p => p.classList.remove("active"));
-
-  document.getElementById(name)
-    .classList.add("active");
-
-  document.querySelectorAll(".tab")
-    .forEach(t => t.classList.remove("active"));
-
-  if(name==="dashboard")
-    document.getElementById("tab-dashboard").classList.add("active");
-
-  if(name==="new")
-    document.getElementById("tab-new").classList.add("active");
-
-  if(name==="issues")
-    document.getElementById("tab-issues").classList.add("active");
-
-  if(name==="history")
-    document.getElementById("tab-history").classList.add("active");
-
-  refresh();
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
+  slides.forEach((_, idx) => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.setAttribute("aria-label", `Go to slide ${idx + 1}`);
+    b.addEventListener("click", () => go(idx));
+    dots.appendChild(b);
   });
 
-}
-
-
-function openDashboard(){
-  showPage("dashboard");
-}
-
-
-/* ---------------- NEW INSPECTION ---------------- */
-
-function newInspection(){
-
-  editingInspectionId = null;
-
-  document.getElementById("inspectionTitle")
-    .textContent = "New Truck Inspection";
-
-  resetInspectionForm();
-
-  showPage("new");
-
-}
-
-
-function resetInspectionForm(){
-
-  currentStatus = "READY";
-
-  mainPhotos = [];
-  notePhotos = [[],[],[],[],[]];
-
-  makeNoteRows();
-
-  document.getElementById("mainPreview")
-    .innerHTML = "";
-
-  setStatus("READY");
-
-  refreshInspectorList();
-
-  refreshSaveLock();
-
-}
-
-
-/* ---------------- STATUS ---------------- */
-
-function setStatus(status){
-
-  currentStatus = status;
-
-  ["readyBtn","repairBtn","oosBtn"]
-    .forEach(id =>
-      document.getElementById(id)
-      .classList.remove("active")
-    );
-
-  if(status==="READY")
-    document.getElementById("readyBtn")
-      .classList.add("active");
-
-  if(status==="REPAIR")
-    document.getElementById("repairBtn")
-      .classList.add("active");
-
-  if(status==="OOS")
-    document.getElementById("oosBtn")
-      .classList.add("active");
-
-}
-
-
-function statusColor(status){
-
-  if(status==="READY") return "green";
-  if(status==="REPAIR") return "yellow";
-  if(status==="OOS") return "red";
-
-  return "gray";
-
-}
-
-
-/* ---------------- PHOTOS ---------------- */
-
-function makeNoteRows(){
-
-  const box =
-    document.getElementById("noteRows");
-
-  box.innerHTML = "";
-
-  for(let i=0;i<5;i++){
-
-    const div =
-      document.createElement("div");
-
-    div.innerHTML = `
-
-      <div class="note-row">
-
-        <input
-          id="note${i}"
-          placeholder="Problem / note ${i+1}"
-        >
-
-        <button class="plus"
-          type="button"
-          onclick="document.getElementById('notePhoto${i}').click()">
-          +
-        </button>
-
-      </div>
-
-      <input
-        class="hidden"
-        id="notePhoto${i}"
-        type="file"
-        accept="image/*"
-        capture="environment"
-        multiple
-        onchange="loadNotePhotos(${i},this)"
-      >
-
-      <div id="notePreview${i}"
-        class="previews">
-      </div>
-
-    `;
-
-    box.appendChild(div);
-
+  function go(n) {
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach((s, idx) => s.classList.toggle("active", idx === i));
+    [...dots.children].forEach((d, idx) => d.classList.toggle("on", idx === i));
+    count.textContent = String(i + 1).padStart(2, "0") + " / " + String(slides.length).padStart(2, "0");
+    prevBtn.disabled = i === 0;
+    nextBtn.disabled = i === slides.length - 1;
+    history.replaceState(null, "", "#" + (i + 1));
   }
 
-}
+  prevBtn.addEventListener("click", () => go(i - 1));
+  nextBtn.addEventListener("click", () => go(i + 1));
 
-
-function fileData(file){
-
-  return new Promise((resolve,reject)=>{
-
-    const reader = new FileReader();
-
-    reader.onload =
-      () => resolve(reader.result);
-
-    reader.onerror =
-      () => reject(reader.error);
-
-    reader.readAsDataURL(file);
-
-  });
-
-}
-
-
-async function loadMainPhotos(input){
-
-  for(const file of input.files){
-
-    const photo =
-      await fileData(file);
-
-    mainPhotos.push(photo);
-
-  }
-
-  renderMainPhotos();
-
-}
-
-
-function renderMainPhotos(){
-
-  document.getElementById("mainPreview")
-    .innerHTML =
-      mainPhotos.map(p =>
-        `<img class="preview" src="${p}">`
-      ).join("");
-
-}
-
-
-async function loadNotePhotos(index,input){
-
-  for(const file of input.files){
-
-    const photo =
-      await fileData(file);
-
-    notePhotos[index].push(photo);
-
-  }
-
-  document.getElementById(
-    "notePreview"+index
-  ).innerHTML =
-    notePhotos[index]
-      .map(p =>
-        `<img class="preview" src="${p}">`
-      ).join("");
-
-}
-
-
-/* ---------------- AUDIT ---------------- */
-
-function addAudit(person,action,truck=""){
-
-  audit.unshift({
-
-    id:Date.now(),
-
-    person,
-
-    action,
-
-    truck,
-
-    timestamp:
-      new Date().toLocaleString()
-
-  });
-
-}
-
-
-/* ---------------- SAVE LOCK ---------------- */
-
-function secondsRemaining(){
-
-  const elapsed =
-    Math.floor(
-      (Date.now()-lastSaveTime)/1000
-    );
-
-  return Math.max(
-    0,
-    SAVE_LOCK_SECONDS-elapsed
-  );
-
-}
-
-
-function refreshSaveLock(){
-
-  clearInterval(countdownTimer);
-
-  const button =
-    document.getElementById("saveButton");
-
-  const box =
-    document.getElementById("saveCountdown");
-
-  function update(){
-
-    const remaining =
-      secondsRemaining();
-
-    if(
-      remaining>0 &&
-      !editingInspectionId
-    ){
-
-      button.disabled = true;
-
-      box.innerHTML =
-        `<div class="countdown">
-        ✅ Entry saved.
-        New save available in ${remaining} seconds.
-        </div>`;
-
-    }else{
-
-      button.disabled = false;
-
-      box.innerHTML = "";
-
-      clearInterval(countdownTimer);
-
+  window.addEventListener("keydown", (e) => {
+    if (["ArrowRight", "PageDown", " ", "Enter"].includes(e.key)) {
+      e.preventDefault();
+      go(i + 1);
+    } else if (["ArrowLeft", "PageUp", "Backspace"].includes(e.key)) {
+      e.preventDefault();
+      go(i - 1);
+    } else if (e.key === "Home") {
+      go(0);
+    } else if (e.key === "End") {
+      go(slides.length - 1);
     }
-
-  }
-
-  update();
-
-  countdownTimer =
-    setInterval(update,1000);
-
-}
-
-
-/* ---------------- SAVE INSPECTION ---------------- */
-
-function saveInspection(){
-
-  if(
-    !editingInspectionId &&
-    secondsRemaining()>0
-  ){
-
-    refreshSaveLock();
-
-    return;
-
-  }
-
-  const truck =
-    document.getElementById(
-      "truckSelect"
-    ).value;
-
-  const inspector =
-    document.getElementById(
-      "inspectorSelect"
-    ).value;
-
-  if(!truck){
-    alert("Choose a truck.");
-    return;
-  }
-
-  if(!inspector){
-    alert("Choose an inspector.");
-    return;
-  }
-
-  const notes = [];
-
-  for(let i=0;i<5;i++){
-
-    const text =
-      document.getElementById(
-        "note"+i
-      ).value.trim();
-
-    if(
-      text ||
-      notePhotos[i].length
-    ){
-
-      notes.push({
-        text,
-        photos:notePhotos[i]
-      });
-
-    }
-
-  }
-
-
-  /* EDIT EXISTING ENTRY */
-
-  if(editingInspectionId){
-
-    const record =
-      inspections.find(
-        i=>i.id===editingInspectionId
-      );
-
-    if(!record) return;
-
-    record.truck = truck;
-    record.inspector = inspector;
-    record.status = currentStatus;
-    record.notes = notes;
-    record.photos = mainPhotos;
-    record.editedAt =
-      new Date().toLocaleString();
-
-    truckStatuses[truck] =
-      currentStatus;
-
-    addAudit(
-      inspector,
-      "edited inspection",
-      truck
-    );
-
-    editingInspectionId = null;
-
-    saveData();
-
-    alert("Entry updated.");
-
-    openDashboard();
-
-    return;
-
-  }
-
-
-  /* NEW ENTRY */
-
-  const record = {
-
-    id:Date.now(),
-
-    truck,
-
-    inspector,
-
-    status:currentStatus,
-
-    notes,
-
-    photos:mainPhotos,
-
-    timestamp:
-      new Date().toLocaleString(),
-
-    dateKey:
-      new Date().toLocaleDateString()
-
-  };
-
-  inspections.unshift(record);
-
-  truckStatuses[truck] =
-    currentStatus;
-
-
-  if(
-    currentStatus==="REPAIR" ||
-    currentStatus==="OOS"
-  ){
-
-    const description =
-      notes
-      .map(n=>n.text)
-      .filter(Boolean)
-      .join(" • ")
-      ||
-      (
-        currentStatus==="OOS"
-        ? "Truck marked Out of Service"
-        : "Truck needs repair"
-      );
-
-    issues.unshift({
-
-      id:Date.now()+1,
-
-      truck,
-
-      description,
-
-      level:
-        currentStatus==="OOS"
-        ? "red"
-        : "yellow",
-
-      reportedBy:inspector,
-
-      reportedAt:
-        new Date().toLocaleString(),
-
-      resolved:false,
-
-      resolvedBy:null,
-
-      resolvedAt:null
-
-    });
-
-  }
-
-  addAudit(
-    inspector,
-    "saved inspection",
-    truck
-  );
-
-  lastSaveTime = Date.now();
-
-  localStorage.setItem(
-    "fcfl_v4_lastSaveTime",
-    lastSaveTime
-  );
-
-  saveData();
-
-  showSaveConfirmation(record);
-
-  resetInspectionForm();
-
-  refresh();
-
-}
-
-
-/* ---------------- CONFIRMATION ---------------- */
-
-function showSaveConfirmation(record){
-
-  document.getElementById(
-    "lastEntryCard"
-  ).innerHTML = `
-
-    <div class="card success">
-
-      <h3>✅ Entry Saved</h3>
-
-      <strong>${record.truck}</strong>
-
-      <p>
-        ${record.status}
-        <br>
-        Inspector: ${record.inspector}
-        <br>
-        ${record.timestamp}
-      </p>
-
-      <button class="secondary"
-        onclick="editInspection(${record.id})">
-        Edit Last Entry
-      </button>
-
-    </div>
-
-  `;
-
-  openDashboard();
-
-}
-
-
-/* ---------------- EDIT LAST ENTRY ---------------- */
-
-function editInspection(id){
-
-  const record =
-    inspections.find(
-      i=>i.id===id
-    );
-
-  if(!record) return;
-
-  editingInspectionId = id;
-
-  showPage("new");
-
-  document.getElementById(
-    "inspectionTitle"
-  ).textContent =
-    "Edit Inspection";
-
-  document.getElementById(
-    "truckSelect"
-  ).value =
-    record.truck;
-
-  document.getElementById(
-    "inspectorSelect"
-  ).value =
-    record.inspector;
-
-  setStatus(
-    record.status
-  );
-
-  mainPhotos =
-    record.photos || [];
-
-  renderMainPhotos();
-
-  notePhotos =
-    [[],[],[],[],[]];
-
-  makeNoteRows();
-
-  record.notes
-    .slice(0,5)
-    .forEach((note,index)=>{
-
-      document.getElementById(
-        "note"+index
-      ).value =
-        note.text || "";
-
-      notePhotos[index] =
-        note.photos || [];
-
-      document.getElementById(
-        "notePreview"+index
-      ).innerHTML =
-        notePhotos[index]
-        .map(p=>
-          `<img class="preview" src="${p}">`
-        ).join("");
-
-    });
-
-  document.getElementById(
-    "saveButton"
-  ).disabled=false;
-
-  document.getElementById(
-    "saveCountdown"
-  ).innerHTML="";
-
-}
-
-
-/* ---------------- RESOLVE ISSUE ---------------- */
-
-function resolveIssue(id){
-
-  const issue =
-    issues.find(
-      i=>i.id===id
-    );
-
-  if(!issue) return;
-
-  const resolver =
-    prompt(
-      "Who is marking this issue resolved?"
-    );
-
-  if(!resolver) return;
-
-  if(
-    resolver.trim().toLowerCase()
-    !== ADMIN.toLowerCase()
-  ){
-
-    alert(
-      "Only Alex can mark an issue resolved in this test version."
-    );
-
-    return;
-
-  }
-
-  issue.resolved = true;
-
-  issue.resolvedBy =
-    resolver.trim();
-
-  issue.resolvedAt =
-    new Date().toLocaleString();
-
-  truckStatuses[
-    issue.truck
-  ] = "READY";
-
-  addAudit(
-    resolver.trim(),
-    "marked issue resolved",
-    issue.truck
-  );
-
-  saveData();
-
-  refresh();
-
-  alert(
-    issue.truck +
-    " is now marked READY / GREEN."
-  );
-
-}
-
-
-/* ---------------- ADD TRUCK ---------------- */
-
-function addTruck(){
-
-  let name =
-    document.getElementById(
-      "newTruckName"
-    ).value.trim();
-
-  if(!name) return;
-
-  name =
-    name.toUpperCase();
-
-  if(!name.startsWith("FCFL")){
-
-    name =
-      "FCFL " + name;
-
-  }
-
-  name =
-    name.replace(
-      /^FCFL\s*/,
-      "FCFL "
-    );
-
-  if(
-    trucks.some(
-      t=>
-        t.toLowerCase()===
-        name.toLowerCase()
-    )
-  ){
-
-    alert(
-      "That truck already exists."
-    );
-
-    return;
-
-  }
-
-  trucks.push(name);
-
-  truckStatuses[name] =
-    "READY";
-
-  addAudit(
-    ADMIN,
-    "added truck",
-    name
-  );
-
-  saveData();
-
-  document.getElementById(
-    "newTruckName"
-  ).value="";
-
-  alert("Truck added.");
-
-  showPage("settings");
-
-}
-
-
-/* ---------------- GUEST USERS ---------------- */
-
-function addGuest(){
-
-  if(
-    guests.length>=MAX_GUESTS
-  ){
-
-    alert(
-      "Maximum of 10 guest users reached."
-    );
-
-    return;
-
-  }
-
-  const name =
-    document.getElementById(
-      "newGuestName"
-    ).value.trim();
-
-  if(!name) return;
-
-  if(
-    guests.some(
-      g=>
-        g.name.toLowerCase()===
-        name.toLowerCase()
-    )
-  ){
-
-    alert(
-      "That guest already exists."
-    );
-
-    return;
-
-  }
-
-  guests.push({
-    id:Date.now(),
-    name,
-    role:"Inspector"
   });
 
-  addAudit(
-    ADMIN,
-    "added guest user: "+name
-  );
-
-  saveData();
-
-  document.getElementById(
-    "newGuestName"
-  ).value="";
-
-  alert("Guest added.");
-
-  showPage("settings");
-
-}
-
-
-function removeGuest(id){
-
-  const guest =
-    guests.find(
-      g=>g.id===id
-    );
-
-  if(!guest) return;
-
-  if(
-    !confirm(
-      "Remove "+guest.name+"?"
-    )
-  ) return;
-
-  guests =
-    guests.filter(
-      g=>g.id!==id
-    );
-
-  addAudit(
-    ADMIN,
-    "removed guest user: "+guest.name
-  );
-
-  saveData();
-
-  refresh();
-
-}
-
-
-/* ---------------- INSPECTOR LIST ---------------- */
-
-function refreshInspectorList(){
-
-  const people = [
-    ADMIN,
-    ...guests.map(g=>g.name)
-  ];
-
-  document.getElementById(
-    "inspectorSelect"
-  ).innerHTML =
-    people.map(
-      name=>
-      `<option value="${name}">
-      ${name}
-      </option>`
-    ).join("");
-
-}
-
-
-/* ---------------- RENDER ISSUES ---------------- */
-
-function renderIssues(){
-
-  const priority = {
-    red:1,
-    yellow:2,
-    green:3
-  };
-
-  const open =
-    issues
-      .filter(i=>!i.resolved)
-      .sort(
-        (a,b)=>
-        priority[a.level]-
-        priority[b.level]
-      );
-
-  if(!open.length){
-
-    return `
-      <div class="card">
-      ✅ No open truck issues.
-      </div>
-    `;
-
-  }
-
-  return open.map(issue=>`
-
-    <div class="card issue ${
-      issue.level==="red"
-      ? "red-border"
-      : "yellow-border"
-    }">
-
-      <div class="truck-left">
-
-        <span class="dot ${issue.level}"></span>
-
-        <h3 style="margin:0">
-          ${issue.truck}
-        </h3>
-
-      </div>
-
-      <p>
-        ${issue.description}
-      </p>
-
-      <p class="small">
-        Reported by:
-        ${issue.reportedBy}
-        <br>
-        ${issue.reportedAt}
-      </p>
-
-      <span class="badge ${
-        issue.level==="red"
-        ? "red-badge"
-        : "yellow-badge"
-      }">
-
-        ${
-          issue.level==="red"
-          ? "OUT OF SERVICE"
-          : "NEEDS REPAIR"
-        }
-
-      </span>
-
-      <br><br>
-
-      <button class="resolve"
-        onclick="resolveIssue(${issue.id})">
-        Mark Resolved
-      </button>
-
-    </div>
-
-  `).join("");
-
-}
-
-
-/* ---------------- HISTORY ---------------- */
-
-function renderHistory(){
-
-  if(!inspections.length){
-
-    return `<p>No inspection history yet.</p>`;
-
-  }
-
-  return inspections.map(record=>{
-
-    const resolved =
-      issues.find(
-        issue=>
-          issue.truck===record.truck &&
-          issue.resolved &&
-          issue.reportedAt>=record.timestamp
-      );
-
-    return `
-
-      <div class="audit-item">
-
-        <div class="truck-left">
-
-          <span class="dot ${
-            statusColor(record.status)
-          }"></span>
-
-          <strong>
-            ${record.truck}
-          </strong>
-
-        </div>
-
-        <p>
-          Status:
-          <strong>${record.status}</strong>
-        </p>
-
-        <p>
-          Inspector:
-          ${record.inspector}
-        </p>
-
-        ${
-          record.notes.length
-          ?
-          record.notes.map(n=>
-            `<div>
-              ${n.text || "Photo attached"}
-            </div>`
-          ).join("")
-          :
-          `<div class="small">
-          No notes.
-          </div>`
-        }
-
-        <p class="small">
-          ${record.timestamp}
-        </p>
-
-        ${
-          record.editedAt
-          ?
-          `<p class="small">
-          Edited: ${record.editedAt}
-          </p>`
-          :""
-        }
-
-        ${
-          resolved
-          ?
-          `<p>
-          <span class="badge green-badge">
-          ✅ Resolved
-          </span>
-          <br>
-          Resolved by:
-          <strong>${resolved.resolvedBy}</strong>
-          <br>
-          <span class="small">
-          ${resolved.resolvedAt}
-          </span>
-          </p>`
-          :""
-        }
-
-      </div>
-
-    `;
-
-  }).join("");
-
-}
-
-
-/* ---------------- AUDIT TRAIL ---------------- */
-
-function renderAudit(){
-
-  if(!audit.length){
-
-    return `<p>No activity yet.</p>`;
-
-  }
-
-  return audit.map(item=>`
-
-    <div class="audit-item">
-
-      <strong>
-        ${item.person}
-      </strong>
-
-      ${item.action}
-
-      ${
-        item.truck
-        ?
-        `<strong>
-        ${item.truck}
-        </strong>`
-        :""
-      }
-
-      <div class="small">
-        ${item.timestamp}
-      </div>
-
-    </div>
-
-  `).join("");
-
-}
-
-
-/* ---------------- REFRESH ---------------- */
-
-function refresh(){
-
-  const truckOptions =
-    trucks.map(
-      truck=>
-      `<option value="${truck}">
-      ${truck}
-      </option>`
-    ).join("");
-
-  document.getElementById(
-    "truckSelect"
-  ).innerHTML =
-    truckOptions;
-
-
-  refreshInspectorList();
-
-
-  document.getElementById(
-    "truckCount"
-  ).textContent =
-    trucks.length;
-
-
-  const today =
-    new Date()
-    .toLocaleDateString();
-
-  const checkedToday =
-    new Set(
-      inspections
-      .filter(
-        i=>i.dateKey===today
-      )
-      .map(i=>i.truck)
-    ).size;
-
-  document.getElementById(
-    "todayCount"
-  ).textContent =
-    checkedToday;
-
-
-  document.getElementById(
-    "openCount"
-  ).textContent =
-    issues.filter(
-      i=>!i.resolved
-    ).length;
-
-
-  document.getElementById(
-    "dashboardTrucks"
-  ).innerHTML =
-    trucks.map(truck=>{
-
-      const status =
-        truckStatuses[truck]
-        || "READY";
-
-      return `
-
-        <div class="truck-row">
-
-          <div class="truck-left">
-
-            <span class="dot ${
-              statusColor(status)
-            }"></span>
-
-            <strong>
-              ${truck}
-            </strong>
-
-          </div>
-
-          <span class="small">
-            ${status}
-          </span>
-
-        </div>
-
-      `;
-
-    }).join("");
-
-
-  document.getElementById(
-    "issueList"
-  ).innerHTML =
-    renderIssues();
-
-
-  document.getElementById(
-    "historyList"
-  ).innerHTML =
-    renderHistory();
-
-
-  document.getElementById(
-    "auditList"
-  ).innerHTML =
-    renderAudit();
-
-
-  document.getElementById(
-    "guestCounter"
-  ).textContent =
-    `${guests.length} / ${MAX_GUESTS} guest users`;
-
-
-  document.getElementById(
-    "guestPageCounter"
-  ).textContent =
-    `${guests.length} / ${MAX_GUESTS} guest users`;
-
-
-  const guestButton =
-    document.getElementById(
-      "addGuestButton"
-    );
-
-  guestButton.disabled =
-    guests.length>=MAX_GUESTS;
-
-
-  document.getElementById(
-    "guestList"
-  ).innerHTML =
-
-    guests.length
-
-    ?
-
-    guests.map(g=>`
-
-      <div class="truck-row">
-
-        <div>
-
-          <strong>
-            ${g.name}
-          </strong>
-
-          <div class="small">
-            Guest / Inspector
-          </div>
-
-        </div>
-
-        <button
-          onclick="removeGuest(${g.id})">
-          Remove
-        </button>
-
-      </div>
-
-    `).join("")
-
-    :
-
-    `<p class="small">
-    No guest users added.
-    </p>`;
-
-}
-
-
-/* ---------------- STARTUP ---------------- */
-
-makeNoteRows();
-
-refresh();
-
-refreshSaveLock();
-
+  let touchX = null;
+  window.addEventListener("touchstart", (e) => {
+    touchX = e.changedTouches[0].screenX;
+  }, { passive: true });
+  window.addEventListener("touchend", (e) => {
+    if (touchX == null) return;
+    const dx = e.changedTouches[0].screenX - touchX;
+    if (Math.abs(dx) > 50) go(i + (dx < 0 ? 1 : -1));
+    touchX = null;
+  }, { passive: true });
+
+  const fromHash = parseInt((location.hash || "").replace("#", ""), 10);
+  go(Number.isFinite(fromHash) && fromHash >= 1 ? fromHash - 1 : 0);
 </script>
-
 </body>
 </html>
